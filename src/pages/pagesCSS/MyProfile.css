@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --font-montserrat: 'Montserrat', sans-serif;
+}
+
+.profile-section {
+  margin: 0;
+  padding: 5rem 10rem;
+  background-color: black;
+  height: 50vh;
+}
+
+.profile-header{
+  display: flex;
+  align-items: center;
+}
+
+.profile-container {
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: 50%;
+  background: #1A1A19;
+  border-radius: 5px;
+  padding: 2rem 3rem;
+  border: 2px solid #E50815;
+}
+
+.profile-container h1{
+  font-family: var(--font-montserrat);
+  color: red;
+  font-weight: 600;
+  font-size: 32px;
+  margin-left: -2px;
+}
+
+.profile-container h4, p {
+  font-family: var(--font-montserrat);
+  color: white;
+}
+  
+.edit-icon {
+  margin-left: 1rem;
+  margin-bottom: 10px;
+}
