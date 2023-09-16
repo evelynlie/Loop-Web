@@ -28,6 +28,25 @@ async function verifyUser(email, password) {
   return user;
 }
 
+// Add newly signed-up user's name, email, password into database
+async function createUser(user) {
+  const response = await axios.post(API_HOST + "/api/users", user);
+
+  return response.data;
+}
+
+async function findUser(username) {
+  const response = await axios.get(API_HOST + `/api/users/select/${username}`);
+
+  return response.data;
+}
+
+async function findEmail(email) {
+  const response = await axios.get(API_HOST + `/api/users/selectEmail/${email}`);
+
+  return response.data;
+}
+
 // Initialise movies array into local storage
 function initMovies() {
   // Stop if data is already initialised.
@@ -460,5 +479,8 @@ export {
   getPassword,
   getSignUpDate,
   getIndex,
-  removeUser
+  removeUser,
+  createUser,
+  findUser,
+  findEmail
 }

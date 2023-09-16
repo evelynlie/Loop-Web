@@ -10,8 +10,14 @@ exports.all = async (req, res) => {
 };
 
 // Select one user from the database.
-exports.one = async (req, res) => {
-  const user = await db.user.findByPk(req.params.id);
+exports.findUsername = async (req, res) => {
+  const user = await db.user.findByPk(req.params.username);
+
+  res.json(user);
+};
+
+exports.findEmail = async (req, res) => {
+  const user = await db.user.findOne({ where: {email: req.params.email}});
 
   res.json(user);
 };
@@ -33,8 +39,8 @@ exports.create = async (req, res) => {
   
   const user = await db.user.create({
     username: req.body.username,
-    password_hash: hash,
     email: req.body.email,
+    password_hash: hash,
     signUpDate: req.body.signUpDate
   });
 

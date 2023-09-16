@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { addNewUser, verifyUser } from "../data/repository";
+import { createUser, findUser, findEmail } from "../data/repository";
 import '../pages/pagesCSS/SignIn.css';
 
 function SignUp(props) {
   const [fields, setFields] = useState({ username: "", email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState(null);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = useState(null);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(null);
+  
   const navigate = useNavigate();
 
   // constant variable for sign up date and its format
@@ -33,6 +35,11 @@ function SignUp(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validate form and if invalid do not contact API.
+    // const { trimmedFields, isValid } = await handleValidation();
+    // if(!isValid)
+    //   return;
+
     // Set variable for sign-up error due to fail validation
     var signUpError = false;
 
@@ -45,12 +52,25 @@ function SignUp(props) {
       setErrorMessage(null);
     }
 
+    // Username Validation (checking if username already exist in database)
+    if (await findUser(fields.username) !== null) {
+      setUsernameErrorMessage("Username is already registered.");
+      signUpError = true;
+    }
+    else if (await findUser(fields.username) === null) {
+      setUsernameErrorMessage(null);
+    }
+
     // Email Validation (checking if it includes @, ends with .com, and has a domain name)
     if (!fields.email.includes("@") || !fields.email.endsWith(".com") || fields.email.indexOf("@") === fields.email.indexOf(".") - 1) {
       setEmailErrorMessage("Please enter a valid email address.");
       signUpError = true;
     }
-    else if (fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null) {
+    else if (await findEmail(fields.email) !== null) {
+      setEmailErrorMessage("Email address is already registered.");
+      signUpError = true;
+    }
+    else if (fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null && await findEmail(fields.email) === null) {
       setEmailErrorMessage(null);
     }
 
@@ -64,7 +84,7 @@ function SignUp(props) {
       setPasswordErrorMessage("Password must contain at least one special character.");
       signUpError = true;
     }
-    else if (fields.password.length > 8 && fields.password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/) && passwordErrorMessage !== null) {
+    else if (fields.password.length >= 8 && fields.password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/) && passwordErrorMessage !== null) {
       setPasswordErrorMessage(null);
     }
 
@@ -74,16 +94,10 @@ function SignUp(props) {
     }
 
     // Create user.
-    //const user = await createUser(fields.username, fields.email, fields.password, todayDate.toLocaleDateString('en-GB', dateFormat));
-
-    // add new user into localStorage
-    addNewUser(fields.username, fields.email, fields.password, todayDate.toLocaleDateString('en-GB', dateFormat));
-
-    // Get boolean true or false from verifyUser
-    const user = await verifyUser(fields.email, fields.password);
+    const user = await createUser({username: fields.username, email: fields.email, password: fields.password, signUpDate: todayDate.toLocaleDateString('en-GB', dateFormat)});
     
     // Provide sign in success visual cue
-    alert('Sign In Successfull!');
+    alert('Sign Up Successfull!');
     // Navigate to the profile page.
     navigate("/");
     // Refresh page
@@ -99,10 +113,15 @@ function SignUp(props) {
         <div className="signin-row">
             <form onSubmit={handleSubmit} noValidate>
               <div className="form-container">
-                <label htmlFor="username">Name</label>
+                <label htmlFor="username">Username</label>
                 <input name="username" id="username" 
                   value={fields.username} onChange={handleInputChange} required/>
               </div>
+              {usernameErrorMessage !== null &&
+                <div className="form-container">
+                  <span className="text-danger">{usernameErrorMessage}</span>
+                </div>
+              }
               <div className="form-container">
                 <label htmlFor="email">Email</label>
                 <input type="email" name="email" id="email" required 

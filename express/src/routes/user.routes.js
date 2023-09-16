@@ -5,9 +5,11 @@ module.exports = (express, app) => {
   // Select all users.
   router.get("/", controller.all);
 
-  // Select a single user with id.
-  router.get("/select/:id", controller.one); // :id is a parameter we passing
+  // Select a single user with username.
+  router.get("/select/:username", controller.findUsername); // :username is a parameter we passing
   // multiple parameters "/select/:id/post/:post"
+
+  router.get("/selectEmail/:email", controller.findEmail);
 
   // Select one user from the database if username and password are a match.
   router.get("/login", controller.login);
