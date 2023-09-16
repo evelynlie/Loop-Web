@@ -11,6 +11,9 @@ module.exports = (express, app) => {
 
   router.get("/selectEmail/:email", controller.findEmail);
 
+  // Select one user from the database based on email.
+  router.get("/selectByEmail", controller.findByEmail);
+
   // Select one user from the database if username and password are a match.
   router.get("/login", controller.login);
 

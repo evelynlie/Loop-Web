@@ -28,6 +28,13 @@ async function verifyUser(email, password) {
   return user;
 }
 
+// Get the user details from database
+async function getUser(email) {
+  const response = await axios.get(API_HOST + "/api/users/selectByEmail/", { params: { email }});
+  const user = response.data;
+  return user;
+}
+
 // Add newly signed-up user's name, email, password into database
 async function createUser(user) {
   const response = await axios.post(API_HOST + "/api/users", user);
@@ -177,6 +184,7 @@ function sortMovies() {
   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
 }
 
+
 // Get the users array from local storage
 function getUsers() {
   // Extract user data from local storage.
@@ -301,26 +309,6 @@ function setUser(username, email, password, signupDate, index) {
   localStorage.setItem(USERPASSWORD_KEY, password);
   localStorage.setItem(USERSIGNUPDATE_KEY, signupDate);
   localStorage.setItem(USERINDEX_KEY, index);
-}
-
-// Get signed-in user's username field from local storage
-function getUser() {
-  return localStorage.getItem(USER_KEY);
-}
-
-// Get signed-in user's email field from local storage
-function getEmail() {
-  return localStorage.getItem(USEREMAIL_KEY);
-}
-
-// Get signed-in user's password field from local storage
-function getPassword() {
-  return localStorage.getItem(USERPASSWORD_KEY);
-}
-
-// Get signed-in user's sign up date field from local storage
-function getSignUpDate() {
-  return localStorage.getItem(USERSIGNUPDATE_KEY);
 }
 
 // Get signed-in user's sign up date field from local storage
@@ -475,9 +463,6 @@ export {
   updateUser,
   deleteUser,
   getUser,
-  getEmail,
-  getPassword,
-  getSignUpDate,
   getIndex,
   removeUser,
   createUser,

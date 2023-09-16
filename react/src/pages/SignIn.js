@@ -67,15 +67,15 @@ function SignIn(props) {
       return;
     }
 
-    // // Set user state.
-    // props.loginUser(user);
+    // Set user state.
+    props.loginUser(fields.email, fields.password);
 
     // Provide sign in success visual cue
     alert('Sign In Successfull!');
     // Navigate to the profile page.
     navigate("/profile");
     // Refresh page
-    navigate(0);
+    // navigate(0);
     return;
 
     // If verified login the user.
