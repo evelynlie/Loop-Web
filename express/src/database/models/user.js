@@ -18,5 +18,15 @@ module.exports = (sequelize, DataTypes) =>
     }
   }, {
     // Don't add the timestamp attributes (updatedAt, createdAt).
-    timestamps: false
+    timestamps: false, 
+    hooks: {
+      beforeUpdate: async (user) => {
+        // If the username is changed, update it in the related posts.
+        if (user.changed('username')) {
+          await Post.update({ username: user.username }, {
+            where: { username: user.username }
+          });
+        }
+      }
+    }
   });

@@ -1,5 +1,7 @@
 const db = require("../database");
 const User = db.user;
+const Post = db.post;
+User.hasMany(Post, { foreignKey: 'username' }); // Connect the username of the post table to the username of the user table
 const argon2 = require("argon2");
 
 // Select all users from the database.
@@ -46,13 +48,10 @@ exports.update = async (req, res) => {
   const id = req.params.id;
 
   // Update username and email.
-  User.update({username: req.body.username}, {
+  User.update({email: req.body.email, username: req.body.username}, {
     where: { username: id }
   })
-  User.update({email: req.body.email}, {
-    where: { username: req.body.username }
-  })
-    .then(num => {
+  .then(num => {
       if (num == 1) {
         res.send({
           message: "User was updated successfully."
