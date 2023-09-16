@@ -15,8 +15,10 @@ exports.all = async (req, res) => {
 // Create a post in the database.
 exports.create = async (req, res) => {
   const post = await db.post.create({ // create() sequelise helper function
-    comment: req.body.comment,
-    username: req.body.username
+    username: req.body.username,
+    movieTitle: req.body.movieTitle,
+    rating: req.body.rating,
+    comment: req.body.comment
   });
 
   res.json(post);

@@ -5,12 +5,16 @@ module.exports = (sequelize, DataTypes) =>
       autoIncrement: true,
       primaryKey: true
     },
-    comment: {
-      type: DataTypes.TEXT,
+    movieTitle:{
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     rating:{
       type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    comment: {
+      type: DataTypes.TEXT,
       allowNull: false
     }
   }, {
