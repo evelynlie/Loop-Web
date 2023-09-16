@@ -1,3 +1,4 @@
+import axios from "axios";
 import BarbiePoster from '../movie_posters/barbie.jpeg';
 import OppenheimerPoster from '../movie_posters/oppenheimer.jpeg';
 import MissionImpossiblePoster from '../movie_posters/mission_impossible.jpeg';
@@ -7,6 +8,9 @@ import WonkaPoster from '../movie_posters/wonka.jpeg';
 import ConcreteUtopiaPoster from '../movie_posters/concrete_utopia.jpeg';
 import DunePartTwoPoster from '../movie_posters/dune_part_two.jpeg';
 
+// --- Constants ----------------------------------------------------------------------------------
+const API_HOST = "http://localhost:4000";
+
 const MOVIES_KEY = "movies";
 const USERS_KEY = "users";
 const USERINDEX_KEY = "index";
@@ -15,6 +19,14 @@ const USEREMAIL_KEY = "email";
 const USERPASSWORD_KEY = "password";
 const USERSIGNUPDATE_KEY = "signupDate";
 const REVIEWS_KEY = "reviews";
+
+
+// Verify the user email and password by comparing with user data stored in database
+async function verifyUser(email, password) {
+  const response = await axios.get(API_HOST + "/api/users/login", { params: { email, password } });
+  const user = response.data;
+  return user;
+}
 
 // Initialise movies array into local storage
 function initMovies() {
@@ -200,17 +212,17 @@ function updateUser(updatedUsername, updatedEmail, userIndex) {
 }
 
 // Verify the user email and password by comparing with user data stored in local storage
-function verifyUser(email, password) {
-  const users = getUsers();
-  for(const user of users) {
-    if(email === user.email && password === user.password)
-    {
-      setUser(user.username, user.email, user.password, user.signupDate, users.indexOf(user));
-      return true;
-    }
-  }
-  return false;
-}
+// function verifyUser(email, password) {
+//   const users = getUsers();
+//   for(const user of users) {
+//     if(email === user.email && password === user.password)
+//     {
+//       setUser(user.username, user.email, user.password, user.signupDate, users.indexOf(user));
+//       return true;
+//     }
+//   }
+//   return false;
+// }
 
 // Remove user and user's reviews from local storage
 function deleteUser(currUsername) {

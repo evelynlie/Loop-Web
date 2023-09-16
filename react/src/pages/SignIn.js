@@ -25,7 +25,7 @@ function SignIn(props) {
   }
 
   // Generic submit handler for sign in
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Set variable for sign-in error due to fail validation
@@ -55,28 +55,41 @@ function SignIn(props) {
     }
 
     // Get boolean true or false from verifyUser
-    const verified = verifyUser(fields.email, fields.password);
+    const user = await verifyUser(fields.email, fields.password);
 
-    // If verified login the user.
-    if(verified === true) {
-      props.loginUser();
-      // Provide sign in success visual cue
-      alert('Sign In Successfull!');
-      // Navigate to the profile page.
-      navigate("/profile");
-      // Refresh page
-      navigate(0);
-      // Terminate handleSubmit after sign in sucess
+    // FIX THIS: error message not displaying
+    if(user === null) {
+      // Reset password field to blank.
+      setFields({ ...fields, password: "" });
+
+      // Set error message.
+      setErrorMessage("Email and / or password invalid, please try again.");
       return;
     }
 
-    // Reset password field to blank.
-    const temp = { ...fields };
-    temp.password = "";
-    setFields(temp);
+    // // Set user state.
+    // props.loginUser(user);
 
-    // Set error message.
-    setErrorMessage("Email and / or password invalid, please try again.");
+    // Provide sign in success visual cue
+    alert('Sign In Successfull!');
+    // Navigate to the profile page.
+    navigate("/profile");
+    // Refresh page
+    navigate(0);
+    return;
+
+    // If verified login the user.
+    // if(verified === true) {
+    //   props.loginUser();
+    //   // Provide sign in success visual cue
+    //   alert('Sign In Successfull!');
+    //   // Navigate to the profile page.
+    //   navigate("/profile");
+    //   // Refresh page
+    //   navigate(0);
+    //   // Terminate handleSubmit after sign in sucess
+    //   return;
+    // }
   }
 
   return (

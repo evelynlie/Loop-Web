@@ -30,7 +30,7 @@ function SignUp(props) {
   }
 
   // Generic submit handler for sign up
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Set variable for sign-up error due to fail validation
@@ -73,23 +73,23 @@ function SignUp(props) {
       return;
     }
 
+    // Create user.
+    //const user = await createUser(fields.username, fields.email, fields.password, todayDate.toLocaleDateString('en-GB', dateFormat));
+
     // add new user into localStorage
     addNewUser(fields.username, fields.email, fields.password, todayDate.toLocaleDateString('en-GB', dateFormat));
 
     // Get boolean true or false from verifyUser
-    const verified = verifyUser(fields.email, fields.password);
+    const user = await verifyUser(fields.email, fields.password);
     
-    // If verified login the user.
-    if(verified === true) {
-      props.loginUser(fields.email);
-      alert('Sign Up Successfull!');
-      // Navigate to the home page.
-      navigate("/");
-      // Refresh page
-      navigate(0);
-      // Terminate handleSubmit if user verification sucess
-      return;
-    }
+    // Provide sign in success visual cue
+    alert('Sign In Successfull!');
+    // Navigate to the profile page.
+    navigate("/");
+    // Refresh page
+    navigate(0);
+    // Terminate handleSubmit if user verification sucess
+    return;
   }
 
   return (
