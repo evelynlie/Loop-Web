@@ -96,12 +96,15 @@ function SignUp(props) {
     // Create user.
     const user = await createUser({username: fields.username, email: fields.email, password: fields.password, signUpDate: todayDate.toLocaleDateString('en-GB', dateFormat)});
     
+    // Set user state.
+    props.loginUser(fields.email, fields.password);
+
     // Provide sign in success visual cue
     alert('Sign Up Successfull!');
     // Navigate to the profile page.
     navigate("/");
     // Refresh page
-    navigate(0);
+    // navigate(0);
     // Terminate handleSubmit if user verification sucess
     return;
   }

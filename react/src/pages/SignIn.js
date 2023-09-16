@@ -57,7 +57,6 @@ function SignIn(props) {
     // Get boolean true or false from verifyUser
     const user = await verifyUser(fields.email, fields.password);
 
-    // FIX THIS: error message not displaying
     if(user === null) {
       // Reset password field to blank.
       setFields({ ...fields, password: "" });
