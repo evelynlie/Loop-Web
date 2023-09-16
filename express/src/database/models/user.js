@@ -4,16 +4,16 @@ module.exports = (sequelize, DataTypes) =>
       type: DataTypes.STRING(32),
       primaryKey: true
     },
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: false
+    },
     password_hash: {
       type: DataTypes.STRING(96),
       allowNull: false
     },
-    first_name: {
-      type: DataTypes.STRING(40),
-      allowNull: false
-    },
-    last_name: {
-      type: DataTypes.STRING(40),
+    signUpDate: {
+      type: Date,
       allowNull: false
     }
   }, {

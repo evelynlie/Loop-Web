@@ -5,8 +5,12 @@ module.exports = (sequelize, DataTypes) =>
       autoIncrement: true,
       primaryKey: true
     },
-    text: {
+    comment: {
       type: DataTypes.TEXT,
+      allowNull: false
+    },
+    rating:{
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {

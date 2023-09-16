@@ -15,7 +15,7 @@ exports.all = async (req, res) => {
 // Create a post in the database.
 exports.create = async (req, res) => {
   const post = await db.post.create({ // create() sequelise helper function
-    text: req.body.text,
+    comment: req.body.comment,
     username: req.body.username
   });
 
