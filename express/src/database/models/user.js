@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) =>
       allowNull: false
     },
     signUpDate: {
-      type: Date,
+      type: DataTypes.STRING(50),
       allowNull: false
     }
   }, {
