@@ -1,7 +1,7 @@
 module.exports = {
   HOST: "rmit.australiaeast.cloudapp.azure.com",
-  USER: "demo_fwp_registration_login_logout_post",
+  USER: "s3955624_fwp_a2",
   PASSWORD: "abc123",
-  DB: "demo_fwp_registration_login_logout_post",
+  DB: "s3955624_fwp_a2",
   DIALECT: "mysql"
 };
