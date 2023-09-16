@@ -1,5 +1,7 @@
 # Full Stack Development - Assignment 1 - Loop Cinemas
 
+Testing
+
 ## Team Member
 - Evelyn Lie (s3951140)
 - Go Chee Kin (s3955624)
