@@ -9,8 +9,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 // Initialise local storage data.
 initMovies();
-initUsers();
-initReviews();
 
 ReactDOM.render(
   <React.StrictMode>

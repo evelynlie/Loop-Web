@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./pagesCSS/Review.css"
 import { useNavigate } from "react-router-dom";
 import MovieCard from './pageResources/MovieCard';
-import { getMovies, sortMovies, initReviews, addNewReview, getReviews, editReview, deleteReview} from "../data/repository";
+import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, getReview} from "../data/repository";
 import {
   MDBIcon,
   MDBBtn,
@@ -93,9 +93,16 @@ function Review(props) {
   // Then the code fetches the reviews data from the storage. 
   // Next it updates the posts state with the fetched reviews and the component re-render, displaying the reviews on the page.
   useEffect(() => {
-    initReviews();
-    const reviews = getReviews();
-    setPosts(reviews);
+    const fetchData = async () => {
+      try {
+        const reviews = await getReview();
+        setPosts(reviews);
+      } catch (error) {
+        // Handle errors if needed
+        console.error('Error fetching reviews:', error);
+      }
+    };
+      fetchData();
   }, []);
 
   // Scroll to toip when posts array changed (i.e. review edited, review deleted)
@@ -180,7 +187,7 @@ function Review(props) {
               posts.map((x, index) =>
               <div className="post-box">
                 <div className="title">                
-                  <h3 style={{color: "red"}}>{x.username} ({x.movie})</h3>
+                  <h3 style={{color: "red"}}>{x.username} ({x.movieTitle})</h3>
                   { 
                     x.username === props.username && (
                       <div>

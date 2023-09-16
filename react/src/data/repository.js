@@ -54,6 +54,14 @@ async function findEmail(email) {
   return response.data;
 }
 
+// Get the reviews array from database
+async function getReview() {
+  // Extract reviews from local storage.
+  const response = await axios.get(API_HOST + "/api/posts");
+  const reviews = response.data;
+  return reviews;
+}
+
 // Initialise movies array into local storage
 function initMovies() {
   // Stop if data is already initialised.
@@ -122,45 +130,6 @@ function initMovies() {
 
   // Set movies array into local storage.
   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-}
-
-// Initialise local storage "users" with data, if the data is already set this function returns immediately.
-function initUsers() {
-  // Stop if data is already initialised.
-  if(localStorage.getItem(USERS_KEY) !== null)
-    return;
-
-  // Hard-coded user data, passwords are in plain-text.
-  const users = [
-    {
-      username: "mbolger",
-      email: "mbolger@email.com",
-      password: "abc123",
-      signupDate: "Fri, 3 Mar 2023"
-    },
-    {
-      username: "shekhar",
-      email: "shekhar@email.com",
-      password: "def456",
-      signupDate: "Tue, 31 Jan 2023"
-    }
-  ];
-
-  // Set ysers array into local storage.
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-// Initialise local storage "reviews" with data, if the data is already set this function returns immediately.
-function initReviews() {
-  // Stop if data is already initialised.
-  if(localStorage.getItem(REVIEWS_KEY) !== null)
-    return;
-
-  // Create reviews array
-  const reviews = [];
-
-  // Set reviews array into local storage.
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
 }
 
 // Get the movies array from local storage
@@ -450,8 +419,6 @@ function deleteReview(currUsername, currMovieTitle, currRating, currComment) {
 
 export {
   initMovies,
-  initUsers,
-  initReviews,
   sortMovies,
   getMovies,
   getReviews,
@@ -467,5 +434,6 @@ export {
   removeUser,
   createUser,
   findUser,
-  findEmail
+  findEmail, 
+  getReview
 }
