@@ -1,4 +1,5 @@
 const db = require("../database");
+const User = db.user;
 const argon2 = require("argon2");
 
 // Select all users from the database.
@@ -17,7 +18,7 @@ exports.one = async (req, res) => {
 
 // Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
-  const user = await db.user.findByPk(req.query.username);
+  const user = await db.user.findOne({ where: {email: req.query.email}});
 
   if(user === null || await argon2.verify(user.password_hash, req.query.password) === false)
     // Login failed.
@@ -38,4 +39,58 @@ exports.create = async (req, res) => {
   });
 
   res.json(user);
+};
+
+// Update user detail in the database.
+exports.update = async (req, res) => {
+  const id = req.params.id;
+
+  // Update username and email.
+  User.update({username: req.body.username}, {
+    where: { username: id }
+  })
+  User.update({email: req.body.email}, {
+    where: { username: req.body.username }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating User with id=" + id
+      });
+    });
+};
+
+// Delete a user based on username
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  User.destroy({
+    where: { username: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User was deleted successfully!"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete User with id=${id}. Maybe User was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete User with id=" + id
+      });
+    });
 };

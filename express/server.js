@@ -29,6 +29,12 @@ app.get("/", (req, res) => { // (request, response)
 require("./src/routes/user.routes.js")(express, app);
 require("./src/routes/post.routes.js")(express, app);
 
+// parse requests of content-type - application/json
+app.use(express.json());  /* bodyParser.json() is deprecated */
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
+
 // Set port, listen for requests for backend.
 const PORT = 4000;
 app.listen(PORT, () => {
