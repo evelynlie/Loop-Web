@@ -33,7 +33,6 @@ function App() {
     removeUser();
     setUsername(null);
     setEmail(null);
-    setPassword(null);
     setSignUpDate(null);
   }
 
