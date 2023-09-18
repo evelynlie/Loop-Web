@@ -12,22 +12,19 @@ import { getUserByEmail, removeUser } from "./data/repository";
 function App() {
   const [username, setUsername] = useState(localStorage.getItem("username") || null);
   const [email, setEmail] = useState(localStorage.getItem("email") || null);
-  const [password, setPassword] = useState(localStorage.getItem("password") || null);
   const [signupDate, setSignUpDate] = useState(localStorage.getItem("signupDate") || null);
 
   // login user function
-  const loginUser = async (email, password) => {
+  const loginUser = async (email) => {
     // Retrieve user from database
     const user = await getUserByEmail(email);
     setUsername(user.username);
     setEmail(user.email);
-    setPassword(user.password);
     setSignUpDate(user.signUpDate);
 
     // Store user data in localStorage to prevent loss of data on page refresh
     localStorage.setItem("username", user.username);
     localStorage.setItem("email", user.email);
-    localStorage.setItem("password", user.password);
     localStorage.setItem("signupDate", user.signUpDate);
   }
 

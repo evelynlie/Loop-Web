@@ -67,7 +67,7 @@ function SignIn(props) {
     }
 
     // Set user state.
-    props.loginUser(fields.email, fields.password);
+    props.loginUser(fields.email);
 
     // Provide sign in success visual cue
     alert('Sign In Successfull!');

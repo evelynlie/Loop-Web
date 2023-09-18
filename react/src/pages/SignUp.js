@@ -97,7 +97,7 @@ function SignUp(props) {
     const user = await createUser({username: fields.username, email: fields.email, password: fields.password, signUpDate: todayDate.toLocaleDateString('en-GB', dateFormat)});
     
     // Set user state.
-    props.loginUser(fields.email, fields.password);
+    props.loginUser(fields.email);
 
     // Provide sign in success visual cue
     alert('Sign Up Successfull!');
