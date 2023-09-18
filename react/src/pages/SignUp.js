@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { createUser, findUser, findEmail } from "../data/repository";
+import { createUser, findUser, getUserByEmail } from "../data/repository";
 import '../pages/pagesCSS/SignIn.css';
 
 function SignUp(props) {
@@ -66,11 +66,11 @@ function SignUp(props) {
       setEmailErrorMessage("Please enter a valid email address.");
       signUpError = true;
     }
-    else if (await findEmail(fields.email) !== null) {
+    else if (await getUserByEmail(fields.email) !== null) {
       setEmailErrorMessage("Email address is already registered.");
       signUpError = true;
     }
-    else if (fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null && await findEmail(fields.email) === null) {
+    else if (fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null && await getUserByEmail(fields.email) === null) {
       setEmailErrorMessage(null);
     }
 

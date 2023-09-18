@@ -48,12 +48,6 @@ async function findUser(username) {
   return response.data;
 }
 
-async function findEmail(email) {
-  const response = await axios.get(API_HOST + `/api/users/selectEmail/${email}`);
-
-  return response.data;
-}
-
 // update user's name and email into local storage
 async function updateUser(oldUsername, updatedUsername, updatedEmail) {
   // Modify username and email to the updated value
@@ -209,35 +203,6 @@ function getUsers() {
   // Convert data to objects.
   return JSON.parse(data);
 }
-
-// Add newly signed-up user's name, email, password into local storage
-function addNewUser(newUsername, newEmail, newPassword, newSignupDate) {
-  const users = getUsers();
-
-  // Push new user object into users array
-  users.push({
-    username: newUsername,
-    email: newEmail,
-    password: newPassword,
-    signupDate: newSignupDate
-  });
-
-  // Update users array into local storage.
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-// Verify the user email and password by comparing with user data stored in local storage
-// function verifyUser(email, password) {
-//   const users = getUsers();
-//   for(const user of users) {
-//     if(email === user.email && password === user.password)
-//     {
-//       setUser(user.username, user.email, user.password, user.signupDate, users.indexOf(user));
-//       return true;
-//     }
-//   }
-//   return false;
-// }
 
 // Remove user and user's reviews from local storage
 function deleteUser(currUsername) {
@@ -436,7 +401,6 @@ export {
   editReview,
   deleteReview,
   verifyUser,
-  addNewUser,
   updateUser,
   deleteUser,
   getUserByEmail,
@@ -444,5 +408,5 @@ export {
   removeUser,
   createUser,
   findUser,
-  findEmail, deleteUsers
+ deleteUsers
 }

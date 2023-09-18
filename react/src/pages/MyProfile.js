@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, deleteUsers, sortMovies, getUserByEmail, findUser, findEmail } from "../data/repository";
+import { updateUser, deleteUsers, sortMovies, getUserByEmail, findUser } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 import {
   MDBIcon,
@@ -15,9 +15,6 @@ import '../pages/pagesCSS/SignIn.css';
 function MyProfile(props) {
   const navigate = useNavigate();
   const [fields, setFields] = useState({ username: (props.username), email: (props.email)});
-  const [username, setUsername] = useState(localStorage.getItem("username") || null);
-  const [email, setEmail] = useState(localStorage.getItem("email") || null);
-  const [signupDate, setSignUpDate] = useState(localStorage.getItem("signupDate") || null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [usernameErrorMessage, setUsernameErrorMessage] = useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = useState(null);
@@ -92,11 +89,11 @@ function MyProfile(props) {
       setEmailErrorMessage("Please enter a valid email address.");
       editProfileError = true;
     }
-    else if (await findEmail(fields.email) !== null && fields.email !== props.email) {
+    else if (await getUserByEmail(fields.email) !== null && fields.email !== props.email) {
       setEmailErrorMessage("Email address is already registered.");
       editProfileError = true;
     }
-    else if ((fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null && await findEmail(fields.email) === null) || fields.email === props.email) {
+    else if ((fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null && await getUserByEmail(fields.email) === null) || fields.email === props.email) {
       setEmailErrorMessage(null);
     }
 

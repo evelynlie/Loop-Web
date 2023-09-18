@@ -19,13 +19,6 @@ exports.findUsername = async (req, res) => {
 };
 
 // Select one user from the database based on email.
-exports.findEmail = async (req, res) => {
-  const user = await db.user.findOne({ where: {email: req.params.email}});
-
-  res.json(user);
-};
-
-// Select one user from the database based on email.
 exports.findByEmail = async (req, res) => {
   const user = await db.user.findOne({ where: { email: req.query.email } });
 
