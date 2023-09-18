@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./pagesCSS/Review.css"
 import { useNavigate } from "react-router-dom";
 import MovieCard from './pageResources/MovieCard';
-import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, getReview} from "../data/repository";
+import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview} from "../data/repository";
 import {
   MDBIcon,
   MDBBtn,
@@ -95,7 +95,8 @@ function Review(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const reviews = await getReview();
+        // Fetch reviews from database
+        const reviews = await getReviews();
         setPosts(reviews);
       } catch (error) {
         // Handle errors if needed

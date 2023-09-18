@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { updateUser, deleteUser, removeUser, sortMovies } from "../data/repository";
+import React, { useState, useEffect } from "react";
+import { updateUser, deleteUsers, removeUser, sortMovies, getUserByEmail } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 import {
   MDBIcon,
@@ -20,13 +20,18 @@ function MyProfile(props) {
   const [EditProfileModal, setEditProfileModal] = useState(false);
   const toggleShow = () => setEditProfileModal(!EditProfileModal);
 
+  // Update fields when props change
+  useEffect(() => {
+    setFields({ username: props.username, email: props.email });
+  }, [props.username, props.email]);
+
   // Implement remove user functionality
   const handleRemoveUser = (event) => {
     event.preventDefault();
     const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
     if (confirmDelete) {
       // Delete user from localStorage
-      deleteUser(props.username)
+      deleteUsers(props.username)
       // Remove user's data fields
       removeUser();
       // Visual cue for alerting user profile is deleted
@@ -56,7 +61,7 @@ function MyProfile(props) {
   }
 
   // Generic submit handler.
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Set variable for edit profile error due to fail validation
@@ -85,8 +90,12 @@ function MyProfile(props) {
       return;
     }
 
-    // update user in localStorage
-    updateUser(fields.username, fields.email, props.index);
+    // Update user in database and localStorage
+    await updateUser(props.username, fields.username, fields.email); // Wait for updateUser to finish before continuing
+    const user = await getUserByEmail(fields.email)
+    
+    localStorage.setItem("username", user.username);
+    localStorage.setItem("email", user.email);
 
     // Navigate to the profile page.
     navigate("/profile");
@@ -110,7 +119,7 @@ function MyProfile(props) {
               </MDBBtn>
             </div>
           </div>
-          <h4>Hello, {props.username}!</h4>
+          <h4>Welcome, {props.username}!</h4>
           {props.email !== null && (
             <p>
               Email: {props.email} <br /> Joined: {props.signupDate}

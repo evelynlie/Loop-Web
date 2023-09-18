@@ -29,7 +29,7 @@ async function verifyUser(email, password) {
 }
 
 // Get the user details from database
-async function getUser(email) {
+async function getUserByEmail(email) {
   const response = await axios.get(API_HOST + "/api/users/selectByEmail/", { params: { email }});
   const user = response.data;
   return user;
@@ -54,8 +54,56 @@ async function findEmail(email) {
   return response.data;
 }
 
+// update user's name and email into local storage
+async function updateUser(oldUsername, updatedUsername, updatedEmail) {
+  // Modify username and email to the updated value
+  const response = await axios.put(API_HOST + `/api/users/update/${oldUsername}`, { email: updatedEmail, username: updatedUsername });  
+  const user = response.data;
+  return user;
+}
+
+// Remove user and user's reviews from local storage
+async function deleteUsers(currUsername) {
+  const response = await axios.delete(API_HOST + `/api/users/delete/${currUsername}`);  
+  const user = response.data;
+
+  // // Delete all user's reviews
+  // for (var reviewIndex = reviews.length - 1; reviewIndex >= 0; --reviewIndex) {
+  //   if (reviews[reviewIndex].username === currUsername) {
+
+  //     // Recalculate average rating
+  //     for(const movie of movies) {
+  //       if (movie.title === reviews[reviewIndex].movie) {
+  //         // Set the total rating = (average rating * rating count) - rating
+  //         movie.averageRating = (movie.averageRating * movie.ratingCount) - reviews[reviewIndex].rating;
+  //         // Decrement rating count
+  //         movie.ratingCount--;
+  //         // Calculate average rating
+  //         if (movie.ratingCount === 0) {
+  //           movie.averageRating = 0;
+  //         }
+  //         else {
+  //           movie.averageRating =  movie.averageRating / movie.ratingCount;
+  //         }
+  //         break;
+  //       }
+  //     }  
+      
+  //     // Remove user's review
+  //     reviews.splice(reviewIndex,1);
+  //   }
+  // }
+
+  // // Update users array with updated username
+  // localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  // // Update reviews array with updated username
+  // localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+  // // Set movies array into local storage.
+  // localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
+}
+
 // Get the reviews array from database
-async function getReview() {
+async function getReviews() {
   // Extract reviews from local storage.
   const response = await axios.get(API_HOST + "/api/posts");
   const reviews = response.data;
@@ -179,34 +227,6 @@ function addNewUser(newUsername, newEmail, newPassword, newSignupDate) {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
-// update user's name and email into local storage
-function updateUser(updatedUsername, updatedEmail, userIndex) {
-  const users = getUsers();
-  const reviews = getReviews();
-
-  // Modify username and email to the updated value
-  users[userIndex].username = updatedUsername;
-  users[userIndex].email = updatedEmail;
-  
-  // Modify username for reviews
-  for(const review of reviews) {
-    if(getUser() === review.username)
-    {
-      review.username = updatedUsername;
-    }
-  }
-
-  // Update reviews array with updated username
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-
-  // Update user's username and email key value in local storage
-  localStorage.setItem(USER_KEY, updatedUsername);
-  localStorage.setItem(USEREMAIL_KEY, updatedEmail);
-
-  // Update reviews array with updated username
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-}
-
 // Verify the user email and password by comparing with user data stored in local storage
 // function verifyUser(email, password) {
 //   const users = getUsers();
@@ -292,15 +312,6 @@ function removeUser() {
   localStorage.removeItem(USERPASSWORD_KEY);
   localStorage.removeItem(USERSIGNUPDATE_KEY);
   localStorage.removeItem(USERINDEX_KEY);
-}
-
-// Get the reviews array from local storage
-function getReviews() {
-  // Extract reviews from local storage.
-  const data = localStorage.getItem(REVIEWS_KEY);
-
-  // Convert data to objects.
-  return JSON.parse(data);
 }
 
 // Add user's review into local storage including the username, movie title, rating and comment
@@ -429,11 +440,10 @@ export {
   addNewUser,
   updateUser,
   deleteUser,
-  getUser,
+  getUserByEmail,
   getIndex,
   removeUser,
   createUser,
   findUser,
-  findEmail, 
-  getReview
+  findEmail, deleteUsers
 }

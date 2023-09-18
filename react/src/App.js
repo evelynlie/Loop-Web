@@ -7,24 +7,28 @@ import SignIn from "./pages/SignIn";
 import MyProfile from "./pages/MyProfile";
 import Review from "./pages/Review";
 import SignUp from "./pages/SignUp";
-import { getUser, removeUser } from "./data/repository";
+import { getUserByEmail, removeUser } from "./data/repository";
 
 function App() {
-  // const [index, setIndex] = useState(getIndex());
-  const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [signupDate, setSignUpDate] = useState(null);
+  const [username, setUsername] = useState(localStorage.getItem("username") || null);
+  const [email, setEmail] = useState(localStorage.getItem("email") || null);
+  const [password, setPassword] = useState(localStorage.getItem("password") || null);
+  const [signupDate, setSignUpDate] = useState(localStorage.getItem("signupDate") || null);
 
   // login user function
   const loginUser = async (email, password) => {
     // Retrieve user from database
-    const user = await getUser(email);
+    const user = await getUserByEmail(email);
     setUsername(user.username);
     setEmail(user.email);
     setPassword(user.password);
     setSignUpDate(user.signUpDate);
-    // setIndex(index);
+
+    // Store user data in localStorage to prevent loss of data on page refresh
+    localStorage.setItem("username", user.username);
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("password", user.password);
+    localStorage.setItem("signupDate", user.signUpDate);
   }
 
   // logout user function
@@ -34,7 +38,6 @@ function App() {
     setEmail(null);
     setPassword(null);
     setSignUpDate(null);
-    //setIndex(null);
   }
 
   return (

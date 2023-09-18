@@ -76,19 +76,6 @@ function SignIn(props) {
     // Refresh page
     // navigate(0);
     return;
-
-    // If verified login the user.
-    // if(verified === true) {
-    //   props.loginUser();
-    //   // Provide sign in success visual cue
-    //   alert('Sign In Successfull!');
-    //   // Navigate to the profile page.
-    //   navigate("/profile");
-    //   // Refresh page
-    //   navigate(0);
-    //   // Terminate handleSubmit after sign in sucess
-    //   return;
-    // }
   }
 
   return (
