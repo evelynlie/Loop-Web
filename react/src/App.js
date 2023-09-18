@@ -29,7 +29,7 @@ function App() {
   }
 
   // logout user function
-  const logoutUser = () => {
+  const logoutUser = async () => {
     setUsername(null);
     setEmail(null);
     setSignUpDate(null);
@@ -50,7 +50,7 @@ function App() {
               <Route path="/" element={<Home username={username} />} />
               <Route path="/sign-in" element={<SignIn loginUser={loginUser} />} />
               <Route path="/sign-up" element={<SignUp loginUser={loginUser} />} />
-              <Route path="/profile" element={<MyProfile username={username} email={email} signupDate={signupDate}/>} />
+              <Route path="/profile" element={<MyProfile logoutUser={logoutUser} username={username} email={email} signupDate={signupDate}/>} />
               <Route path="/review" element={<Review username={username} />} />
             </Routes>
           </div>

@@ -24,7 +24,7 @@ module.exports = (express, app) => {
   router.put("/update/:id", controller.update);
 
   // Delete a user based on username(id)
-  router.delete("/delete/:id", controller.delete);
+  router.delete("/delete/:username", controller.delete);
 
   // Add routes to server.
   app.use("/api/users", router);

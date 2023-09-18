@@ -84,26 +84,31 @@ exports.update = async (req, res) => {
 };
 
 // Delete a user based on username
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  User.destroy({
-    where: { username: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "User was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete User with id=${id}. Maybe User was not found!`
-        });
-      }
+exports.delete = async (req, res) => {
+  const username = req.params.username;
+  try {
+    // Delete all posts by user
+    await Post.destroy({
+      where: { username: username }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete User with id=" + id
+
+    // Delete user from database
+    const num = await User.destroy({
+      where: { username: username }
+    })
+    if (num == 1) {
+      res.send({
+        message: "User was deleted successfully!"
       });
+    } else {
+      res.send({
+        message: `Cannot delete User with username=${username}. Maybe User was not found!`
+      });
+    }
+  } catch (e) {
+    console.log(err)
+    res.status(500).send({
+      message: "Could not delete User with username=" + username
     });
+  }
 };

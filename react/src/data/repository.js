@@ -65,8 +65,7 @@ async function updateUser(oldUsername, updatedUsername, updatedEmail) {
 // Remove user and user's reviews from local storage
 async function deleteUsers(currUsername) {
   const response = await axios.delete(API_HOST + `/api/users/delete/${currUsername}`);  
-  const user = response.data;
-
+  
   // // Delete all user's reviews
   // for (var reviewIndex = reviews.length - 1; reviewIndex >= 0; --reviewIndex) {
   //   if (reviews[reviewIndex].username === currUsername) {

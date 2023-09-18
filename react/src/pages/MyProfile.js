@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, deleteUsers, removeUser, sortMovies, getUserByEmail, findUser, findEmail } from "../data/repository";
+import { updateUser, deleteUsers, sortMovies, getUserByEmail, findUser, findEmail } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 import {
   MDBIcon,
@@ -15,6 +15,9 @@ import '../pages/pagesCSS/SignIn.css';
 function MyProfile(props) {
   const navigate = useNavigate();
   const [fields, setFields] = useState({ username: (props.username), email: (props.email)});
+  const [username, setUsername] = useState(localStorage.getItem("username") || null);
+  const [email, setEmail] = useState(localStorage.getItem("email") || null);
+  const [signupDate, setSignUpDate] = useState(localStorage.getItem("signupDate") || null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [usernameErrorMessage, setUsernameErrorMessage] = useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = useState(null);
@@ -27,22 +30,20 @@ function MyProfile(props) {
   }, [props.username, props.email]);
 
   // Implement remove user functionality
-  const handleRemoveUser = (event) => {
+  const handleRemoveUser = async (event) => {
     event.preventDefault();
     const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
     if (confirmDelete) {
-      // Delete user from localStorage
+      // Delete user from database
       deleteUsers(props.username)
-      // Remove user's data fields
-      removeUser();
+      // Remove user from localStorage
+      props.logoutUser();
       // Visual cue for alerting user profile is deleted
       alert("Your profile is now deleted!");
       // Sort Movies
       sortMovies();
       // Navigate to the home page.
       navigate("/");
-      // Refresh page
-      navigate(0);
     }
   };
 
