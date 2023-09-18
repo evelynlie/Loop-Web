@@ -7,7 +7,7 @@ import SignIn from "./pages/SignIn";
 import MyProfile from "./pages/MyProfile";
 import Review from "./pages/Review";
 import SignUp from "./pages/SignUp";
-import { getUserByEmail, removeUser } from "./data/repository";
+import { getUserByEmail } from "./data/repository";
 
 function App() {
   const [username, setUsername] = useState(localStorage.getItem("username") || null);
@@ -30,10 +30,14 @@ function App() {
 
   // logout user function
   const logoutUser = () => {
-    removeUser();
     setUsername(null);
     setEmail(null);
     setSignUpDate(null);
+
+    // Remove user data in localStorage after logout
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("signupDate");
   }
 
   return (
