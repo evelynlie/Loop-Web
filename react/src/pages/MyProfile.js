@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, deleteUsers, removeUser, sortMovies, getUserByEmail } from "../data/repository";
+import { updateUser, deleteUsers, removeUser, sortMovies, getUserByEmail, findUser, findEmail } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 import {
   MDBIcon,
@@ -16,6 +16,7 @@ function MyProfile(props) {
   const navigate = useNavigate();
   const [fields, setFields] = useState({ username: (props.username), email: (props.email)});
   const [errorMessage, setErrorMessage] = useState(null);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = useState(null);
   const [EditProfileModal, setEditProfileModal] = useState(false);
   const toggleShow = () => setEditProfileModal(!EditProfileModal);
@@ -76,12 +77,25 @@ function MyProfile(props) {
       setErrorMessage(null);
     }
 
+    // Username Validation (checking if username already exist in database)
+    if (await findUser(fields.username) !== null && fields.username !== props.username) {
+      setUsernameErrorMessage("Username is already registered.");
+      editProfileError = true;
+    }
+    else if (await findUser(fields.username) === null || fields.username === props.username) {
+      setUsernameErrorMessage(null);
+    }
+
     // Email Validation (checking if it includes @, ends with .com, and has a domain name)
     if (!fields.email.includes("@") || !fields.email.endsWith(".com") || fields.email.indexOf("@") === fields.email.indexOf(".") - 1) {
       setEmailErrorMessage("Please enter a valid email address.");
       editProfileError = true;
     }
-    else if (fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null) {
+    else if (await findEmail(fields.email) !== null && fields.email !== props.email) {
+      setEmailErrorMessage("Email address is already registered.");
+      editProfileError = true;
+    }
+    else if ((fields.email.includes("@") && fields.email.endsWith(".com") && fields.email.indexOf("@") !== fields.email.indexOf(".") - 1 && emailErrorMessage !== null && await findEmail(fields.email) === null) || fields.email === props.email) {
       setEmailErrorMessage(null);
     }
 
@@ -138,9 +152,14 @@ function MyProfile(props) {
                   <div className="signin-row">
                     <form onSubmit={handleSubmit} noValidate>
                       <div className="form-container">
-                        <label htmlFor="username">Name</label>
+                        <label htmlFor="username">Username</label>
                         <input name="username" id="username" value={fields.username} onChange={handleInputChange} required />
                       </div>
+                      {usernameErrorMessage !== null &&
+                        <div className="form-container">
+                          <span className="text-danger">{usernameErrorMessage}</span>
+                        </div>
+                      }
                       <div className="form-container">
                         <label htmlFor="email">Email</label>
                         <input type="email" name="email" id="email" required value={fields.email} onChange={handleInputChange}/>
