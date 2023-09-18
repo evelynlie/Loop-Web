@@ -84,7 +84,7 @@ function MyProfile(props) {
       setUsernameErrorMessage(null);
     }
 
-    // Email Validation (checking if it includes @, ends with .com, and has a domain name)
+    // Email Validation (checking if it includes @, ends with .com, and has a domain name, and if email already exist in database)
     if (!fields.email.includes("@") || !fields.email.endsWith(".com") || fields.email.indexOf("@") === fields.email.indexOf(".") - 1) {
       setEmailErrorMessage("Please enter a valid email address.");
       editProfileError = true;

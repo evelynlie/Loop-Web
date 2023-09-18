@@ -28,7 +28,7 @@ async function verifyUser(email, password) {
   return user;
 }
 
-// Get the user details from database
+// Get the user details from database using email
 async function getUserByEmail(email) {
   const response = await axios.get(API_HOST + "/api/users/selectByEmail/", { params: { email }});
   const user = response.data;
@@ -42,6 +42,7 @@ async function createUser(user) {
   return response.data;
 }
 
+// Get the user details from database suing username
 async function findUser(username) {
   const response = await axios.get(API_HOST + `/api/users/select/${username}`);
 
