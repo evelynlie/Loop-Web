@@ -23,8 +23,6 @@ function SignUp(props) {
 
     // Copy fields.
     const temp = { username: fields.username, email: fields.email, password: fields.password};
-    // OR use spread operator.
-    // const temp = { ...fields };
 
     // Update field and state.
     temp[name] = value;
@@ -80,11 +78,11 @@ function SignUp(props) {
       signUpError = true;
     }
     // Password Validation (checking if it contains at least one special character)
-    else if (!fields.password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/)) {
+    else if (!fields.password.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/)) {
       setPasswordErrorMessage("Password must contain at least one special character.");
       signUpError = true;
     }
-    else if (fields.password.length >= 8 && fields.password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/) && passwordErrorMessage !== null) {
+    else if (fields.password.length >= 8 && fields.password.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/) && passwordErrorMessage !== null) {
       setPasswordErrorMessage(null);
     }
 
@@ -94,7 +92,7 @@ function SignUp(props) {
     }
 
     // Create user.
-    const user = await createUser({username: fields.username, email: fields.email, password: fields.password, signUpDate: todayDate.toLocaleDateString('en-GB', dateFormat)});
+    await createUser({username: fields.username, email: fields.email, password: fields.password, signUpDate: todayDate.toLocaleDateString('en-GB', dateFormat)});
     
     // Set user state.
     props.loginUser(fields.email);

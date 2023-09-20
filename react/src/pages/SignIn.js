@@ -73,8 +73,6 @@ function SignIn(props) {
     alert('Sign In Successfull!');
     // Navigate to the profile page.
     navigate("/profile");
-    // Refresh page
-    // navigate(0);
     return;
   }
 

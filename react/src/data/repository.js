@@ -13,54 +13,43 @@ const API_HOST = "http://localhost:4000";
 
 const MOVIES_KEY = "movies";
 const USERS_KEY = "users";
-const USERINDEX_KEY = "index";
-const USER_KEY = "user";
-const USEREMAIL_KEY = "email";
-const USERPASSWORD_KEY = "password";
-const USERSIGNUPDATE_KEY = "signupDate";
 const REVIEWS_KEY = "reviews";
-
 
 // Verify the user email and password by comparing with user data stored in database
 async function verifyUser(email, password) {
   const response = await axios.get(API_HOST + "/api/users/login", { params: { email, password } });
-  const user = response.data;
-  return user;
+  return response.data;
 }
 
 // Get the user details from database using email
 async function getUserByEmail(email) {
   const response = await axios.get(API_HOST + "/api/users/selectByEmail/", { params: { email }});
-  const user = response.data;
-  return user;
+  return response.data;
 }
 
 // Add newly signed-up user's name, email, password into database
 async function createUser(user) {
   const response = await axios.post(API_HOST + "/api/users", user);
-
   return response.data;
 }
 
 // Get the user details from database suing username
 async function findUser(username) {
   const response = await axios.get(API_HOST + `/api/users/select/${username}`);
-
   return response.data;
 }
 
 // update user's name and email into local storage
 async function updateUser(oldUsername, updatedUsername, updatedEmail) {
   // Modify username and email to the updated value
-  const response = await axios.put(API_HOST + `/api/users/update/${oldUsername}`, { email: updatedEmail, username: updatedUsername });  
-  const user = response.data;
-  return user;
+  const response = await axios.put(API_HOST + `/api/users/update/${oldUsername}`, {email: updatedEmail, username: updatedUsername});  
+  return response.data;
 }
 
 // Remove user and user's reviews from local storage
 async function deleteUsers(currUsername) {
   const response = await axios.delete(API_HOST + `/api/users/delete/${currUsername}`);  
-  
+  return response.data;
   // // Delete all user's reviews
   // for (var reviewIndex = reviews.length - 1; reviewIndex >= 0; --reviewIndex) {
   //   if (reviews[reviewIndex].username === currUsername) {
@@ -88,20 +77,34 @@ async function deleteUsers(currUsername) {
   //   }
   // }
 
-  // // Update users array with updated username
-  // localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  // // Update reviews array with updated username
-  // localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-  // // Set movies array into local storage.
-  // localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
 }
 
 // Get the reviews array from database
 async function getReviews() {
   // Extract reviews from local storage.
   const response = await axios.get(API_HOST + "/api/posts");
-  const reviews = response.data;
-  return reviews;
+  return response.data;
+}
+
+// Add user's review into local storage including the username, movie title, rating and comment
+async function addNewReview(post) {
+  const response = await axios.post(API_HOST + "/api/posts", post);
+  return response.data;
+
+  // // Update movie average rating and increment rating counter
+  // for(const movie of movies) {
+  //   if(movie.title === title) {
+  //     // Set the total rating = average rating * rating count
+  //     movie.averageRating = movie.averageRating * movie.ratingCount;
+  //     // Add new rating into total rating
+  //     movie.averageRating +=  rating;
+  //     // Increment rating count
+  //     movie.ratingCount++;
+  //     // Calculate average rating = total rating / rating count
+  //     movie.averageRating =  movie.averageRating / movie.ratingCount;
+  //     break;
+  //   }
+  //}
 }
 
 // Initialise movies array into local storage
@@ -256,63 +259,6 @@ function deleteUser(currUsername) {
   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
 }
 
-// Set signed-in user's individual data fields into local storage
-function setUser(username, email, password, signupDate, index) {
-  localStorage.setItem(USER_KEY, username);
-  localStorage.setItem(USEREMAIL_KEY, email);
-  localStorage.setItem(USERPASSWORD_KEY, password);
-  localStorage.setItem(USERSIGNUPDATE_KEY, signupDate);
-  localStorage.setItem(USERINDEX_KEY, index);
-}
-
-// Get signed-in user's sign up date field from local storage
-function getIndex() {
-  return localStorage.getItem(USERINDEX_KEY);
-}
-
-// Delete all signed-in user's individual data field in local storage
-function removeUser() {
-  localStorage.removeItem(USER_KEY);
-  localStorage.removeItem(USEREMAIL_KEY);
-  localStorage.removeItem(USERPASSWORD_KEY);
-  localStorage.removeItem(USERSIGNUPDATE_KEY);
-  localStorage.removeItem(USERINDEX_KEY);
-}
-
-// Add user's review into local storage including the username, movie title, rating and comment
-function addNewReview(username, title, rating, comment) {
-  const reviews = getReviews();
-  const movies = getMovies();
-
-  // Push new review object into reviews array
-  reviews.push({
-    username: username,
-    movie: title,
-    rating: rating,
-    comment: comment
-  });
-
-  // Update movie average rating and increment rating counter
-  for(const movie of movies) {
-    if(movie.title === title) {
-      // Set the total rating = average rating * rating count
-      movie.averageRating = movie.averageRating * movie.ratingCount;
-      // Add new rating into total rating
-      movie.averageRating +=  rating;
-      // Increment rating count
-      movie.ratingCount++;
-      // Calculate average rating = total rating / rating count
-      movie.averageRating =  movie.averageRating / movie.ratingCount;
-      break;
-    }
-  }
-
-  // Set reviews array into local storage.
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-  // Set movies array into local storage.
-  localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-}
-
 // update review's comment and rating into local storage
 function editReview(newRating, newComment, postIndex) {
   const reviews = getReviews();
@@ -405,9 +351,7 @@ export {
   updateUser,
   deleteUser,
   getUserByEmail,
-  getIndex,
-  removeUser,
   createUser,
   findUser,
- deleteUsers
+  deleteUsers
 }

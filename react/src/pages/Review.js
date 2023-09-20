@@ -38,9 +38,9 @@ function Review(props) {
   const handleEditPost = (event, newRating, newComment, postIndex) => {
     event.preventDefault();
 
-    // Check if comment exceed 250 characters
-    if(newComment.length > 250) {
-      setErrorMessage("The comment has exceeded the maximum length of 250 characters.");
+    // Check if comment exceed 600 characters
+    if(newComment.length > 600) {
+      setErrorMessage("The comment has exceeded the maximum length of 600 characters.");
       return;
     }
     // Check if comment is empty
@@ -116,7 +116,7 @@ function Review(props) {
   }
 
   // Submit review functionality
-  const handleSubmit = (event, rating, title) => {
+  const handleSubmit = async (event, rating, title) => {
     event.preventDefault();
 
     // Trim the post text.
@@ -127,9 +127,9 @@ function Review(props) {
       setErrorMessage("Your ratings and/or comment cannot be empty.");
       return;
     }
-    // Check if comment exceed 250 characters
-    else if(postTrimmed.length > 250) {
-      setErrorMessage("The comment has exceeded the maximum length of 250 characters.");
+    // Check if comment exceed 600 characters
+    else if(postTrimmed.length > 600) {
+      setErrorMessage("The comment has exceeded the maximum length of 600 characters.");
       return;
     }
     // Check if rating is valid
@@ -138,9 +138,10 @@ function Review(props) {
       return;
     }
 
-    // Add new review into local storage
-    addNewReview(props.username, title, rating, postTrimmed); // Correct values are being added
-    const reviews = getReviews(); // Fetch updated reviews
+    // Add new review into database with username, movie title, rating, and comment as body
+    await addNewReview({username: props.username, movieTitle: title, rating: rating, comment: postTrimmed})
+    // Correct values are being added
+    const reviews = await getReviews(); // Fetch updated reviews
     setPosts(reviews); // Update state with new reviews
 
     // Reset post content.
