@@ -47,7 +47,7 @@ async function updateUser(oldUsername, updatedUsername, updatedEmail) {
 }
 
 // Remove user and user's reviews from local storage
-async function deleteUsers(currUsername) {
+async function deleteUser(currUsername) {
   const response = await axios.delete(API_HOST + `/api/users/delete/${currUsername}`);  
   return response.data;
   // // Delete all user's reviews
@@ -105,6 +105,30 @@ async function addNewReview(post) {
   //     break;
   //   }
   //}
+}
+
+// Remove review from local storage
+async function deleteReview(post_id) {
+  const response = await axios.delete(API_HOST + `/api/posts/delete/${post_id}`);  
+  return response.data;
+
+  // // Update movie average rating
+  // for(const movie of movies) {
+  //   if(movie.title === currMovieTitle) {
+  //     // Set the current total rating = (average rating * rating count) -  current rating
+  //     movie.averageRating = (movie.averageRating * movie.ratingCount) - currRating;
+  //     // Decrement rating count
+  //     movie.ratingCount--;
+  //     // Calculate average rating
+  //     if (movie.ratingCount === 0) {
+  //       movie.averageRating = 0;
+  //     }
+  //     else {
+  //       movie.averageRating =  movie.averageRating / movie.ratingCount;
+  //     }
+  //     break;
+  //   }
+  // }
 }
 
 // Initialise movies array into local storage
@@ -198,67 +222,6 @@ function sortMovies() {
   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
 }
 
-
-// Get the users array from local storage
-function getUsers() {
-  // Extract user data from local storage.
-  const data = localStorage.getItem(USERS_KEY);
-
-  // Convert data to objects.
-  return JSON.parse(data);
-}
-
-// Remove user and user's reviews from local storage
-function deleteUser(currUsername) {
-  const users = getUsers();
-  const reviews = getReviews();
-  const movies = getMovies();
-
-  // Delete user profile
-  for(const user of users) {
-    if(currUsername === user.username)
-    {
-      const userIndex = users.indexOf(user);
-      users.splice(userIndex, 1);
-      break;
-    }
-  }
-
-  // Delete all user's reviews
-  for (var reviewIndex = reviews.length - 1; reviewIndex >= 0; --reviewIndex) {
-    if (reviews[reviewIndex].username === currUsername) {
-
-      // Recalculate average rating
-      for(const movie of movies) {
-        if (movie.title === reviews[reviewIndex].movie) {
-          // Set the total rating = (average rating * rating count) - rating
-          movie.averageRating = (movie.averageRating * movie.ratingCount) - reviews[reviewIndex].rating;
-          // Decrement rating count
-          movie.ratingCount--;
-          // Calculate average rating
-          if (movie.ratingCount === 0) {
-            movie.averageRating = 0;
-          }
-          else {
-            movie.averageRating =  movie.averageRating / movie.ratingCount;
-          }
-          break;
-        }
-      }  
-      
-      // Remove user's review
-      reviews.splice(reviewIndex,1);
-    }
-  }
-
-  // Update users array with updated username
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  // Update reviews array with updated username
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-  // Set movies array into local storage.
-  localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-}
-
 // update review's comment and rating into local storage
 function editReview(newRating, newComment, postIndex) {
   const reviews = getReviews();
@@ -300,45 +263,6 @@ function editReview(newRating, newComment, postIndex) {
   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
 }
 
-// Remove review from local storage
-function deleteReview(currUsername, currMovieTitle, currRating, currComment) {
-  const reviews = getReviews();
-  const movies = getMovies();
-
-  // Delete current review object from reveiws array
-  for(const review of reviews) {
-    if(currUsername === review.username && currMovieTitle === review.movie && currRating === review.rating && currComment === review.comment)
-    {
-      const postIndex = reviews.indexOf(review);
-      reviews.splice(postIndex, 1);
-      break;
-    }
-  }
-
-  // Update movie average rating
-  for(const movie of movies) {
-    if(movie.title === currMovieTitle) {
-      // Set the current total rating = (average rating * rating count) -  current rating
-      movie.averageRating = (movie.averageRating * movie.ratingCount) - currRating;
-      // Decrement rating count
-      movie.ratingCount--;
-      // Calculate average rating
-      if (movie.ratingCount === 0) {
-        movie.averageRating = 0;
-      }
-      else {
-        movie.averageRating =  movie.averageRating / movie.ratingCount;
-      }
-      break;
-    }
-  }
-
-  // Set reviews array into local storage.
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-  // Set movies array into local storage.
-  localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-}
-
 export {
   initMovies,
   sortMovies,
@@ -349,9 +273,8 @@ export {
   deleteReview,
   verifyUser,
   updateUser,
-  deleteUser,
   getUserByEmail,
   createUser,
   findUser,
-  deleteUsers
+  deleteUser
 }

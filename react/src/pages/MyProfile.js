@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, deleteUsers, sortMovies, getUserByEmail, findUser } from "../data/repository";
+import { updateUser, deleteUser, sortMovies, getUserByEmail, findUser } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 import {
   MDBIcon,
@@ -32,7 +32,7 @@ function MyProfile(props) {
     const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
     if (confirmDelete) {
       // Delete user from database
-      deleteUsers(props.username)
+      deleteUser(props.username)
       // Remove user from localStorage
       props.logoutUser();
       // Visual cue for alerting user profile is deleted

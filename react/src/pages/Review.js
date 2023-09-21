@@ -72,12 +72,17 @@ function Review(props) {
   };
 
   // Remove review functionality
-  const handleRemovePost = (event, title, rating, commentTrimmed) => {
+  const handleRemovePost = async (event, index) => {
     event.preventDefault();
     const confirmDelete = window.confirm("Are you sure you want to delete your review?");
     if (confirmDelete) {
+      // Get all posts from database
+      const reviews = await getReviews(); 
+      // Get post_id of the review to be deleted
+      const post_id = reviews[index].post_id;
+
       // Delete review from localStorage
-      deleteReview(props.username, title, rating, commentTrimmed)
+      await deleteReview(post_id)
       // Visual cue for alerting user review is deleted
       alert("Your review is now deleted!");
       // Sort Movies
@@ -90,7 +95,7 @@ function Review(props) {
   };
 
   // When the component is first loaded, the code checks if there's any review data stored. 
-  // Then the code fetches the reviews data from the storage. 
+  // Then the code fetches the reviews data from the database. 
   // Next it updates the posts state with the fetched reviews and the component re-render, displaying the reviews on the page.
   useEffect(() => {
     const fetchData = async () => {
@@ -196,7 +201,7 @@ function Review(props) {
                         <MDBBtn outline color="light" floating href="" role="button" className="forum-delete-icon" onClick={() => showReview(index)}>
                           <MDBIcon far icon="edit" style={{fontSize: '1rem'}}/>
                         </MDBBtn>
-                        <MDBBtn outline color="light" floating href="" role="button" className="forum-delete-icon" onClick={(event) => handleRemovePost(event, x.movie, x.rating, x.comment)}>
+                        <MDBBtn outline color="light" floating href="" role="button" className="forum-delete-icon" onClick={(event) => handleRemovePost(event, index)}>
                           <MDBIcon far icon="trash-alt" style={{fontSize: '1rem'}}/>
                         </MDBBtn>
                       </div>
