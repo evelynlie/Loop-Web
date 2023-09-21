@@ -14,10 +14,18 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 // Include models.
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
+db.movie = require("./models/movie.js")(db.sequelize, DataTypes);
+db.session = require("./models/session.js")(db.sequelize, DataTypes);
 
 // Relate post and user.
 // post table belong to user, by creating a new column call username in post table to link with user table
 db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
+
+// Relate movie and session.
+// movie has one-to-many relationship with session
+db.movie.hasMany(db.session);
+// session table belong to movie, by creating a new column call movie_id in session table to link with movie table
+db.session.belongsTo(db.movie, { foreignKey: { name: "movie_id", allowNull: false } });
 
 // Learn more about associations here: https://sequelize.org/master/manual/assocs.html
 
@@ -33,10 +41,10 @@ db.sync = async () => {
 };
 
 async function seedData() {
-  const count = await db.user.count();
+  const user_table_count = await db.user.count();
 
   // Only seed data if necessary.
-  if(count > 0)
+  if(user_table_count > 0)
     return;
 
   const argon2 = require("argon2");
