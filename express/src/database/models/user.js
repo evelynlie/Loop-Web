@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) =>
       beforeUpdate: async (user) => {
         // If the username is changed, update it in the related posts.
         if (user.changed('username')) {
-          await Post.update({ username: user.username }, {
+          await sequelize.models.post.update({ username: user.username }, {
             where: { username: user.username }
           });
         }

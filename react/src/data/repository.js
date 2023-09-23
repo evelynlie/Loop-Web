@@ -107,8 +107,21 @@ async function addNewReview(post) {
   //}
 }
 
-// Remove review from local storage
-async function deleteReview(post_id) {
+// Get the movies array from local storage
+async function getMovie() {
+  const response = await axios.get(API_HOST + "/api/movies");
+  return response.data;
+}
+
+// update posts
+async function updateReview(post_id, updatedRating, updatedComment) {
+  // Modify rating and comment to the updated value
+  const response = await axios.put(API_HOST + `/api/posts/update/${post_id}`, {rating: updatedRating, comment: updatedComment});  
+  return response.data;
+}
+
+// Remove review from database
+async function deleteReview(post_id, title) {
   const response = await axios.delete(API_HOST + `/api/posts/delete/${post_id}`);  
   return response.data;
 
@@ -266,6 +279,7 @@ function editReview(newRating, newComment, postIndex) {
 export {
   initMovies,
   sortMovies,
+  getMovie,
   getMovies,
   getReviews,
   addNewReview,
@@ -276,5 +290,6 @@ export {
   getUserByEmail,
   createUser,
   findUser,
-  deleteUser
+  deleteUser, 
+  updateReview
 }

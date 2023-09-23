@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./pagesCSS/Review.css"
 import { useNavigate } from "react-router-dom";
 import MovieCard from './pageResources/MovieCard';
-import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview} from "../data/repository";
+import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, updateReview} from "../data/repository";
 import {
   MDBIcon,
   MDBBtn,
@@ -35,7 +35,7 @@ function Review(props) {
   };
 
   // Edit Review functionality
-  const handleEditPost = (event, newRating, newComment, postIndex) => {
+  const handleEditPost = async (event, newRating, newComment, postIndex) => {
     event.preventDefault();
 
     // Check if comment exceed 600 characters
@@ -58,8 +58,13 @@ function Review(props) {
     const confirmEdit = window.confirm("Are you sure you want to edit your review?");
 
     if (confirmEdit) {
-      // Edit review in local storage
-      editReview(newRating, newComment, postIndex)
+      // Get all posts from database
+      const reviews = await getReviews(); 
+      // Get post_id of the review to be deleted
+      const post_id = reviews[postIndex].post_id;
+
+      // Delete review from localStorage
+      await updateReview(post_id, newRating, newComment)
       // Visual cue for alerting user review is edited
       alert("Your review is now edited!"); 
       // Sort Movies
@@ -72,7 +77,7 @@ function Review(props) {
   };
 
   // Remove review functionality
-  const handleRemovePost = async (event, index) => {
+  const handleRemovePost = async (event, index, title) => {
     event.preventDefault();
     const confirmDelete = window.confirm("Are you sure you want to delete your review?");
     if (confirmDelete) {
@@ -82,7 +87,7 @@ function Review(props) {
       const post_id = reviews[index].post_id;
 
       // Delete review from localStorage
-      await deleteReview(post_id)
+      await deleteReview(post_id, title)
       // Visual cue for alerting user review is deleted
       alert("Your review is now deleted!");
       // Sort Movies
@@ -201,7 +206,7 @@ function Review(props) {
                         <MDBBtn outline color="light" floating href="" role="button" className="forum-delete-icon" onClick={() => showReview(index)}>
                           <MDBIcon far icon="edit" style={{fontSize: '1rem'}}/>
                         </MDBBtn>
-                        <MDBBtn outline color="light" floating href="" role="button" className="forum-delete-icon" onClick={(event) => handleRemovePost(event, index)}>
+                        <MDBBtn outline color="light" floating href="" role="button" className="forum-delete-icon" onClick={(event) => handleRemovePost(event, index, x.movieTitle)}>
                           <MDBIcon far icon="trash-alt" style={{fontSize: '1rem'}}/>
                         </MDBBtn>
                       </div>
