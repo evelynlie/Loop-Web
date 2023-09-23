@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./pagesCSS/Review.css"
 import { useNavigate } from "react-router-dom";
 import MovieCard from './pageResources/MovieCard';
-import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, updateReview} from "../data/repository";
+import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, updateReview, findByMovieTitle } from "../data/repository";
 import {
   MDBIcon,
   MDBBtn,
@@ -148,8 +148,10 @@ function Review(props) {
       return;
     }
 
+    const movie = await findByMovieTitle(title);
+
     // Add new review into database with username, movie title, rating, and comment as body
-    await addNewReview({username: props.username, movieTitle: title, rating: rating, comment: postTrimmed})
+    await addNewReview({username: props.username, title: title, movie_id: movie.movie_id, rating: rating, comment: postTrimmed})
     // Correct values are being added
     const reviews = await getReviews(); // Fetch updated reviews
     setPosts(reviews); // Update state with new reviews
@@ -199,7 +201,7 @@ function Review(props) {
               posts.map((x, index) =>
               <div className="post-box">
                 <div className="title">                
-                  <h3 style={{color: "red"}}>{x.username} ({x.movieTitle})</h3>
+                  <h3 style={{color: "red"}}>{x.username} ({x.title})</h3>
                   { 
                     x.username === props.username && (
                       <div>

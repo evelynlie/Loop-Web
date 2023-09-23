@@ -18,5 +18,5 @@ module.exports = (express, app) => {
   router.put("/update/:id", controller.update);
 
   // Add routes to server.
-  app.use("/api/users", router);
+  app.use("/api/movies", router);
 };

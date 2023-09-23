@@ -1,7 +1,10 @@
 const db = require("../database");
 const Post = db.post;
 const User = db.user;
+const Movie = db.movie;
 Post.belongsTo(User, { foreignKey: 'username' }); // Connect the username of the post table to the username of the user table
+Post.belongsTo(Movie, { foreignKey: 'movie_id' }); // Connect the username of the post table to the username of the user table
+
 
 // Select all posts from the database.
 exports.all = async (req, res) => {
@@ -19,9 +22,11 @@ exports.all = async (req, res) => {
 exports.create = async (req, res) => {
   const post = await db.post.create({ // create() sequelise helper function
     username: req.body.username,
-    movieTitle: req.body.movieTitle,
+    title: req.body.title,
+    movie_id: req.body.movie_id,
     rating: req.body.rating,
     comment: req.body.comment
+
   });
 
   res.json(post);

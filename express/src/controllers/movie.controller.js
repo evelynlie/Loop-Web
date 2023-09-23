@@ -1,7 +1,10 @@
 const db = require("../database");
 const Movie = db.movie;
 const Session = db.session;
+const Post = db.post;
 Movie.hasMany(Session, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
+Movie.hasMany(Post, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
+
 
 // Select all users from the database.
 exports.all = async (req, res) => {

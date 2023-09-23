@@ -5,9 +5,9 @@ module.exports = (sequelize, DataTypes) =>
       autoIncrement: true,
       primaryKey: true
     },
-    movieTitle:{
-      type: DataTypes.STRING(50),
-      allowNull: false
+    title: {
+      type: DataTypes.STRING(32),
+      allowNull: false,
     },
     rating:{
       type: DataTypes.INTEGER,
@@ -21,3 +21,5 @@ module.exports = (sequelize, DataTypes) =>
     // Don't add the timestamp attributes (updatedAt, createdAt).
     timestamps: false, 
   });
+
+  

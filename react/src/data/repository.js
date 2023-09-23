@@ -86,6 +86,12 @@ async function getReviews() {
   return response.data;
 }
 
+// Get the movie object from database based on movie title
+async function findByMovieTitle(title) {
+  const response = await axios.get(API_HOST + "/api/movies/selectByMovieTitle", {params: {title}});
+  return response.data;
+}
+
 // Add user's review into local storage including the username, movie title, rating and comment
 async function addNewReview(post) {
   const response = await axios.post(API_HOST + "/api/posts", post);
@@ -291,5 +297,9 @@ export {
   createUser,
   findUser,
   deleteUser, 
-  updateReview
+  updateReview,
+
+
+
+  findByMovieTitle
 }

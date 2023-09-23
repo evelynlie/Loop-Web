@@ -20,6 +20,7 @@ db.session = require("./models/session.js")(db.sequelize, DataTypes);
 // Relate post and user.
 // post table belong to user, by creating a new column call username in post table to link with user table
 db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
+db.post.belongsTo(db.movie, { foreignKey: { name: "movie_id", allowNull: false } });
 
 // Relate session and movie.
 // session table belong to movie, by creating a new column call movie_id in session table to link with movie table
@@ -53,6 +54,9 @@ async function seedData() {
 
     hash = await argon2.hash("def456", { type: argon2.argon2id });
     await db.user.create({ username: "shekhar", password_hash: hash, email: "shekhar@test.com", signUpDate : "Tue, 17 September 2023" });
+
+    hash = await argon2.hash("abc123", { type: argon2.argon2id });
+    await db.user.create({ username: "kent", password_hash: hash, email: "kent@test.com", signUpDate : "Tue, 17 September 2023" });
   }
 
   // Only seed movie data if necessary.
@@ -62,7 +66,7 @@ async function seedData() {
 
   // Only seed post data if necessary.
   if(post_table_count == 0) {
-    await db.post.create({ post_id: 1, movieTitle: 'Barbie', rating: 0, comment: "amazing", username: "kent" });
+    await db.post.create({ title: 'Barbie', movie_id: 1, rating: 0, comment: "amazing", username: "kent" });
   }
   
   // Only seed session data if necessary.
