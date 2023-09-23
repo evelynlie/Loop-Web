@@ -40,6 +40,7 @@ db.sync = async () => {
 
 async function seedData() {
   const user_table_count = await db.user.count();
+  const post_table_count = await db.post.count();
   const movie_table_count = await db.movie.count();
   const session_table_count = await db.session.count();
 
@@ -56,15 +57,18 @@ async function seedData() {
 
   // Only seed movie data if necessary.
   if(movie_table_count == 0) {
-    await db.movie.create({ title: "Barbie", imageURL: '../movie_posters/barbie.jpeg', averageRating: 0, ratingCount: 0, viewCount: 0 });
+    await db.movie.create({ title: "Barbie", imageURL: "../movie_posters/barbie.jpeg", averageRating: 0, ratingCount: 0, viewCount: 0 });
   }
 
-  // Only seed movie data if necessary.
+  // Only seed post data if necessary.
+  if(post_table_count == 0) {
+    await db.post.create({ post_id: 1, movieTitle: 'Barbie', rating: 0, comment: "amazing", username: "kent" });
+  }
+  
+  // Only seed session data if necessary.
   if(session_table_count == 0) {
     await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '10:00 am', movie_id: 1 });
   }
-  
-
 }
 
 module.exports = db;
