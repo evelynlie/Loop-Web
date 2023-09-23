@@ -21,9 +21,7 @@ db.session = require("./models/session.js")(db.sequelize, DataTypes);
 // post table belong to user, by creating a new column call username in post table to link with user table
 db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
 
-// Relate movie and session.
-// movie has one-to-many relationship with session
-db.movie.hasMany(db.session);
+// Relate session and movie.
 // session table belong to movie, by creating a new column call movie_id in session table to link with movie table
 db.session.belongsTo(db.movie, { foreignKey: { name: "movie_id", allowNull: false } });
 
@@ -42,18 +40,31 @@ db.sync = async () => {
 
 async function seedData() {
   const user_table_count = await db.user.count();
+  const movie_table_count = await db.movie.count();
+  const session_table_count = await db.session.count();
 
-  // Only seed data if necessary.
-  if(user_table_count > 0)
-    return;
+  // Only seed user data if necessary.
+  if(user_table_count == 0) {
+    const argon2 = require("argon2");
 
-  const argon2 = require("argon2");
+    let hash = await argon2.hash("abc123", { type: argon2.argon2id });
+    await db.user.create({ username: "mbolger", password_hash: hash, email: "mbolger@test.com", signUpDate: "Mon, 16 September 2023" });
 
-  let hash = await argon2.hash("abc123", { type: argon2.argon2id });
-  await db.user.create({ username: "mbolger", password_hash: hash, email: "mbolger@test.com", signUpDate: "Mon, 16 September 2023" });
+    hash = await argon2.hash("def456", { type: argon2.argon2id });
+    await db.user.create({ username: "shekhar", password_hash: hash, email: "shekhar@test.com", signUpDate : "Tue, 17 September 2023" });
+  }
 
-  hash = await argon2.hash("def456", { type: argon2.argon2id });
-  await db.user.create({ username: "shekhar", password_hash: hash, email: "shekhar@test.com", signUpDate : "Tue, 17 September 2023" });
+  // Only seed movie data if necessary.
+  if(movie_table_count == 0) {
+    await db.movie.create({ title: "Barbie", imageURL: '../movie_posters/barbie.jpeg', averageRating: 0, ratingCount: 0, viewCount: 0 });
+  }
+
+  // Only seed movie data if necessary.
+  if(session_table_count == 0) {
+    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '10:00 am', movie_id: 1 });
+  }
+  
+
 }
 
 module.exports = db;

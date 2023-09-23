@@ -20,14 +20,10 @@ app.get("/", (req, res) => { // (request, response)
   res.json({ message: "Hello World!" });
 });
 
-// the following is same as line 30 using post.routes.js
-  // const postController = require("./src/controllers/post.controller.js");
-  // app.get("/api/posts", postController.all);
-  // pp.get("/api/posts", postController.create);
-
-// Add user routes.
+// Add user, post, movie routes.
 require("./src/routes/user.routes.js")(express, app);
 require("./src/routes/post.routes.js")(express, app);
+require("./src/routes/movie.routes.js")(express, app);
 
 // parse requests of content-type - application/json
 app.use(express.json());  /* bodyParser.json() is deprecated */
