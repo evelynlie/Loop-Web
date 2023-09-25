@@ -17,6 +17,8 @@ module.exports = (express, app) => {
   // Update a movie based on movie_id(id)
   router.put("/update/:id", controller.update);
 
+  router.put("/updateAverageRating/:id", controller.updateAverageRating);
+
   // Add routes to server.
   app.use("/api/movies", router);
 };

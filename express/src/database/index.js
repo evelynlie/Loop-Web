@@ -17,6 +17,10 @@ db.post = require("./models/post.js")(db.sequelize, DataTypes);
 db.movie = require("./models/movie.js")(db.sequelize, DataTypes);
 db.session = require("./models/session.js")(db.sequelize, DataTypes);
 
+db.user.hasMany(db.post, { foreignKey: 'username' }); // Connect the username of the post table to the username of the user table
+db.movie.hasMany(db.session, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
+db.movie.hasMany(db.post, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
+
 // Relate post and user.
 // post table belong to user, by creating a new column call username in post table to link with user table
 db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
@@ -66,7 +70,8 @@ async function seedData() {
 
   // Only seed post data if necessary.
   if(post_table_count == 0) {
-    await db.post.create({ title: 'Barbie', movie_id: 1, rating: 0, comment: "amazing", username: "kent" });
+    await db.post.create({ title: 'Barbie', movie_id: 1, rating: 3, comment: "amazing", username: "kent" });
+    await db.post.create({ title: 'Barbie', movie_id: 1, rating: 5, comment: "nice", username: "kent" });
   }
   
   // Only seed session data if necessary.

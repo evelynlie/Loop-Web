@@ -65,6 +65,8 @@ function Review(props) {
 
       // Delete review from localStorage
       await updateReview(post_id, newRating, newComment)
+
+
       // Visual cue for alerting user review is edited
       alert("Your review is now edited!"); 
       // Sort Movies

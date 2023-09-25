@@ -2,8 +2,40 @@ const db = require("../database");
 const Movie = db.movie;
 const Session = db.session;
 const Post = db.post;
-Movie.hasMany(Session, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
-Movie.hasMany(Post, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
+
+
+exports.updateAverageRating = async (req, res) => {
+  const ratingCount = await Post.count({
+    where: {
+      movie_id: req.params.id
+    }
+  }); 
+
+  const totalRating = await Post.sum('rating', { where: { movie_id: req.params.id } });
+
+  const averageRating = totalRating / ratingCount;
+
+  Movie.update({averageRating: averageRating}, {
+    where: { movie_id: req.params.id }
+  })
+
+  .then(num => {
+    if (num == 1) {
+      res.send({
+        message: "Movie was updated successfully."
+      });
+    } else {
+      res.send({
+        message: `Cannot update Movie with movie_id=${id}. Maybe Movie was not found or req.body is empty!`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating Movie with movie_id=" + id
+    });
+  });
+}
 
 
 // Select all users from the database.

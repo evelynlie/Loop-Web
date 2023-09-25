@@ -1,7 +1,6 @@
 const db = require("../database");
 const User = db.user;
 const Post = db.post;
-User.hasMany(Post, { foreignKey: 'username' }); // Connect the username of the post table to the username of the user table
 const argon2 = require("argon2");
 
 // Select all users from the database.
