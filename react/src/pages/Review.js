@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./pagesCSS/Review.css"
 import { useNavigate } from "react-router-dom";
 import MovieCard from './pageResources/MovieCard';
-import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, updateReview, findByMovieTitle, updateMovieAverageRating } from "../data/repository";
+import { getMovies, addNewReview, getReviews, deleteReview, updateReview, findByMovieTitle, updateMovieAverageRating } from "../data/repository";
 import {
   MDBIcon,
   MDBBtn,
@@ -15,7 +15,8 @@ import { FaStar} from 'react-icons/fa'
 
 function Review(props) {
   const navigate = useNavigate();
-  const movies = getMovies();
+
+  const [movies, setMovies] = useState([]);
   const [post, setPost] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [posts, setPosts] = useState([]); // Store posts in state
@@ -67,13 +68,13 @@ function Review(props) {
 
       // Delete review from localStorage
       await updateReview(post_id, newRating, newComment)
-      // update movie average rating
-      await updateMovieAverageRating(movie_id);
+      // Update movie average rating
+      updateMovieAverageRating(movie_id);
 
       // Visual cue for alerting user review is edited
       alert("Your review is now edited!"); 
       // Sort Movies
-      sortMovies();
+      // sortMovies();
       // Navigate to the review page.
       navigate("/review");
       // Refresh page
@@ -96,12 +97,12 @@ function Review(props) {
       // Delete review from localStorage
       await deleteReview(post_id, title)
       // update movie average rating
-      await updateMovieAverageRating(movie_id);
+      updateMovieAverageRating(movie_id);
 
       // Visual cue for alerting user review is deleted
       alert("Your review is now deleted!");
       // Sort Movies
-      sortMovies();
+      // sortMovies();
       // Navigate to the review page.
       navigate("/review");
       // Refresh page
@@ -124,6 +125,20 @@ function Review(props) {
       }
     };
       fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      try {
+        // Fetch movies from database
+        const movies = await getMovies();
+        setMovies(movies);
+      } catch (error) {
+        // Handle errors if needed
+        console.error('Error fetching movies:', error);
+      }
+    };
+    fetchMovieData();
   }, []);
 
   // Scroll to toip when posts array changed (i.e. review edited, review deleted)
@@ -175,7 +190,7 @@ function Review(props) {
     // Reset error message
     setErrorMessage("");
     // Sort Movies
-    sortMovies();
+    // sortMovies();
     // Navigate to review page
     navigate("/review");
     // Refresh page
@@ -192,7 +207,7 @@ function Review(props) {
           movies.map((movie) =>
             <div className='movie-column'>
               <MovieCard
-              imageUrl={movie.imageURL[0]}
+              imageUrl={movie.imageURL}
               title={movie.title}
               text="Click to leave a review"
               averageRating = {movie.averageRating}

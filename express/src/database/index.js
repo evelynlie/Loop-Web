@@ -64,9 +64,14 @@ async function seedData() {
 
   // Only seed movie data if necessary.
   if(movie_table_count == 0) {
-    await db.movie.create({ title: "Barbie", imageURL: "../movie_posters/barbie.jpeg", averageRating: 0, viewCount: 0 });
-    await db.movie.create({ title: "Oppenheimer", imageURL: "../movie_posters/oppenheimer.jpeg", averageRating: 0, viewCount: 0 });
-    await db.movie.create({ title: "Mission: Impossible - Dead Reckoning Part 1", imageURL: "../movie_posters/mission_impossible.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "Barbie", imageURL: "http://localhost:3000/static/media/barbie.a215b72ba6528a48c499.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "Oppenheimer", imageURL: "http://localhost:3000/static/media/oppenheimer.20523bbe9dbe4628d6be.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "Mission: Impossible - Dead Reckoning Part 1", imageURL: "http://localhost:3000/static/media/mission_impossible.cb09349f2d5e17dbf770.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "The Moon", imageURL: "http://localhost:3000/static/media/the_moon.58c7a73d7f062b14bc85.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "The Marvels", imageURL: "http://localhost:3000/static/media/the_marvels.dbd8c0f8369fba36dc0c.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "Wonka", imageURL: "http://localhost:3000/static/media/wonka.e390fda060bd85b127be.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "Concrete Utopia", imageURL: "http://localhost:3000/static/media/concrete_utopia.2e61ce213082d66de00b.jpeg", averageRating: 0, viewCount: 0 });
+    await db.movie.create({ title: "Dune Part Two", imageURL: "http://localhost:3000/static/media/dune_part_two.c09941b1b2fa01db6127.jpeg", averageRating: 0, viewCount: 0 });
   }
   
   // Only seed session data if necessary.

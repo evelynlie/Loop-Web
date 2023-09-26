@@ -1,4 +1,4 @@
-import React from 'react';
+import React,  { useState, useEffect } from 'react';
 import './pagesCSS/Home.css';
 import MovieCard from './pageResources/MovieCard';
 import AboutUs from './pageResources/AboutUs'
@@ -6,8 +6,21 @@ import { getMovies } from '../data/repository';
 
 
 function Home() {
-  // Get movies array from local storage
-  const movies = getMovies();
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      try {
+        // Fetch movies from database
+        const movies = await getMovies();
+        setMovies(movies);
+      } catch (error) {
+        // Handle errors if needed
+        console.error('Error fetching movies:', error);
+      }
+    };
+    fetchMovieData();
+  }, []);
 
   return (
     <>
@@ -19,12 +32,12 @@ function Home() {
           movies.map((movie) =>
             <div className='movie-column'>
               <MovieCard
-              imageUrl={movie.imageURL[0]}
+              imageUrl={movie.imageURL}
               title={movie.title}
               text="Click to view session time"
               averageRating = {movie.averageRating}
               type="movie"
-              sessionTime={movie.sessionTime}/>
+              sessionTime={["1:00pm", "2:00pm"]}/>
             </div>
           )
         }

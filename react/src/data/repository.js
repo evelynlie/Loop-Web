@@ -81,7 +81,6 @@ async function deleteUser(currUsername) {
 
 // Get the reviews array from database
 async function getReviews() {
-  // Extract reviews from local storage.
   const response = await axios.get(API_HOST + "/api/posts");
   return response.data;
 }
@@ -113,8 +112,8 @@ async function addNewReview(post) {
   //}
 }
 
-// Get the movies array from local storage
-async function getMovie() {
+// Get the movies
+async function getMovies() {
   const response = await axios.get(API_HOST + "/api/movies");
   return response.data;
 }
@@ -157,95 +156,86 @@ async function updateMovieAverageRating(id) {
 }
 
 // Initialise movies array into local storage
-function initMovies() {
-  // Stop if data is already initialised.
-  if(localStorage.getItem(MOVIES_KEY) !== null)
-    return;
+// function initMovies() {
+//   // Stop if data is already initialised.
+//   if(localStorage.getItem(MOVIES_KEY) !== null)
+//     return;
 
-  // Hard-coded movie data
-  const movies = [
-    {
-      title: "Barbie",
-      imageURL: [BarbiePoster],
-      sessionTime: ["10:25am", "12:00pm", "2:30pm", "3:45pm", "5:00pm", "8:00pm"],
-      averageRating: 0,
-      ratingCount: 0
-    },
-    {
-      title: "Oppenheimer",
-      imageURL: [OppenheimerPoster],
-      sessionTime: ["11:25am", "1:00pm", "2:45pm", "5:00pm", "6:30pm", "7:00pm"],
-      averageRating: 0,
-      ratingCount: 0
-    },
-    {
-      title: "Mission: Impossible - Dead Reckoning Part 1",
-      imageURL: [MissionImpossiblePoster],
-      sessionTime: ["10:20am", "2:00pm", "2:45pm", "4:50pm", "5:20pm", "7:10pm", "9:00pm", "11:30pm"],
-      averageRating: 0,
-      ratingCount: 0
-    },
-    {
-      title: "The Moon",
-      imageURL: [TheMoonPoster],
-      sessionTime: ["10:25am", "12:00pm", "2:30pm", "3:45pm", "5:00pm", "8:00pm"],
-      averageRating: 0,
-      ratingCount: 0
-    },
-    {
-      title: "The Marvels",
-      imageURL: [TheMarvelsPoster],
-      sessionTime: ["9:00am", "11:10pm", "12:45pm", "2:00pm", "6:10pm"],
-      averageRating: 0,
-      ratingCount: 0
-    },
-    {
-      title: "Wonka",
-      imageURL: [WonkaPoster],
-      sessionTime: ["8:50am", "10:10pm", "11:30pm", "5:10pm", "8:10pm"],
-      averageRating: 0,
-      ratingCount: 0
-    },
-    {
-      title: "Concrete Utopia",
-      imageURL: [ConcreteUtopiaPoster],
-      sessionTime: ["11:50am", "1:00pm", "3:35pm", "4:45pm", "7:30pm", "9:30pm"],
-      averageRating: 0,
-      ratingCount: 0
-    },
-    {
-      title: "Dune Part Two",
-      imageURL: [DunePartTwoPoster],
-      sessionTime: ["10:25am", "11:00am", "12:30pm", "1:45pm", "3:00pm", "5:10pm", "7:10pm"],
-      averageRating: 0,
-      ratingCount: 0
-    }
-  ];
+//   // Hard-coded movie data
+//   const movies = [
+//     {
+//       title: "Barbie",
+//       imageURL: [BarbiePoster],
+//       sessionTime: ["10:25am", "12:00pm", "2:30pm", "3:45pm", "5:00pm", "8:00pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     },
+//     {
+//       title: "Oppenheimer",
+//       imageURL: [OppenheimerPoster],
+//       sessionTime: ["11:25am", "1:00pm", "2:45pm", "5:00pm", "6:30pm", "7:00pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     },
+//     {
+//       title: "Mission: Impossible - Dead Reckoning Part 1",
+//       imageURL: [MissionImpossiblePoster],
+//       sessionTime: ["10:20am", "2:00pm", "2:45pm", "4:50pm", "5:20pm", "7:10pm", "9:00pm", "11:30pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     },
+//     {
+//       title: "The Moon",
+//       imageURL: [TheMoonPoster],
+//       sessionTime: ["10:25am", "12:00pm", "2:30pm", "3:45pm", "5:00pm", "8:00pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     },
+//     {
+//       title: "The Marvels",
+//       imageURL: [TheMarvelsPoster],
+//       sessionTime: ["9:00am", "11:10pm", "12:45pm", "2:00pm", "6:10pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     },
+//     {
+//       title: "Wonka",
+//       imageURL: [WonkaPoster],
+//       sessionTime: ["8:50am", "10:10pm", "11:30pm", "5:10pm", "8:10pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     },
+//     {
+//       title: "Concrete Utopia",
+//       imageURL: [ConcreteUtopiaPoster],
+//       sessionTime: ["11:50am", "1:00pm", "3:35pm", "4:45pm", "7:30pm", "9:30pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     },
+//     {
+//       title: "Dune Part Two",
+//       imageURL: [DunePartTwoPoster],
+//       sessionTime: ["10:25am", "11:00am", "12:30pm", "1:45pm", "3:00pm", "5:10pm", "7:10pm"],
+//       averageRating: 0,
+//       ratingCount: 0
+//     }
+//   ];
 
-  // Set movies array into local storage.
-  localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-}
-
-// Get the movies array from local storage
-function getMovies() {
-  // Extract movie data from local storage.
-  const data = localStorage.getItem(MOVIES_KEY);
-
-  // Convert data to objects.
-  return JSON.parse(data);
-}
+//   // Set movies array into local storage.
+//   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
+// }
 
 // Sort the movies array from highest to lowest
-function sortMovies() {
-  // Extract movie data from local storage.
-  const movies = getMovies();
+// function sortMovies() {
+//   // Extract movie data from local storage.
+//   const movies = getMovies();
 
-  // Sort Movies from highest to Lowest Rating
-  movies.sort((movie1,movie2) => movie2.averageRating - movie1.averageRating);
+//   // Sort Movies from highest to Lowest Rating
+//   movies.sort((movie1,movie2) => movie2.averageRating - movie1.averageRating);
 
-  // Set movies array into local storage.
-  localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-}
+//   // Set movies array into local storage.
+//   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
+// }
 
 // update review's comment and rating into local storage
 function editReview(newRating, newComment, postIndex) {
@@ -289,7 +279,6 @@ function editReview(newRating, newComment, postIndex) {
 }
 
 export {
-  getMovie,
   getReviews,
   addNewReview,
   deleteReview,
@@ -303,12 +292,9 @@ export {
   updateMovieAverageRating,
 
 
-
-  initMovies,
-  sortMovies,
   editReview,
   getMovies,
-  
+
 
   findByMovieTitle
 }

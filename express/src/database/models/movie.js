@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) =>
       allowNull: false,
     },
     imageURL: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.TEXT,
       allowNull: false
     },
     averageRating: {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, deleteUser, sortMovies, getUserByEmail, findUser } from "../data/repository";
+import { updateUser, deleteUser, getUserByEmail, findUser } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 import {
   MDBIcon,
@@ -38,7 +38,7 @@ function MyProfile(props) {
       // Visual cue for alerting user profile is deleted
       alert("Your profile is now deleted!");
       // Sort Movies
-      sortMovies();
+      // sortMovies();
       // Navigate to the home page.
       navigate("/");
     }
