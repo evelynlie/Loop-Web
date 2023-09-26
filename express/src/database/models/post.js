@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) =>
       primaryKey: true
     },
     title: {
-      type: DataTypes.STRING(32),
+      type: DataTypes.STRING(60),
       allowNull: false,
     },
     rating:{

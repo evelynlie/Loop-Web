@@ -3,41 +3,6 @@ const Movie = db.movie;
 const Session = db.session;
 const Post = db.post;
 
-
-exports.updateAverageRating = async (req, res) => {
-  const ratingCount = await Post.count({
-    where: {
-      movie_id: req.params.id
-    }
-  }); 
-
-  const totalRating = await Post.sum('rating', { where: { movie_id: req.params.id } });
-
-  const averageRating = totalRating / ratingCount;
-
-  Movie.update({averageRating: averageRating}, {
-    where: { movie_id: req.params.id }
-  })
-
-  .then(num => {
-    if (num == 1) {
-      res.send({
-        message: "Movie was updated successfully."
-      });
-    } else {
-      res.send({
-        message: `Cannot update Movie with movie_id=${id}. Maybe Movie was not found or req.body is empty!`
-      });
-    }
-  })
-  .catch(err => {
-    res.status(500).send({
-      message: "Error updating Movie with movie_id=" + id
-    });
-  });
-}
-
-
 // Select all users from the database.
 exports.all = async (req, res) => {
   const movies = await db.movie.findAll();
@@ -99,3 +64,44 @@ exports.update = async (req, res) => {
       });
     });
 };
+
+// Update movie average rating with the given movie id
+exports.updateAverageRating = async (req, res) => {
+  const ratingCount = await Post.count({
+    where: {
+      movie_id: req.params.id
+    }
+  }); 
+
+  if (ratingCount == 0) {
+    Movie.update({averageRating: 0}, {
+      where: { movie_id: req.params.id }
+    })
+    return;
+  }
+
+  const totalRating = await Post.sum('rating', { where: { movie_id: req.params.id } });
+
+  const averageRating = totalRating / ratingCount;
+
+  Movie.update({averageRating: averageRating}, {
+    where: { movie_id: req.params.id }
+  })
+
+  .then(num => {
+    if (num == 1) {
+      res.send({
+        message: "Movie average rating was updated successfully."
+      });
+    } else {
+      res.send({
+        message: `Cannot update Movie average rating with movie_id=${id}. Maybe Movie was not found or req.body is empty!`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating Movie average rating with movie_id=" + id
+    });
+  });
+}

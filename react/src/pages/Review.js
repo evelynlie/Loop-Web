@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./pagesCSS/Review.css"
 import { useNavigate } from "react-router-dom";
 import MovieCard from './pageResources/MovieCard';
-import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, updateReview, findByMovieTitle } from "../data/repository";
+import { getMovies, sortMovies, addNewReview, getReviews, editReview, deleteReview, updateReview, findByMovieTitle, updateMovieAverageRating } from "../data/repository";
 import {
   MDBIcon,
   MDBBtn,
@@ -62,10 +62,13 @@ function Review(props) {
       const reviews = await getReviews(); 
       // Get post_id of the review to be deleted
       const post_id = reviews[postIndex].post_id;
+      // Get movie_id of the review to be deleted
+      const movie_id = reviews[postIndex].movie_id;
 
       // Delete review from localStorage
       await updateReview(post_id, newRating, newComment)
-
+      // update movie average rating
+      await updateMovieAverageRating(movie_id);
 
       // Visual cue for alerting user review is edited
       alert("Your review is now edited!"); 
@@ -87,9 +90,14 @@ function Review(props) {
       const reviews = await getReviews(); 
       // Get post_id of the review to be deleted
       const post_id = reviews[index].post_id;
+      // Get movie_id of the review to be deleted
+      const movie_id = reviews[index].movie_id;
 
       // Delete review from localStorage
       await deleteReview(post_id, title)
+      // update movie average rating
+      await updateMovieAverageRating(movie_id);
+
       // Visual cue for alerting user review is deleted
       alert("Your review is now deleted!");
       // Sort Movies
@@ -154,6 +162,10 @@ function Review(props) {
 
     // Add new review into database with username, movie title, rating, and comment as body
     await addNewReview({username: props.username, title: title, movie_id: movie.movie_id, rating: rating, comment: postTrimmed})
+
+    // update movie average rating
+    await updateMovieAverageRating(movie.movie_id);
+
     // Correct values are being added
     const reviews = await getReviews(); // Fetch updated reviews
     setPosts(reviews); // Update state with new reviews

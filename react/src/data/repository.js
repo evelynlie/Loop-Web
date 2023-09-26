@@ -150,6 +150,12 @@ async function deleteReview(post_id, title) {
   // }
 }
 
+// Update movie average rating
+async function updateMovieAverageRating(id) {
+  const response = await axios.put(API_HOST + `/api/movies/updateAverageRating/${id}`); 
+  return response.data;
+}
+
 // Initialise movies array into local storage
 function initMovies() {
   // Stop if data is already initialised.
@@ -283,13 +289,9 @@ function editReview(newRating, newComment, postIndex) {
 }
 
 export {
-  initMovies,
-  sortMovies,
   getMovie,
-  getMovies,
   getReviews,
   addNewReview,
-  editReview,
   deleteReview,
   verifyUser,
   updateUser,
@@ -298,8 +300,15 @@ export {
   findUser,
   deleteUser, 
   updateReview,
+  updateMovieAverageRating,
 
 
+
+  initMovies,
+  sortMovies,
+  editReview,
+  getMovies,
+  
 
   findByMovieTitle
 }
