@@ -7,7 +7,6 @@ import { getMovies, getSessionTime } from '../data/repository';
 
 function Home() {
   const [movies, setMovies] = useState([]);
-  const [sessionTimes, setSessionTime] = useState([]);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -41,7 +40,7 @@ function Home() {
 
   return (
     <>
-    <h1 className='section-title'>Coming Soon</h1>
+    <h1 className='section-title'>Ticket Reservation</h1>
     <section className="movie-section">
       <div className='movie-row'>
         {/*Display all movies*/}

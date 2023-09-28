@@ -56,14 +56,10 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
                 <div style={{marginLeft:"15px", width: "100%"}}>
                   <MDBModalTitle style={{color:"white", fontFamily:"var(--font-montserrat)"}}>{title}</MDBModalTitle>
                   <div className="" style={{marginTop: "10px"}}>
-                    <p style={{color:"white", fontFamily:"var(--font-montserrat)"}}>Session Time</p>
-                    <ul style={{color:"white", fontFamily:"var(--font-montserrat)"}}>
-                    {/* Display all session time*/}
-                    {
-                      sessionTime.map((time) =>
-                      <li>{time}</li>
-                    )}
-                    </ul>
+                    <p style={{color:"white", fontFamily:"var(--font-montserrat)", marginBottom:"7px"}}>Session Times:</p>
+                    {sessionTime.map((time) => (
+                      <input type="button" className="sessionTime" value={time}/>
+                    ))}
                   </div>
                 </div>
                 <div style={{marginLeft:"15px"}}>

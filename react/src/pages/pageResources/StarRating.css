@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --font-montserrat: 'Montserrat', sans-serif;
+}
+
 input[type="radio"]{
     display: none;
 }
@@ -10,4 +16,19 @@ input[type="radio"]{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.sessionTime{
+    color: white;
+    background-color: black;
+    border-color: white;
+    font-family: var(--font-montserrat);
+    font-size: 15px;
+    margin: 0px 10px 10px 0px;
+    padding: 5px;
+    width: 90px;
+}   
+
+.sessionTime:hover{
+    background-color: #E50815;
 }
