@@ -108,7 +108,7 @@ async function updateReview(post_id, updatedRating, updatedComment) {
 }
 
 // Remove review from database
-async function deleteReview(post_id, title) {
+async function deleteReview(post_id) {
   const response = await axios.delete(API_HOST + `/api/posts/delete/${post_id}`);  
   return response.data;
 }
@@ -116,6 +116,12 @@ async function deleteReview(post_id, title) {
 // Update movie average rating
 async function updateMovieAverageRating(id) {
   const response = await axios.put(API_HOST + `/api/movies/updateAverageRating/${id}`); 
+  return response.data;
+}
+
+// Update movie average rating
+async function getSessionTime(id) {
+  const response = await axios.get(API_HOST + `/api/sessions/select/${id}`); 
   return response.data;
 }
 
@@ -242,10 +248,7 @@ export {
   deleteUser, 
   updateReview,
   updateMovieAverageRating,
-
-
   getMovies,
-
-
-  findByMovieTitle
+  findByMovieTitle,
+  getSessionTime
 }

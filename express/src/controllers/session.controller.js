@@ -17,12 +17,12 @@ Session.belongsTo(Movie, { foreignKey: 'movie_id'}); // Connect the movie_id of 
 //   res.json(movies);
 // };
 
-// Select one user from the database based on title.
-// exports.findByMovieTitle = async (req, res) => {
-//   const movies = await db.movie.findOne({ where: { title: req.query.title } });
+// Select session time based on movieId.
+exports.findSessionTime = async (req, res) => {
+  const session = await db.session.findAll({ where: { movie_id: req.params.id } });
 
-//   res.json(movies);
-// };
+  res.json(session);
+};
 
 // Create a session in the database.
 exports.create = async (req, res) => {
