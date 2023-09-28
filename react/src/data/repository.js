@@ -1,19 +1,7 @@
 import axios from "axios";
-import BarbiePoster from '../movie_posters/barbie.jpeg';
-import OppenheimerPoster from '../movie_posters/oppenheimer.jpeg';
-import MissionImpossiblePoster from '../movie_posters/mission_impossible.jpeg';
-import TheMoonPoster from '../movie_posters/the_moon.jpeg';
-import TheMarvelsPoster from '../movie_posters/the_marvels.jpeg';
-import WonkaPoster from '../movie_posters/wonka.jpeg';
-import ConcreteUtopiaPoster from '../movie_posters/concrete_utopia.jpeg';
-import DunePartTwoPoster from '../movie_posters/dune_part_two.jpeg';
 
 // --- Constants ----------------------------------------------------------------------------------
 const API_HOST = "http://localhost:4000";
-
-const MOVIES_KEY = "movies";
-const USERS_KEY = "users";
-const REVIEWS_KEY = "reviews";
 
 // Verify the user email and password by comparing with user data stored in database
 async function verifyUser(email, password) {
@@ -95,21 +83,6 @@ async function findByMovieTitle(title) {
 async function addNewReview(post) {
   const response = await axios.post(API_HOST + "/api/posts", post);
   return response.data;
-
-  // // Update movie average rating and increment rating counter
-  // for(const movie of movies) {
-  //   if(movie.title === title) {
-  //     // Set the total rating = average rating * rating count
-  //     movie.averageRating = movie.averageRating * movie.ratingCount;
-  //     // Add new rating into total rating
-  //     movie.averageRating +=  rating;
-  //     // Increment rating count
-  //     movie.ratingCount++;
-  //     // Calculate average rating = total rating / rating count
-  //     movie.averageRating =  movie.averageRating / movie.ratingCount;
-  //     break;
-  //   }
-  //}
 }
 
 // Get the movies
@@ -129,24 +102,6 @@ async function updateReview(post_id, updatedRating, updatedComment) {
 async function deleteReview(post_id, title) {
   const response = await axios.delete(API_HOST + `/api/posts/delete/${post_id}`);  
   return response.data;
-
-  // // Update movie average rating
-  // for(const movie of movies) {
-  //   if(movie.title === currMovieTitle) {
-  //     // Set the current total rating = (average rating * rating count) -  current rating
-  //     movie.averageRating = (movie.averageRating * movie.ratingCount) - currRating;
-  //     // Decrement rating count
-  //     movie.ratingCount--;
-  //     // Calculate average rating
-  //     if (movie.ratingCount === 0) {
-  //       movie.averageRating = 0;
-  //     }
-  //     else {
-  //       movie.averageRating =  movie.averageRating / movie.ratingCount;
-  //     }
-  //     break;
-  //   }
-  // }
 }
 
 // Update movie average rating
@@ -225,58 +180,46 @@ async function updateMovieAverageRating(id) {
 //   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
 // }
 
-// Sort the movies array from highest to lowest
-// function sortMovies() {
-//   // Extract movie data from local storage.
+// // update review's comment and rating into local storage
+// function editReview(newRating, newComment, postIndex) {
+//   const reviews = getReviews();
 //   const movies = getMovies();
+//   var movieName = null;
+//   var previousRating = null;
 
-//   // Sort Movies from highest to Lowest Rating
-//   movies.sort((movie1,movie2) => movie2.averageRating - movie1.averageRating);
+//   // Update current review object
+//   for(const review of reviews) {
+//     if (reviews.indexOf(review) === postIndex) {
+//       //Intialise movieName variable with the review.movie
+//       movieName =  reviews[postIndex].movie;
+//       //Intialise previousRating variable with the review.rating
+//       previousRating = reviews[postIndex].rating;
 
-//   // Set movies array into local storage.
-//   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
+//       // Set new rating and comment for the current review object
+//       reviews[postIndex].rating = newRating;
+//       reviews[postIndex].comment = newComment;   
+//       break;
+//     }
+//   }
+
+//   // Update movie average rating
+//   for(const movie of movies) {
+//     if(movie.title === movieName) {
+//       // Set the current total rating = (average rating * rating count) -  previous rating
+//       movie.averageRating = (movie.averageRating * movie.ratingCount) - previousRating;
+//       // Add new rating into total rating
+//       movie.averageRating +=  newRating;
+//       // Calculate average rating = total rating / rating count
+//       movie.averageRating =  movie.averageRating / movie.ratingCount;
+//       break;
+//     }
+//   }
+
+  // // Set reviews array into local storage.
+  // localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+  // // Set movies array into local storage.
+  // localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
 // }
-
-// update review's comment and rating into local storage
-function editReview(newRating, newComment, postIndex) {
-  const reviews = getReviews();
-  const movies = getMovies();
-  var movieName = null;
-  var previousRating = null;
-
-  // Update current review object
-  for(const review of reviews) {
-    if (reviews.indexOf(review) === postIndex) {
-      //Intialise movieName variable with the review.movie
-      movieName =  reviews[postIndex].movie;
-      //Intialise previousRating variable with the review.rating
-      previousRating = reviews[postIndex].rating;
-
-      // Set new rating and comment for the current review object
-      reviews[postIndex].rating = newRating;
-      reviews[postIndex].comment = newComment;   
-      break;
-    }
-  }
-
-  // Update movie average rating
-  for(const movie of movies) {
-    if(movie.title === movieName) {
-      // Set the current total rating = (average rating * rating count) -  previous rating
-      movie.averageRating = (movie.averageRating * movie.ratingCount) - previousRating;
-      // Add new rating into total rating
-      movie.averageRating +=  newRating;
-      // Calculate average rating = total rating / rating count
-      movie.averageRating =  movie.averageRating / movie.ratingCount;
-      break;
-    }
-  }
-
-  // Set reviews array into local storage.
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-  // Set movies array into local storage.
-  localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-}
 
 export {
   getReviews,
@@ -292,7 +235,6 @@ export {
   updateMovieAverageRating,
 
 
-  editReview,
   getMovies,
 
 

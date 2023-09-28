@@ -13,6 +13,8 @@ function Home() {
       try {
         // Fetch movies from database
         const movies = await getMovies();
+        // Sort Movies from highest to Lowest Rating
+        movies.sort((movie1,movie2) => movie2.averageRating - movie1.averageRating);
         setMovies(movies);
       } catch (error) {
         // Handle errors if needed
