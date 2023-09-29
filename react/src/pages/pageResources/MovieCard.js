@@ -14,6 +14,8 @@ import { FaStar} from 'react-icons/fa'
 
 function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, handleSubmit, handleInputChange, errorMessage, post }) {
   const [rating, setRating] = useState(0);
+  const [ticket, setTicket] = useState(0);
+  const [time, setTime] = useState('');
   const [hover, setHover] = useState(null);
   const [MovieModal, setMovieModal] = useState(false);
   const [ReviewModal, setReviewModal] = useState(false);
@@ -22,6 +24,15 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
+  };
+
+  const handleTimeChange = (newTime) => {
+    setTime(newTime);
+  };
+
+  const handleTicketChange = (event) => {
+    const newTicketValue = parseInt(event.target.value, 10);  // Convert to an integer
+      setTicket(newTicketValue);
   };
 
   // MovieCard for displaying coming soon movie
@@ -78,7 +89,67 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
       </>
     );
   } 
-
+  else if (type === "movieReservation") {
+    return (
+      <>
+      <MDBCard className="hover-overlay" onClick={toggleShowMovie} style = {{cursor: "pointer"}}>
+        <img
+          src={imageUrl}
+          position="top"
+          style={{aspectRatio:"2/3",width: "250px", objectFit: "cover"}}
+        />
+        <div className='mask' style={{backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <div>
+            <p style={{fontFamily: "var(--font-montserrat)", fontSize: "23px", fontWeight: "600", color: "rgb(255, 255, 255)", textAlign:"center", lineHeight: "33.6px"}}>{title}</p>
+            <p style={{fontFamily: "var(--font-montserrat)", fontSize: "15px", fontWeight: "400", color: "rgb(255, 255, 255)", textAlign:"center"}}>Average Rating: {averageRating.toFixed(2)}</p>
+            <p style={{fontFamily: "var(--font-montserrat)", fontSize: "15px", fontWeight: "300", color: "rgb(255, 255, 255)", textAlign:"center"}}>{text}</p>
+          </div>
+        </div>
+      </MDBCard>
+      <MDBModal show={MovieModal} setShow={setMovieModal} tabIndex="-1" centered>
+        <MDBModalDialog centered style={{maxWidth: "35%"}} size="lg">
+          <MDBModalContent style={{ backgroundColor: 'black', border: "2px solid #E50815"}}>
+            <MDBModalBody>
+              <div style={{display:"flex", flexDirection: "row"}}>
+                <div className="modal-image" style={{marginRight:"15px"}}>
+                <img
+                  src={imageUrl}
+                  style={{aspectRatio:"2/3",width: "250px", objectFit: "cover"}}
+                />
+                </div>
+                <div style={{marginLeft:"15px", width: "100%"}}>
+                  <MDBModalTitle style={{color:"white", fontFamily:"var(--font-montserrat)"}}>{title}</MDBModalTitle>
+                  <div style={{marginTop: "10px"}}>
+                    <p style={{color:"white", fontFamily:"var(--font-montserrat)", marginBottom:"7px"}}>Session Times:</p>
+                    {sessionTime.map((time) => (
+                      <input type="button" className="popup-button" value={time} onClick={() => setTime(time)}/>
+                    ))}
+                  </div>
+                  <div className="submitReservation">
+                    <p>Number of Tickets: 
+                      <input type="number" value={ticket} onChange={handleTicketChange} className="ticket-number"/>
+                    </p>
+                    <p>Time: {time}</p>
+                    <p>Total Price: ${ticket * 20}</p>
+                    <input type="button" className="submit-button" value="SUBMIT" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); toggleShowMovie();}}/>
+                  </div>
+                </div>
+                <div style={{marginLeft:"15px"}}>
+                <MDBBtn
+                  className="btn-close"
+                  color="none"
+                  onClick={toggleShowMovie}
+                  style={{backgroundColor: "white"}}>
+                </MDBBtn>
+                </div>
+              </div>
+            </MDBModalBody>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+      </>
+    );
+  } 
   // MovieCard for displaying movie for review
   else {
     return (

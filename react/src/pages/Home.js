@@ -5,8 +5,15 @@ import AboutUs from './pageResources/AboutUs'
 import { getMovies, getSessionTime } from '../data/repository';
 
 
-function Home() {
+function Home(props) {
   const [movies, setMovies] = useState([]);
+
+  const handleSubmit = async (event, time, ticket, title) => {
+    event.preventDefault();
+    console.log(time);
+    console.log(ticket);
+    console.log(title);
+  }
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -43,19 +50,44 @@ function Home() {
     <h1 className='section-title'>Ticket Reservation</h1>
     <section className="movie-section">
       <div className='movie-row'>
-        {/*Display all movies*/}
-        {
-          movies.map((movie) =>
-            <div className='movie-column'>
-              <MovieCard
-              imageUrl={movie.imageURL}
-              title={movie.title}
-              text="Click to view session time"
-              averageRating = {movie.averageRating}
-              type="movie"
-              sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}/>
-            </div>
-          )
+        {/* When user HAS NOT logged in*/}
+        {props.username == null &&
+            <>
+          {/*Display all movies*/}
+          {
+            movies.map((movie) =>
+              <div className='movie-column'>
+                <MovieCard
+                imageUrl={movie.imageURL}
+                title={movie.title}
+                text="Click to view session time"
+                averageRating = {movie.averageRating}
+                type="movie"
+                sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}/>
+              </div>
+            )
+          }
+        </>
+        }
+        {/* When user HAS logged in*/}
+        {props.username !== null &&
+            <>
+              {
+            movies.map((movie) =>
+              <div className='movie-column'>
+                <MovieCard
+                imageUrl={movie.imageURL}
+                title={movie.title}
+                text="Click to view session time"
+                averageRating = {movie.averageRating}
+                type="movieReservation"
+                sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}
+                handleSubmit={(event, time, ticket) => handleSubmit(event, time, ticket, movie.title)}
+                />
+              </div>
+            )
+          }
+          </>
         }
       </div>
     </section>
