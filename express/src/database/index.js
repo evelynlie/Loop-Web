@@ -16,8 +16,10 @@ db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
 db.movie = require("./models/movie.js")(db.sequelize, DataTypes);
 db.session = require("./models/session.js")(db.sequelize, DataTypes);
+db.reservation = require("./models/reservation.js")(db.sequelize, DataTypes);
 
 db.user.hasMany(db.post, { foreignKey: 'username' }); // Connect the username of the post table to the username of the user table
+db.user.hasMany(db.reservation, { foreignKey: 'username' }); // Connect the username of the post table to the username of the user table
 db.movie.hasMany(db.session, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
 db.movie.hasMany(db.post, { foreignKey: 'movie_id' }); // Connect the movie_id of the session table to the movie_id of the movie table
 
@@ -29,6 +31,9 @@ db.post.belongsTo(db.movie, { foreignKey: { name: "movie_id", allowNull: false }
 // Relate session and movie.
 // session table belong to movie, by creating a new column call movie_id in session table to link with movie table
 db.session.belongsTo(db.movie, { foreignKey: { name: "movie_id", allowNull: false } });
+
+// Relate reservation and user.
+db.reservation.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
 
 // Learn more about associations here: https://sequelize.org/master/manual/assocs.html
 

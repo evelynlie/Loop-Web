@@ -129,8 +129,8 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
                     <p>Number of Tickets: 
                       <input type="number" value={ticket} onChange={handleTicketChange} className="ticket-number"/>
                     </p>
-                    <p>Time: {time}</p>
-                    <p>Total Price: ${ticket * 20}</p>
+                    <p style={{marginTop:"-15px"}}>Time: {time}</p>
+                    <p style={{marginTop:"-10px"}}>Total Price: ${ticket * 20}</p>
                     <input type="button" className="submit-button" value="SUBMIT" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); toggleShowMovie();}}/>
                   </div>
                 </div>

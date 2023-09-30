@@ -2,17 +2,14 @@ import React,  { useState, useEffect } from 'react';
 import './pagesCSS/Home.css';
 import MovieCard from './pageResources/MovieCard';
 import AboutUs from './pageResources/AboutUs'
-import { getMovies, getSessionTime } from '../data/repository';
-
+import { getMovies, getSessionTime, addReservation } from '../data/repository';
 
 function Home(props) {
   const [movies, setMovies] = useState([]);
 
   const handleSubmit = async (event, time, ticket, title) => {
     event.preventDefault();
-    console.log(time);
-    console.log(ticket);
-    console.log(title);
+    await addReservation({username: props.username, session_time: time, number_tickets: ticket, title: title});
   }
 
   useEffect(() => {

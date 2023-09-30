@@ -39,7 +39,6 @@ input[type="radio"]{
     border-color: white;
     font-family: var(--font-montserrat);
     font-size: 15px;
-    margin: 0px 10px 10px 0px;
     padding: 5px;
     width: 90px;
 }

@@ -25,6 +25,7 @@ require("./src/routes/user.routes.js")(express, app);
 require("./src/routes/post.routes.js")(express, app);
 require("./src/routes/movie.routes.js")(express, app);
 require("./src/routes/session.routes.js")(express, app);
+require("./src/routes/reservation.routes.js")(express, app);
 
 // parse requests of content-type - application/json
 app.use(express.json());  /* bodyParser.json() is deprecated */
