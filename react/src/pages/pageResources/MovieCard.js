@@ -57,7 +57,7 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
         </div>
       </MDBCard>
       <MDBModal show={MovieModal} setShow={setMovieModal} tabIndex="-1" centered>
-        <MDBModalDialog centered style={{maxWidth: "35%"}} size="lg">
+        <MDBModalDialog centered style={{maxWidth: "45%"}} size="lg">
           <MDBModalContent style={{ backgroundColor: 'black', border: "2px solid #E50815"}}>
             <MDBModalBody>
               <div style={{display:"flex", flexDirection: "row"}}>
@@ -72,7 +72,7 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
                   <div className="" style={{marginTop: "10px"}}>
                     <p style={{color:"white", fontFamily:"var(--font-montserrat)", marginBottom:"7px"}}>Session Times:</p>
                     {sessionTime.map((time) => (
-                      <input type="button" className="sessionTime" value={time}/>
+                      <input disabled type="button" className="popup-button" value={time} style={{pointerEvents: 'none'}}/>
                     ))}
                   </div>
                 </div>

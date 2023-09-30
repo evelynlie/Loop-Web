@@ -83,6 +83,9 @@ async function seedData() {
   // Only seed session data if necessary.
   if(session_table_count == 0) {
     await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '10:00 am', movie_id: 1 });
+    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '12:30 pm', movie_id: 1 });
+    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '2:00 pm', movie_id: 1 });
+    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '5:30 pm', movie_id: 1 });
     await db.session.create({ sessionDate: "24 Sep 2023", sessionTime: '11:00 am', movie_id: 2 });
     await db.session.create({ sessionDate: "25 Sep 2023", sessionTime: '12:00 am', movie_id: 3 });
     await db.session.create({ sessionDate: "26 Sep 2023", sessionTime: '13:00 am', movie_id: 4 });
