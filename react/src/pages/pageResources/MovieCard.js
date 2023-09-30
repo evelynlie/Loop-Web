@@ -110,7 +110,7 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
         </div>
       </MDBCard>
       <MDBModal show={MovieModal} setShow={setMovieModal} tabIndex="-1" centered>
-        <MDBModalDialog centered style={{maxWidth: "35%"}} size="lg">
+        <MDBModalDialog centered style={{maxWidth: "45%"}} size="lg">
           <MDBModalContent style={{ backgroundColor: 'black', border: "2px solid #E50815"}}>
             <MDBModalBody>
               <div style={{display:"flex", flexDirection: "row"}}>
@@ -129,9 +129,8 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
                     ))}
                   </div>
                   <div className="submitReservation">
-                    <p>Number of Tickets: 
-                      <input type="number" value={ticket} onChange={handleTicketChange} className="ticket-number"/>
-                    </p>
+                      <p>Number of Tickets:
+                      <input type="number" value={ticket} onChange={handleTicketChange} className="ticket-number" style={{display: "inline", marginLeft: "10px"}}/></p>
                     <p style={{marginTop:"-15px"}}>Time: {time}</p>
                     <p style={{marginTop:"-10px"}}>Total Price: ${ticket * 20}</p>
                     <input type="button" className="submit-button" value="SUBMIT" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); toggleShowMovie();}}/>
