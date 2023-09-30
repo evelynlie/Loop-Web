@@ -5,8 +5,8 @@ module.exports = (express, app) => {
     // Select all posts.
     router.get("/", controller.all);
 
-    // Select movie from the database based on movie title.
-    router.get("/selectByMovieTitle", controller.findByMovieTitle);
+    // Select reservation from the database based on username.
+    router.get("/selectUserReservation", controller.findByUsername);
   
     // Create a new post.
     router.post("/", controller.create);
