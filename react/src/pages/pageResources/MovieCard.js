@@ -154,7 +154,7 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
                       </p>
                     <p style={{marginTop:"-15px"}}>Time: {time}</p>
                     <p style={{marginTop:"-10px"}}>Total Price: ${ticket * 20}</p>
-                    <input type="button" className="submit-button" value="SUBMIT" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); toggleShowMovie();}}/>
+                    {sessionTicketAvailable>0 && <input type="button" className="submit-button" value="RESERVE" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); toggleShowMovie();}}/>}
                   </div>
                 </div>
                 <div style={{marginLeft:"15px"}}>
