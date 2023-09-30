@@ -32,13 +32,3 @@ input[type="radio"]{
 .popup-button:hover{
     background-color: #E50815;
 }
-
-.submit-button{
-    color: white;
-    background-color: black;
-    border-color: white;
-    font-family: var(--font-montserrat);
-    font-size: 15px;
-    padding: 5px;
-    width: 90px;
-}
