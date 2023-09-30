@@ -152,21 +152,16 @@ function MyProfile(props) {
               Email: {props.email} <br/> Joined: {props.signupDate}
             </p>
           )}
-        </div>
-      </section>
-
-      <section className="profile-section">
-        <div className="profile-container">
           <div className="profile-header">
-            <h1>My Tickets</h1>
+              <h2>My Tickets</h2>
           </div>
           {tickets && tickets.length > 0 ? (
             tickets.map((ticket) => (
               <div key={ticket.reservation_id} className="ticket">
                 <p>
-                  Movie Title: {ticket.title} <br />
-                  Session Time: {ticket.session_time} <br />
-                  Number of Tickets: {ticket.number_tickets} <br />
+                  Movie Title: {ticket.title} <br/>
+                  Session Time: {ticket.session_time} <br/>
+                  Number of Tickets: {ticket.number_tickets} <br/>
                 </p>
               </div>
             ))
