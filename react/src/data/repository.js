@@ -119,7 +119,7 @@ async function updateMovieAverageRating(id) {
   return response.data;
 }
 
-// Update movie average rating
+// Get Session Time based on movie id
 async function getSessionTime(id) {
   const response = await axios.get(API_HOST + `/api/sessions/select/${id}`); 
   return response.data;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 
@@ -15,15 +15,33 @@ import {
 import "./StarRating.css"
 import { FaStar} from 'react-icons/fa'
 
-function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, handleSubmit, handleInputChange, errorMessage, setPost, post}) {
+function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArray, handleSubmit, errorMessage, setPost, post}) {
   const [rating, setRating] = useState(0);
   const [ticket, setTicket] = useState(0);
   const [time, setTime] = useState('');
+  const [sessionTicketAvailable, setSessionTicketAvailable] = useState(null);
+  const [ticketAvailable, setTicketAvailable] = useState(null);
+
   const [hover, setHover] = useState(null);
   const [MovieModal, setMovieModal] = useState(false);
   const [ReviewModal, setReviewModal] = useState(false);
   const toggleShowMovie = () => setMovieModal(!MovieModal);
   const toggleShowReview = () => setReviewModal(!ReviewModal);
+
+  useEffect(() => {
+    try {
+      var selectedSession = sessionTimeArray.filter(function(session) {
+        return session.sessionTime == time;
+        }
+      )[0];
+      console.log(selectedSession.sessionTime + "   " + selectedSession.ticketAvailable)
+      setSessionTicketAvailable(selectedSession.ticketAvailable);
+      setTicketAvailable(selectedSession.ticketAvailable)
+      setTicket(0)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+  }      
+  }, [time]);
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
@@ -35,7 +53,8 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
 
   const handleTicketChange = (event) => {
     const newTicketValue = parseInt(event.target.value, 10);  // Convert to an integer
-      setTicket(newTicketValue);
+    setTicket(newTicketValue);
+    setTicketAvailable(sessionTicketAvailable-newTicketValue)
   };
 
   // MovieCard for displaying coming soon movie
@@ -71,8 +90,8 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
                   <MDBModalTitle style={{color:"white", fontFamily:"var(--font-montserrat)"}}>{title}</MDBModalTitle>
                   <div className="" style={{marginTop: "10px"}}>
                     <p style={{color:"white", fontFamily:"var(--font-montserrat)", marginBottom:"7px"}}>Session Times:</p>
-                    {sessionTime.map((time) => (
-                      <input disabled type="button" className="popup-button" value={time} style={{pointerEvents: 'none'}}/>
+                    {sessionTimeArray.map((session) => (
+                      <input disabled type="button" className="popup-button" value={session.sessionTime} style={{pointerEvents: 'none'}}/>
                     ))}
                   </div>
                 </div>
@@ -124,13 +143,15 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
                   <MDBModalTitle style={{color:"white", fontFamily:"var(--font-montserrat)"}}>{title}</MDBModalTitle>
                   <div style={{marginTop: "10px"}}>
                     <p style={{color:"white", fontFamily:"var(--font-montserrat)", marginBottom:"7px"}}>Session Times:</p>
-                    {sessionTime.map((time) => (
-                      <input type="button" className="popup-button" value={time} onClick={() => setTime(time)}/>
+                    {sessionTimeArray.map((session) => (
+                      <input type="button" className="popup-button" value={session.sessionTime} onClick={() => setTime(session.sessionTime)}/>
                     ))}
                   </div>
                   <div className="submitReservation">
                       <p>Number of Tickets:
-                      <input type="number" value={ticket} onChange={handleTicketChange} className="ticket-number" style={{display: "inline", marginLeft: "10px"}}/></p>
+                      <input type="number" value={ticket} onChange={handleTicketChange} className="ticket-number" style={{display: "inline", marginLeft: "10px"}}/>
+                      {sessionTicketAvailable!=null && <p style={{display: "inline", marginLeft: "10px"}}>{ticketAvailable} Left</p>}
+                      </p>
                     <p style={{marginTop:"-15px"}}>Time: {time}</p>
                     <p style={{marginTop:"-10px"}}>Total Price: ${ticket * 20}</p>
                     <input type="button" className="submit-button" value="SUBMIT" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); toggleShowMovie();}}/>

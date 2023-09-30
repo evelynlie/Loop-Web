@@ -60,7 +60,8 @@ function Home(props) {
                 text="Click to view session time"
                 averageRating = {movie.averageRating}
                 type="movie"
-                sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}/>
+                sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}
+                />
               </div>
             )
           }
@@ -78,7 +79,8 @@ function Home(props) {
                 text="Click to view session time"
                 averageRating = {movie.averageRating}
                 type="movieReservation"
-                sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}
+                // sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}
+                sessionTimeArray={movie.sessionTimes}
                 handleSubmit={(event, time, ticket) => handleSubmit(event, time, ticket, movie.title)}
                 />
               </div>
