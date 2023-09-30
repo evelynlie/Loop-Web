@@ -1,15 +1,19 @@
 import React,  { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import './pagesCSS/Home.css';
 import MovieCard from './pageResources/MovieCard';
 import AboutUs from './pageResources/AboutUs'
-import { getMovies, getSessionTime, addReservation } from '../data/repository';
+import { getMovies, getSessionTime, addReservation, updateSessionTicketAvailable } from '../data/repository';
 
 function Home(props) {
   const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event, time, ticket, title) => {
     event.preventDefault();
     await addReservation({username: props.username, session_time: time, number_tickets: ticket, title: title});
+    await updateSessionTicketAvailable({session_time: time, number_tickets: ticket, title: title});
+    navigate(0);
   }
 
   useEffect(() => {

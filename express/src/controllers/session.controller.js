@@ -1,7 +1,6 @@
 const db = require("../database");
 const Movie = db.movie;
 const Session = db.session;
-Session.belongsTo(Movie, { foreignKey: 'movie_id'}); // Connect the movie_id of the movie table to the movie_id of the session table
 
 // Select all users from the database.
 // exports.all = async (req, res) => {
@@ -37,28 +36,25 @@ exports.create = async (req, res) => {
   res.json(session);
 };
 
-// Update movie detail in the database.
-// exports.update = async (req, res) => {
-//   const id = req.params.id;
-
-//   // Update movie title and imageURL.
-//   Movie.update({title: req.body.title, imageURL: req.body.imageURL}, {
-//     where: { movie_id: id }
-//   })
-//   .then(num => {
-//       if (num == 1) {
-//         res.send({
-//           message: "Movie was updated successfully."
-//         });
-//       } else {
-//         res.send({
-//           message: `Cannot update Movie with movie_id=${id}. Maybe Movie was not found or req.body is empty!`
-//         });
-//       }
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message: "Error updating Movie with movie_id=" + id
-//       });
-//     });
-// };
+// Update session ticket available in the database.
+exports.updateTicketAvailable = async (req, res) => {
+  const movie = await Movie.findOne({ where: { title: req.body.title } });
+  
+  Session.decrement('ticketAvailable', { by: req.body.number_tickets, where: { movie_id: movie.movie_id, sessionTime: req.body.session_time }})
+  .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Session ticketAvailable was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Session ticketAvailable with movie_id=${movie.movie_id}. Maybe Movie was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Session ticketAvailable with movie_id=" + movie.movie_id
+      });
+    });
+};

@@ -7,6 +7,9 @@ module.exports = (express, app) => {
   
     // Create a new session.
     router.post("/", controller.create);
+
+    // Select a session from the database based on movie_id.
+    router.put("/updateTicketAvailable", controller.updateTicketAvailable);
   
     // Add routes to server.
     app.use("/api/sessions", router);
