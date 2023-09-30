@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./pagesCSS/Review.css"
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from "react-router-dom";
 import MovieCard from './pageResources/MovieCard';
 import { getMovies, addNewReview, getReviews, deleteReview, updateReview, findByMovieTitle, updateMovieAverageRating } from "../data/repository";
@@ -69,12 +71,10 @@ function Review(props) {
       // Delete review from localStorage
       await updateReview(post_id, newRating, newComment)
       // Update movie average rating
-      updateMovieAverageRating(movie_id);
+      await updateMovieAverageRating(movie_id);
 
       // Visual cue for alerting user review is edited
       alert("Your review is now edited!"); 
-      // Sort Movies
-      // sortMovies();
       // Navigate to the review page.
       navigate("/review");
       // Refresh page
@@ -101,8 +101,6 @@ function Review(props) {
 
       // Visual cue for alerting user review is deleted
       alert("Your review is now deleted!");
-      // Sort Movies
-      // sortMovies();
       // Navigate to the review page.
       navigate("/review");
       // Refresh page
@@ -149,15 +147,16 @@ function Review(props) {
     window.scrollTo(0, 0);
   }, [posts]);
 
-  const handleInputChange = (event) => {
-    setPost(event.target.value);
-  }
+  // const handleInputChange = (event) => {
+  //   setPost(event.target.value);
+  // }
 
   // Submit review functionality
   const handleSubmit = async (event, rating, title) => {
     event.preventDefault();
 
     // Trim the post text.
+    // As React Quill uses HTML tags within the text the empty check first removes all HTML elements using a regex.
     const postTrimmed = post.trim();
 
     // Check if comment is empty
@@ -192,8 +191,6 @@ function Review(props) {
     setPost("");
     // Reset error message
     setErrorMessage("");
-    // Sort Movies
-    // sortMovies();
     // Navigate to review page
     navigate("/review");
     // Refresh page
@@ -215,7 +212,7 @@ function Review(props) {
               text="Click to leave a review"
               averageRating = {movie.averageRating}
               handleSubmit={(event, rating) => handleSubmit(event, rating, movie.title)}
-              handleInputChange={handleInputChange}
+              setPost = {setPost}
               errorMessage={errorMessage}
               post={post}/>
             </div>
@@ -249,7 +246,9 @@ function Review(props) {
                 </div>
                 <div className="post-content">
                   <p>Movie Rating: {x.rating} star</p>
-                  <p>{x.comment}</p>
+                  <div dangerouslySetInnerHTML={{ __html: x.comment }} />
+
+                  {/* <p>{{__html: x.comment}}</p> */}
                 </div>
               </div>
               )
@@ -287,8 +286,11 @@ function Review(props) {
                       </div>
                       <div className="form-container">
                         <p>Your new rating for the movie is {rating} star</p>
-                        <label htmlFor="email" style={{color:"red", fontFamily: "var(--font-montserrat)", fontSize: "28px", fontWeight: "600"}}>Your Comment</label>
-                        <textarea name="post" id="post" className="new-post" rows="5" value={post} onChange={handleInputChange}/>
+                        <label htmlFor="commentLabel" style={{color:"red", fontFamily: "var(--font-montserrat)", fontSize: "28px", fontWeight: "600"}}>Your Comment</label>
+                        {/* <textarea name="post" id="post" className="new-post" rows="5" value={post} onChange={handleInputChange}/> */}
+                        <div style={{height:"auto"}}>
+                          <ReactQuill theme="snow" name="post" id="post" value={post} onChange={setPost} />
+                        </div>
                       </div>
                       {errorMessage !== null && (
                         <div className="form-container">

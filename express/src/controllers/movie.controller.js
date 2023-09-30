@@ -101,7 +101,7 @@ exports.updateAverageRating = async (req, res) => {
   })
   .catch(err => {
     res.status(500).send({
-      message: "Error updating Movie average rating with movie_id=" + id
+      message: `Error updating Movie average rating with movie_id=${id}`
     });
   });
 }

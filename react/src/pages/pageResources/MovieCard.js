@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
+
 import {
   MDBCard,
   MDBBtn,
@@ -12,7 +15,7 @@ import {
 import "./StarRating.css"
 import { FaStar} from 'react-icons/fa'
 
-function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, handleSubmit, handleInputChange, errorMessage, post }) {
+function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, handleSubmit, handleInputChange, errorMessage, setPost, post}) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [MovieModal, setMovieModal] = useState(false);
@@ -121,9 +124,10 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTime, ha
             </div>
               <p>Your rating for the movie is {rating} star</p>
                 <h3 style={{color:"red", fontFamily: "var(--font-montserrat)", fontSize: "28px", fontWeight: "600"}}>Your Comment</h3>
-                <form onSubmit={handleSubmit}>                  
+                <form onSubmit={handleSubmit}>             
                   <fieldset>
-                    <textarea name="post" id="post" className="new-post" rows="5" value={post} onChange={handleInputChange}/>
+                    <ReactQuill theme="snow" value={post} onChange={setPost} name="post" id="post" />     
+                    {/* <textarea name="post" id="post" className="new-post" rows="5" value={post} onChange={handleInputChange}/> */}
                     {errorMessage !== null && (<span className="text-danger">{errorMessage}</span>)}
                     <br></br>
                     <input type="submit" className="btn submit-btn" value="POST" style ={{marginRight:"1rem"}} onClick={(event) => handleSubmit(event, rating, title)}/>
