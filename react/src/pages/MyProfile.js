@@ -146,26 +146,27 @@ function MyProfile(props) {
               </MDBBtn>
             </div>
           </div>
-          <h4>Welcome, {props.username}!</h4>
+          <h4>Welcome, <strong>{props.username}</strong>!</h4>
           {props.email !== null && (
             <p>
-              Email: {props.email} <br/> Joined: {props.signupDate}
+              <strong>Email:</strong> {props.email} <br/> <strong>Joined:</strong> {props.signupDate}
             </p>
           )}
           <div className="profile-header">
               <h2>My Tickets</h2>
           </div>
+          {/* If user HAS reserved a ticket*/}
           {tickets && tickets.length > 0 ? (
             tickets.map((ticket) => (
               <div key={ticket.reservation_id} className="ticket">
                 <p>
-                  Movie Title: {ticket.title} <br/>
-                  Session Time: {ticket.session_time} <br/>
-                  Number of Tickets: {ticket.number_tickets} <br/>
+                  <strong>Movie Title:</strong> {ticket.title} <br/>
+                  <strong>Session Time:</strong> {ticket.session_time} <br/>
+                  <strong>Number of Tickets:</strong> {ticket.number_tickets} <br/>
                 </p>
               </div>
             ))
-          ) : (
+          ) : {/* If user HAS NOT reserve a ticket*/} (
             <p>No tickets found.</p>
           )}
         </div>
