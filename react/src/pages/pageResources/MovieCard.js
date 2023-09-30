@@ -149,7 +149,7 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
                   </div>
                   <div className="submitReservation">
                       <p>Number of Tickets:
-                      <input type="number" value={ticket} onChange={handleTicketChange} className="ticket-number" style={{display: "inline", marginLeft: "10px"}}/>
+                      {sessionTicketAvailable>0 && <input type="number" min="0" max={sessionTicketAvailable} value={ticket} onChange={handleTicketChange} className="ticket-number" style={{display: "inline", marginLeft: "10px"}}/>}
                       {sessionTicketAvailable!=null && <p style={{display: "inline", marginLeft: "10px"}}>{ticketAvailable} Left</p>}
                       </p>
                     <p style={{marginTop:"-15px"}}>Time: {time}</p>
