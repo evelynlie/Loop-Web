@@ -108,7 +108,7 @@ async function updateReview(post_id, updatedRating, updatedComment) {
 }
 
 // Remove review from database
-async function deleteReview(post_id, title) {
+async function deleteReview(post_id) {
   const response = await axios.delete(API_HOST + `/api/posts/delete/${post_id}`);  
   return response.data;
 }
@@ -119,116 +119,17 @@ async function updateMovieAverageRating(id) {
   return response.data;
 }
 
-// Initialise movies array into local storage
-// function initMovies() {
-//   // Stop if data is already initialised.
-//   if(localStorage.getItem(MOVIES_KEY) !== null)
-//     return;
+// Update movie average rating
+async function getSessionTime(id) {
+  const response = await axios.get(API_HOST + `/api/sessions/select/${id}`); 
+  return response.data;
+}
 
-//   // Hard-coded movie data
-//   const movies = [
-//     {
-//       title: "Barbie",
-//       imageURL: [BarbiePoster],
-//       sessionTime: ["10:25am", "12:00pm", "2:30pm", "3:45pm", "5:00pm", "8:00pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     },
-//     {
-//       title: "Oppenheimer",
-//       imageURL: [OppenheimerPoster],
-//       sessionTime: ["11:25am", "1:00pm", "2:45pm", "5:00pm", "6:30pm", "7:00pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     },
-//     {
-//       title: "Mission: Impossible - Dead Reckoning Part 1",
-//       imageURL: [MissionImpossiblePoster],
-//       sessionTime: ["10:20am", "2:00pm", "2:45pm", "4:50pm", "5:20pm", "7:10pm", "9:00pm", "11:30pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     },
-//     {
-//       title: "The Moon",
-//       imageURL: [TheMoonPoster],
-//       sessionTime: ["10:25am", "12:00pm", "2:30pm", "3:45pm", "5:00pm", "8:00pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     },
-//     {
-//       title: "The Marvels",
-//       imageURL: [TheMarvelsPoster],
-//       sessionTime: ["9:00am", "11:10pm", "12:45pm", "2:00pm", "6:10pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     },
-//     {
-//       title: "Wonka",
-//       imageURL: [WonkaPoster],
-//       sessionTime: ["8:50am", "10:10pm", "11:30pm", "5:10pm", "8:10pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     },
-//     {
-//       title: "Concrete Utopia",
-//       imageURL: [ConcreteUtopiaPoster],
-//       sessionTime: ["11:50am", "1:00pm", "3:35pm", "4:45pm", "7:30pm", "9:30pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     },
-//     {
-//       title: "Dune Part Two",
-//       imageURL: [DunePartTwoPoster],
-//       sessionTime: ["10:25am", "11:00am", "12:30pm", "1:45pm", "3:00pm", "5:10pm", "7:10pm"],
-//       averageRating: 0,
-//       ratingCount: 0
-//     }
-//   ];
-
-//   // Set movies array into local storage.
-//   localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-// }
-
-// // update review's comment and rating into local storage
-// function editReview(newRating, newComment, postIndex) {
-//   const reviews = getReviews();
-//   const movies = getMovies();
-//   var movieName = null;
-//   var previousRating = null;
-
-//   // Update current review object
-//   for(const review of reviews) {
-//     if (reviews.indexOf(review) === postIndex) {
-//       //Intialise movieName variable with the review.movie
-//       movieName =  reviews[postIndex].movie;
-//       //Intialise previousRating variable with the review.rating
-//       previousRating = reviews[postIndex].rating;
-
-//       // Set new rating and comment for the current review object
-//       reviews[postIndex].rating = newRating;
-//       reviews[postIndex].comment = newComment;   
-//       break;
-//     }
-//   }
-
-//   // Update movie average rating
-//   for(const movie of movies) {
-//     if(movie.title === movieName) {
-//       // Set the current total rating = (average rating * rating count) -  previous rating
-//       movie.averageRating = (movie.averageRating * movie.ratingCount) - previousRating;
-//       // Add new rating into total rating
-//       movie.averageRating +=  newRating;
-//       // Calculate average rating = total rating / rating count
-//       movie.averageRating =  movie.averageRating / movie.ratingCount;
-//       break;
-//     }
-//   }
-
-  // // Set reviews array into local storage.
-  // localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-  // // Set movies array into local storage.
-  // localStorage.setItem(MOVIES_KEY, JSON.stringify(movies));
-// }
+// Add newly signed-up user's name, email, password into database
+async function addReservation(reservation) {
+  const response = await axios.post(API_HOST + "/api/reservations", reservation);
+  return response.data;
+}
 
 export {
   getReviews,
@@ -242,10 +143,8 @@ export {
   deleteUser, 
   updateReview,
   updateMovieAverageRating,
-
-
   getMovies,
-
-
-  findByMovieTitle
+  findByMovieTitle,
+  getSessionTime, 
+  addReservation
 }
