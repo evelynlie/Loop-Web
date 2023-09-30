@@ -64,7 +64,8 @@ function Home(props) {
                 text="Click to view session time"
                 averageRating = {movie.averageRating}
                 type="movie"
-                sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}
+                // sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}
+                sessionTimeArray={movie.sessionTimes}
                 />
               </div>
             )
