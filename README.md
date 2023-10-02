@@ -1,16 +1,19 @@
 # Full Stack Development - Assignment 1 - Loop Cinemas
 
-Testing
-
-## Team Member
+## Contributions
 - Evelyn Lie (s3951140)
 - Go Chee Kin (s3955624)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## To Run the Web Application
-1. Install the packages and dependencies required for the application by running ```npm install```.
-2. Once the installation is complete, start the web application by running ```npm start```.
+## Getting Started
+### Start the Backend Server (Express)
+1. Navigate to the `express` folder by running `cd express` and run `npm install`.
+2. To start the Express server, run `npm start`.
+
+### Start the Frontend (React)
+1. Navigate to the react folder by running `cd react` and install the packages and dependencies required for the application by running `npm install`.
+2. Once the installation is complete, start the web application by running `npm start`.
 3. Open your web browser and navigate to [http://localhost:3000](http://localhost:3000) to access the application.
 
 The page will reload when you make changes.\
