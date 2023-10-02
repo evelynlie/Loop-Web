@@ -1,14 +1,5 @@
 // const axios = require("axios");
 import axios from "axios"; // comment this out if cannot load
-// Do not delete this section. This host movie poster on react
-import BarbiePoster from '../movie_posters/barbie.jpeg';
-import OppenheimerPoster from '../movie_posters/oppenheimer.jpeg';
-import MissionImpossiblePoster from '../movie_posters/mission_impossible.jpeg';
-import TheMoonPoster from '../movie_posters/the_moon.jpeg';
-import TheMarvelsPoster from '../movie_posters/the_marvels.jpeg';
-import WonkaPoster from '../movie_posters/wonka.jpeg';
-import ConcreteUtopiaPoster from '../movie_posters/concrete_utopia.jpeg';
-import DunePartTwoPoster from '../movie_posters/dune_part_two.jpeg';
 
 // --- Constants ----------------------------------------------------------------------------------
 const API_HOST = "http://localhost:4000";
