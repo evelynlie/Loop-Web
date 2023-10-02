@@ -147,10 +147,6 @@ function Review(props) {
     window.scrollTo(0, 0);
   }, [posts]);
 
-  // const handleInputChange = (event) => {
-  //   setPost(event.target.value);
-  // }
-
   // Submit review functionality
   const handleSubmit = async (event, rating, title) => {
     event.preventDefault();
@@ -259,10 +255,10 @@ function Review(props) {
         <MDBModalDialog centered style={{ maxWidth: "35%" }} size="lg">
           <MDBModalContent style={{cbackgroundColor: "black", border: "2px solid #E50815", borderRadius: "0px"}}>
             <MDBModalBody style={{padding: "0"}}>
-              <section className="signin-section" style={{padding: "0"}}>
-                <div className="signin-container" style={{margin: "0", width: "auto", border: "none", borderRadius: "0px"}}>
-                  <h1>Edit Review</h1>
-                  <div className="signin-row">
+              <section className="" style={{padding: "0"}}>
+                <div className="review-container" style={{margin: "0", width: "auto", border: "none", borderRadius: "0px"}}>
+                  <h1 className="reveiw-title">Edit Review</h1>
+                  <div className="">
                     <form onSubmit={(event) => handleEditPost(event, rating, post, selectedPostIndex)}>
                       <div className="form-container">
                         <div className="star-rating">
@@ -285,10 +281,9 @@ function Review(props) {
                         </div>
                       </div>
                       <div className="form-container">
-                        <p>Your new rating for the movie is {rating} star</p>
+                        <p className="rating-label">Your new rating for the movie is {rating} star</p>
                         <label htmlFor="commentLabel" style={{color:"red", fontFamily: "var(--font-montserrat)", fontSize: "28px", fontWeight: "600"}}>Your Comment</label>
-                        {/* <textarea name="post" id="post" className="new-post" rows="5" value={post} onChange={handleInputChange}/> */}
-                        <div style={{height:"auto"}}>
+                        <div style={{height:'auto'}}> 
                           <ReactQuill theme="snow" name="post" id="post" value={post} onChange={setPost} />
                         </div>
                       </div>

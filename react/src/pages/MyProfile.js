@@ -52,8 +52,6 @@ function MyProfile(props) {
       props.logoutUser();
       // Visual cue for alerting user profile is deleted
       alert("Your profile is now deleted!");
-      // Sort Movies
-      // sortMovies();
       // Navigate to the home page.
       navigate("/");
     }
@@ -166,7 +164,7 @@ function MyProfile(props) {
                 </p>
               </div>
             ))
-          ) : {/* If user HAS NOT reserve a ticket*/} (
+          ) : (
             <p>No tickets found.</p>
           )}
         </div>

@@ -42,7 +42,7 @@
   margin-left: -2px;
 }
 
-.profile-container h4, p {
+.profile-container h4, .profile-container p {
   font-family: var(--font-montserrat);
   color: white;
 }

@@ -209,12 +209,11 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
                 );
               })}
             </div>
-              <p>Your rating for the movie is {rating} star</p>
+              <p style={{fontFamily:"var(--font-montserrat)", color: "white"}} >Your rating for the movie is {rating} star</p>
                 <h3 style={{color:"red", fontFamily: "var(--font-montserrat)", fontSize: "28px", fontWeight: "600"}}>Your Comment</h3>
                 <form onSubmit={handleSubmit}>             
                   <fieldset>
-                    <ReactQuill theme="snow" value={post} onChange={setPost} name="post" id="post" />     
-                    {/* <textarea name="post" id="post" className="new-post" rows="5" value={post} onChange={handleInputChange}/> */}
+                    <ReactQuill theme="snow" value={post} onChange={setPost} name="post" id="post" />
                     {errorMessage !== null && (<span className="text-danger">{errorMessage}</span>)}
                     <br></br>
                     <input type="submit" className="btn submit-btn" value="POST" style ={{marginRight:"1rem"}} onClick={(event) => handleSubmit(event, rating, title)}/>
