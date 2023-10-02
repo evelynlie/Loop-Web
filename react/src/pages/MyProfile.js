@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { updateUser, deleteUser, getUserByEmail, findUser } from "../data/repository";
+import { updateUser, deleteUser, getUserByEmail, findUser, getUserReservation } from "../data/repository";
 import { useNavigate } from "react-router-dom";
 import {
   MDBIcon,
@@ -15,6 +15,7 @@ import '../pages/pagesCSS/SignIn.css';
 function MyProfile(props) {
   const navigate = useNavigate();
   const [fields, setFields] = useState({ username: (props.username), email: (props.email)});
+  const [tickets, setTickets] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [usernameErrorMessage, setUsernameErrorMessage] = useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = useState(null);
@@ -25,6 +26,20 @@ function MyProfile(props) {
   useEffect(() => {
     setFields({ username: props.username, email: props.email });
   }, [props.username, props.email]);
+
+  useEffect(() => {
+    const fetchReservation = async () => {
+      try {
+        // Fetch reservations from database
+        const reservations = await getUserReservation(props.username);
+        setTickets(reservations);
+      } catch (error) {
+        // Handle errors if needed
+        console.error('Error fetching reservations:', error);
+      }
+    };
+    fetchReservation();
+  }, []);
 
   // Implement remove user functionality
   const handleRemoveUser = async (event) => {
@@ -131,11 +146,28 @@ function MyProfile(props) {
               </MDBBtn>
             </div>
           </div>
-          <h4>Welcome, {props.username}!</h4>
+          <h4>Welcome, <strong>{props.username}</strong>!</h4>
           {props.email !== null && (
             <p>
-              Email: {props.email} <br /> Joined: {props.signupDate}
+              <strong>Email:</strong> {props.email} <br/> <strong>Joined:</strong> {props.signupDate}
             </p>
+          )}
+          <div className="profile-header">
+              <h2>My Tickets</h2>
+          </div>
+          {/* If user HAS reserved a ticket*/}
+          {tickets && tickets.length > 0 ? (
+            tickets.map((ticket) => (
+              <div key={ticket.reservation_id} className="ticket">
+                <p>
+                  <strong>Movie Title:</strong> {ticket.title} <br/>
+                  <strong>Session Time:</strong> {ticket.session_time} <br/>
+                  <strong>Number of Tickets:</strong> {ticket.number_tickets} <br/>
+                </p>
+              </div>
+            ))
+          ) : {/* If user HAS NOT reserve a ticket*/} (
+            <p>No tickets found.</p>
           )}
         </div>
       </section>

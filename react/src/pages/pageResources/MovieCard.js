@@ -76,7 +76,7 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
         </div>
       </MDBCard>
       <MDBModal show={MovieModal} setShow={setMovieModal} tabIndex="-1" centered>
-        <MDBModalDialog centered style={{maxWidth: "45%"}} size="lg">
+        <MDBModalDialog centered style={{maxWidth: "35%"}} size="lg">
           <MDBModalContent style={{ backgroundColor: 'black', border: "2px solid #E50815"}}>
             <MDBModalBody>
               <div style={{display:"flex", flexDirection: "row"}}>

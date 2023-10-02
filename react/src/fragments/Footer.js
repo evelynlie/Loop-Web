@@ -1,14 +1,8 @@
 import React from 'react';
 import './Footer.css';
-import {
-    MDBIcon,
-    MDBBtn,
-    MDBAccordion,
-    MDBAccordionItem
-  } from 'mdb-react-ui-kit';
+import { MDBIcon, MDBBtn, MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
 
 const Footer = () => {
-
     return (
     <footer className="footer-section">
         <div className='footer-row'>
@@ -79,7 +73,6 @@ const Footer = () => {
         <div className='copyright'>
             <p>© 2023 Copyright Loop Cinemas. All Rights Reserved</p>
         </div>
-      
     </footer>
     );
 }

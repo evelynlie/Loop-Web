@@ -126,6 +126,12 @@ async function getSessionTime(id) {
   return response.data;
 }
 
+// Get the movie object from database based on movie title
+async function getUserReservation(username) {
+  const response = await axios.get(API_HOST + "/api/reservations/selectUserReservation", {params: {username}});
+  return response.data;
+}
+
 // Add new reservation into database
 async function addReservation(reservation) {
   const response = await axios.post(API_HOST + "/api/reservations", reservation);
@@ -153,6 +159,7 @@ export {
   getMovies,
   findByMovieTitle,
   getSessionTime, 
+  getUserReservation,
   addReservation,
   updateSessionTicketAvailable
 }

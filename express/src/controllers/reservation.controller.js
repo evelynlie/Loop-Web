@@ -1,20 +1,19 @@
 const db = require("../database");
 const Reservation = db.reservation;
 
-// Select all users from the database.
+// Select all reservation from the database.
 exports.all = async (req, res) => {
   const reservations = await db.reservation.findAll();
 
   res.json(reservations);
 };
 
-// Select one user from the database based on title.
-exports.findByMovieTitle = async (req, res) => {
-  const reservations = await db.reservation.findOne({ where: { title: req.query.title } });
+// Select all reservations from the database based on username.
+exports.findByUsername = async (req, res) => {
+  const reservations = await db.reservation.findAll({ where: { username: req.query.username } });
 
   res.json(reservations);
 };
-
 // Create a movie in the database.
 exports.create = async (req, res) => {
 
