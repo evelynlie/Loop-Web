@@ -7,12 +7,42 @@ import { getMovies, getSessionTime, addReservation, updateSessionTicketAvailable
 
 function Home(props) {
   const [movies, setMovies] = useState([]);
+  const [reservationLimit, setReservationLimit] = useState(null);
+  const [reservationErrorMessage, setReservationErrorMessage] = useState(null);
   const navigate = useNavigate();
+  
 
   const handleSubmit = async (event, time, ticket, title) => {
     event.preventDefault();
+
+    // Set variable for reservation error due to fail validation
+    var reservationError = false;
+
+    // Check if ticket is valid
+    if (ticket <= 0 || Number.isNaN(ticket)) {
+      setReservationErrorMessage("Please reserve at least 1 ticket.");
+      reservationError = true;
+    }
+    else if (ticket > reservationLimit) {
+      setReservationErrorMessage(`Please reserve at most ${reservationLimit} ticket(s).`);
+      reservationError = true;
+    }
+    else if (ticket > 0 && ticket <= reservationLimit && reservationErrorMessage !== null) {
+      setReservationErrorMessage(null);
+    }
+
+    // Terminate handleSubmit if fail validation
+    if (reservationError === true) {
+      return;
+    }
+
+    // Add new reservation to database
     await addReservation({username: props.username, session_time: time, number_tickets: ticket, title: title});
+    // Update session time ticket availability in database
     await updateSessionTicketAvailable({session_time: time, number_tickets: ticket, title: title});
+    // Provide reservation success visual cue
+    alert(`Your reservation for ${ticket} ticket(s) for ${title} at ${time} is successful!`);
+    // Refresh
     navigate(0);
   }
 
@@ -38,7 +68,6 @@ function Home(props) {
         const moviesWithSessionTimes = await Promise.all(movieSessionTimesPromises);
 
         setMovies(moviesWithSessionTimes);
-        console.log(moviesWithSessionTimes);
       } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -87,6 +116,9 @@ function Home(props) {
                 // sessionTime={movie.sessionTimes.map((session) => session.sessionTime)}
                 sessionTimeArray={movie.sessionTimes}
                 handleSubmit={(event, time, ticket) => handleSubmit(event, time, ticket, movie.title)}
+                setReservationLimit = {setReservationLimit}
+                setReservationErrorMessage = {setReservationErrorMessage}
+                reservationErrorMessage = {reservationErrorMessage}
                 />
               </div>
             )

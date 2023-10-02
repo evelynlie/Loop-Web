@@ -5,10 +5,6 @@ module.exports = (sequelize, DataTypes) =>
       autoIncrement: true,
       primaryKey: true
     },
-    sessionDate: {
-      type: DataTypes.STRING(32),
-      allowNull: false
-    },
     sessionTime: {
       type: DataTypes.STRING(60),
       allowNull: false

@@ -10,7 +10,12 @@ exports.all = async (req, res) => {
 
 // Select all reservations from the database based on username.
 exports.findByUsername = async (req, res) => {
-  const reservations = await db.reservation.findAll({ where: { username: req.query.username } });
+  const reservations = await db.reservation.findAll({ where: { username: req.query.username } })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error get Reservation"
+    });
+  });
 
   res.json(reservations);
 };

@@ -82,17 +82,17 @@ async function seedData() {
   
   // Only seed session data if necessary.
   if(session_table_count == 0) {
-    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '10:00 am', movie_id: 1 });
-    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '12:30 pm', movie_id: 1 });
-    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '2:00 pm', movie_id: 1 });
-    await db.session.create({ sessionDate: "23 Sep 2023", sessionTime: '5:30 pm', movie_id: 1 });
-    await db.session.create({ sessionDate: "24 Sep 2023", sessionTime: '11:00 am', movie_id: 2 });
-    await db.session.create({ sessionDate: "25 Sep 2023", sessionTime: '12:00 am', movie_id: 3 });
-    await db.session.create({ sessionDate: "26 Sep 2023", sessionTime: '13:00 am', movie_id: 4 });
-    await db.session.create({ sessionDate: "27 Sep 2023", sessionTime: '14:00 am', movie_id: 5 });
-    await db.session.create({ sessionDate: "28 Sep 2023", sessionTime: '15:00 am', movie_id: 6 });
-    await db.session.create({ sessionDate: "29 Sep 2023", sessionTime: '16:00 am', movie_id: 7 });
-    await db.session.create({ sessionDate: "30 Sep 2023", sessionTime: '17:00 am', movie_id: 8 });
+    await db.session.create({ sessionTime: '10:00 am', movie_id: 1 });
+    await db.session.create({ sessionTime: '12:30 pm', movie_id: 1 });
+    await db.session.create({ sessionTime: '2:00 pm', movie_id: 1 });
+    await db.session.create({ sessionTime: '5:30 pm', movie_id: 1 });
+    await db.session.create({ sessionTime: '11:00 am', movie_id: 2 });
+    await db.session.create({ sessionTime: '12:00 am', movie_id: 3 });
+    await db.session.create({ sessionTime: '13:00 am', movie_id: 4 });
+    await db.session.create({ sessionTime: '14:00 am', movie_id: 5 });
+    await db.session.create({ sessionTime: '15:00 am', movie_id: 6 });
+    await db.session.create({ sessionTime: '16:00 am', movie_id: 7 });
+    await db.session.create({ sessionTime: '17:00 am', movie_id: 8 });
   }
 
   if(post_table_count == 0) {

@@ -15,7 +15,7 @@ import {
 import "./StarRating.css"
 import { FaStar} from 'react-icons/fa'
 
-function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArray, handleSubmit, errorMessage, setPost, post}) {
+function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArray, handleSubmit, errorMessage, setPost, post, setReservationLimit, setReservationErrorMessage, reservationErrorMessage}) {
   const [rating, setRating] = useState(0);
   const [ticket, setTicket] = useState(0);
   const [time, setTime] = useState('');
@@ -30,14 +30,22 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
 
   useEffect(() => {
     try {
-      var selectedSession = sessionTimeArray.filter(function(session) {
-        return session.sessionTime == time;
-        }
-      )[0];
-      console.log(selectedSession.sessionTime + "   " + selectedSession.ticketAvailable)
-      setSessionTicketAvailable(selectedSession.ticketAvailable);
-      setTicketAvailable(selectedSession.ticketAvailable)
-      setTicket(0)
+      if (time == '') {
+        setReservationLimit(null)
+        setSessionTicketAvailable(null)
+        setTicketAvailable(null)
+        setTicket(0)
+      }
+      else {
+        var selectedSession = sessionTimeArray.filter(function(session) {
+          return session.sessionTime == time;
+          }
+        )[0];
+        setReservationLimit(selectedSession.ticketAvailable)
+        setSessionTicketAvailable(selectedSession.ticketAvailable);
+        setTicketAvailable(selectedSession.ticketAvailable + " Left")
+        setTicket(0)
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
   }      
@@ -54,7 +62,15 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
   const handleTicketChange = (event) => {
     const newTicketValue = parseInt(event.target.value, 10);  // Convert to an integer
     setTicket(newTicketValue);
-    setTicketAvailable(sessionTicketAvailable-newTicketValue)
+    if (Number.isNaN(newTicketValue)) {
+      setTicketAvailable(sessionTicketAvailable + " Left")
+    }
+    else if (sessionTicketAvailable - newTicketValue < 0) {
+      setTicketAvailable("Invalid")
+    }
+    else {
+      setTicketAvailable(sessionTicketAvailable-newTicketValue + " Left")
+    }
   };
 
   // MovieCard for displaying coming soon movie
@@ -148,13 +164,18 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
                     ))}
                   </div>
                   <div className="submitReservation">
-                      <p>Number of Tickets:
+                      <p style={{fontFamily:"var(--font-montserrat)", color: "white"}}>Number of Tickets:
                       {sessionTicketAvailable>0 && <input type="number" min="0" max={sessionTicketAvailable} value={ticket} onChange={handleTicketChange} className="ticket-number" style={{display: "inline", marginLeft: "10px"}}/>}
-                      {sessionTicketAvailable!=null && <p style={{display: "inline", marginLeft: "10px"}}>{ticketAvailable} Left</p>}
+                      {sessionTicketAvailable!=null && <p style={{display: "inline", marginLeft: "10px"}}>{ticketAvailable}</p>}
                       </p>
-                    <p style={{marginTop:"-15px"}}>Time: {time}</p>
-                    <p style={{marginTop:"-10px"}}>Total Price: ${ticket * 20}</p>
-                    {sessionTicketAvailable>0 && <input type="button" className="submit-btn" value="RESERVE" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); toggleShowMovie();}}/>}
+                    <p style={{marginTop:"-15px", fontFamily:"var(--font-montserrat)", color: "white"}}>Time: {time}</p>
+                    <p style={{marginTop:"-10px", fontFamily:"var(--font-montserrat)", color: "white"}}>Total Price: ${Number.isNaN(ticket) ? <span>0</span> : <span>{ticket * 20}</span>}</p>
+                    {errorMessage !== null &&
+                      <div className="form-container">
+                        <span className="text-danger">{reservationErrorMessage}</span>
+                      </div>
+                    }
+                    {sessionTicketAvailable>0 && <input type="button" className="submit-btn" value="RESERVE" onClick={async (event) => {await handleSubmit(event, time, ticket); setTicket(0); setTime(''); }}/>}
                   </div>
                 </div>
                 <div style={{marginLeft:"15px"}}>
