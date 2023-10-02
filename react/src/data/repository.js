@@ -1,4 +1,5 @@
-import axios from "axios";
+// const axios = require("axios");
+import axios from "axios"; // comment this out if cannot load
 // Do not delete this section. This host movie poster on react
 import BarbiePoster from '../movie_posters/barbie.jpeg';
 import OppenheimerPoster from '../movie_posters/oppenheimer.jpeg';
