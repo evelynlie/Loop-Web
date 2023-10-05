@@ -9,16 +9,16 @@
     <li><a href="#references">References</a></li>
 
 ## Overview
-Loop Cinemas is a long running cinema operator with several cinema locations around Australia. They focus on a
-premium, unique experience and bringing community into their cinema experiences. In addition to displaying the latest
-and greatest films, Loop also holds a few community events, art shows and the like at their locations.
+Loop Cinemas is a long running cinema operator with several cinema locations around Australia. They focus on a premium, unique experience and bringing community into their cinema experiences. In addition to displaying the latest and greatest films, Loop also holds a few community events, art shows and the like at their locations.
 
-Loop Web will help potential customers discover upcoming films, session times and see ratings and
-reviews from other moviegoers.
+Loop Web will help potential customers discover upcoming films, session times and see ratings and reviews from other moviegoers.
+
+An Admin Dashboard is also created to allow Loop Cinemas admin to create, edit, and delete movie information that is displayed on Loop Web.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Features
+### Loop Web
 1. **Landing Home Page:** display movies and their session times.
 2. **Sign Up Page:** allow users to sign up for an account.
 3. **Sign In Page:** allow users to sign in to their account.
@@ -37,6 +37,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
             <li>allow users to edit reviews</li>
         </ul>
     </ol>
+### Loop Web Admin Dashboard
+1. **Movie Display**: displays "Now Showing" movie informations, such as title, session time, the average rating rated by users, and the view count.
+2. **Delete Movie**: delete movie.
     
 ## Getting Started
 <h3>Backend Server (Express) Set Up</h3>
