@@ -26,7 +26,6 @@ exports.findByMovieTitle = async (req, res) => {
 
 // Create a movie in the database.
 exports.create = async (req, res) => {
-
   const movie = await Movie.create({
     movie_id: req.body.movie_id,
     title: req.body.title,
@@ -105,3 +104,38 @@ exports.updateAverageRating = async (req, res) => {
     });
   });
 }
+
+// Delete a movie based on id
+exports.delete = async (req, res) => {
+  const id = req.params.id;
+  try {
+    // Delete all posts related to the movie
+    await Post.destroy({
+      where: { movie_id: id }
+    })
+
+    // Delete session time related to the movie
+    await Session.destroy({
+      where: { movie_id: id }
+    })
+
+    // Delete movie
+    const num = await Movie.destroy({
+      where: { movie_id: id }
+    })
+    if (num == 1) {
+      res.send({
+        message: "Movie was deleted successfully!"
+      });
+    } else {
+      res.send({
+        message: `Cannot delete Movie with movie_id=${id}. Maybe Movie was not found!`
+      });
+    }
+  } catch (e) {
+    console.log(err)
+    res.status(500).send({
+      message: "Could not delete Movie with movie_id=" + id
+    });
+  }
+};

@@ -1,6 +1,9 @@
 module.exports = (express, app) => {
     const controller = require("../controllers/session.controller.js");
     const router = express.Router();
+
+    // Select all sessions.
+    router.get("/", controller.all);
   
     // Select a session from the database based on movie_id.
     router.get("/select/:id", controller.findSessionTime);

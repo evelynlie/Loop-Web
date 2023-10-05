@@ -16,6 +16,13 @@ const Session = db.session;
 //   res.json(movies);
 // };
 
+// Select all users from the database.
+exports.all = async (req, res) => {
+  const sessions = await db.session.findAll();
+
+  res.json(sessions);
+};
+
 // Select session time based on movieId.
 exports.findSessionTime = async (req, res) => {
   const session = await db.session.findAll({ where: { movie_id: req.params.id } });

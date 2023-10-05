@@ -45,6 +45,8 @@ Navigate to the <code>express</code> folder by running <code>cd express</code> a
 <h3>Frontend (React) Set Up</h3>
 Navigate to the react folder by running <code>cd react</code> and install the packages and dependencies required for the application by running <code>npm install</code>.
 
+Run <code>npm axios</code> and <code>npm mdb-react-ui-kit</code>
+
 ## Running the Application
 <h3>Starting the Backend Server (Express)</h3>
 Before starting the frontend, the backend need to start first by navigating to the <code>express</code> folder and run <code>npm start</code>
