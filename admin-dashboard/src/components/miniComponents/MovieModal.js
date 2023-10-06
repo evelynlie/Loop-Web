@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import '../componentCSS/MovieModal.css';
 import { MovieContext } from '../MovieContext';
-import { deleteMovie, getSessionTimeID, updateSessionTime } from '../../data/repository';
+import { deleteMovie, getSessionTimeID, updateMovie, updateSessionTime } from '../../data/repository';
 
 const MovieModal = ({isOpen, closeModal, movie }) => {
     const { state, dispatch } = useContext(MovieContext);
@@ -116,14 +116,20 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
         // console.log("Session Time: ", sessionTimeID);
 
         // console.log("Session Time ID: ", sessionTimeID.session_id);
-        // console.log("Selected movie title: ", movie.title);
-        // console.log(e.target.title.value)
+        console.log("Selected movie title: ", movie.title);
+        console.log("New title: " + e.target.title.value)
 
         // If movie title is not changed
         if (movie.title === e.target.title.value) {
             // Change session time only in database
             await updateSessionTime(sessionTimeID.session_id, newSessionTime);
             alert("The session time is has been updated!");
+        }
+        else{
+            // Change movie title and session time in database
+            await updateMovie(movie.movie_id, e.target.title.value);
+            await updateSessionTime(sessionTimeID.session_id, newSessionTime);
+            alert("The movie title and session time has been updated!");
         }
 
         closeModal(); // Close the modal

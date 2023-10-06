@@ -16,6 +16,12 @@ async function getMovies() {
   return response.data;
 }
 
+// Update movie title
+async function updateMovie(id, title) {
+  const response = await axios.put(API_HOST + `/api/movies/update/${id}`, { title });
+  return response.data;
+}
+
 async function deleteMovie(id) {
   const response = await axios.delete(API_HOST + `/api/movies/delete/${id}`); 
   return response.data;
@@ -49,6 +55,7 @@ export {
   updateMovieAverageRating,
   getMovies,
   findByMovieTitle,
+  updateMovie,
   deleteMovie,
   getSessionTime, 
   getSessionTimeID,
