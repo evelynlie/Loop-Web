@@ -16,6 +16,12 @@ async function getMovies() {
   return response.data;
 }
 
+// Create movie to database
+async function createMovie(movie) {
+  const response = await axios.post(API_HOST + "/api/movies", movie );
+  return response.data;
+}
+
 // Update movie title
 async function updateMovie(id, title) {
   const response = await axios.put(API_HOST + `/api/movies/update/${id}`, { title });
@@ -45,6 +51,12 @@ async function getSessionTimeID(data) {
   return response.data;
 }
 
+// Create sessionTime with movie_id
+async function createSessionTime(data) {
+  const response = await axios.post(API_HOST + "/api/sessions", data );
+  return response.data;
+}
+
 // Update sessionTime based on session_id
 async function updateSessionTime(id, sessionTime) {
   const response = await axios.put(API_HOST + `/api/sessions/updateSessionTime/${id}`, { sessionTime });
@@ -55,9 +67,11 @@ export {
   updateMovieAverageRating,
   getMovies,
   findByMovieTitle,
+  createMovie,
   updateMovie,
   deleteMovie,
   getSessionTime, 
   getSessionTimeID,
+  createSessionTime,
   updateSessionTime,
 }

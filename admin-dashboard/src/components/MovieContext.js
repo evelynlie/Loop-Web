@@ -7,6 +7,8 @@ const initialState = {
   buttonsVisible: true,
   showConfirmation: false,
   selectedMovie: null, 
+  newMovieTitle: '',
+  newMovieSessionTime: '',
 };
 
 const movieReducer = (state, action) => {
@@ -31,6 +33,12 @@ const movieReducer = (state, action) => {
 
     case 'RESET_VIEW':
       return { ...initialState }; // Reset the view
+
+    case 'ADD_NEW_MOVIE_TITLE':
+      return { ...state, newMovieTitle: action.payload };
+
+    case 'ADD_NEW_MOVIE_SESSION_TIME':
+      return { ...state, newMovieSessionTime: action.payload };
       
     default:
       throw new Error('Unknown action type');
@@ -48,8 +56,16 @@ const MovieProvider = ({ children }) => {
     dispatch({ type: 'CLEAR_SELECTED_MOVIE' });
   };
 
+  const addNewMovieTitle = (title) => {
+    dispatch({ type: 'ADD_NEW_MOVIE_TITLE', payload: title });
+  };
+
+  const addNewMovieSessionTime = (sessionTime) => {
+    dispatch({ type: 'ADD_NEW_MOVIE_SESSION_TIME', payload: sessionTime });
+  };
+
   return (
-    <MovieContext.Provider value={{ state, dispatch, setSelectedMovie, clearSelectedMovie }}>
+    <MovieContext.Provider value={{ state, dispatch, setSelectedMovie, clearSelectedMovie, addNewMovieTitle, addNewMovieSessionTime, }}>
       {children}
     </MovieContext.Provider>
   );

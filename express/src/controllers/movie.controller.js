@@ -31,7 +31,6 @@ exports.create = async (req, res) => {
     title: req.body.title,
     imageURL: req.body.imageURL,
     averageRating: req.body.averageRating,
-    ratingCount: req.body.ratingCount,
     viewCount: req.body.viewCount
   });
 

@@ -30,10 +30,8 @@ exports.findSessionTime = async (req, res) => {
 
 // Create a session in the database.
 exports.create = async (req, res) => {
-
   const session = await Session.create({
     session_id: req.body.session_id,
-    sessionDate: req.body.sessionDate,
     sessionTime: req.body.sessionTime,
     movie_id: req.body.movie_id
   });

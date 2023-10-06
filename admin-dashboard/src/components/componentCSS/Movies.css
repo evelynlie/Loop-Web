@@ -9,7 +9,7 @@ table {
 }
   
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid lightgray;
     padding: 8px;
     text-align: left;
 }  
@@ -23,5 +23,19 @@ li{
 }
   
 tr:hover {
-    background-color: #f9f9f9;
+    background-color: #edecec8a;
 }  
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.add-movie-button{
+    margin-left: 15px;
+    font-size: 17px;
+}
+
+.add-movie-button:hover{
+    background-color: lightgray;
+}

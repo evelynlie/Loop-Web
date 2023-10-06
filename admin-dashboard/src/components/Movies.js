@@ -3,10 +3,14 @@ import { MovieContext } from './MovieContext';
 import { getMovies, getSessionTime } from '../data/repository';
 import './componentCSS/Movies.css'
 import MovieModal from './miniComponents/MovieModal';  // Import the MovieModal component
+import AddMovieModal from './miniComponents/AddMovieModal';  // Import the AddMovieModal component
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 function Movies() {
   const [movies, setMovies] = useState([]);
   const { state, setSelectedMovie, clearSelectedMovie } = useContext(MovieContext);
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -42,9 +46,23 @@ function Movies() {
     clearSelectedMovie();
   };
 
+  const handleAddMovie = () => {
+    setAddModalOpen(true);
+  }
+
+  const closeAddModal = () => {
+    setAddModalOpen(false);
+  }
+
   return (
     <div>
-      <h1>Now Showing Movies</h1>
+      <div className="header">
+        <h1>Now Showing Movies</h1>
+        <button className="add-movie-button" onClick={handleAddMovie} title='Click to add new movies'>
+          <FontAwesomeIcon icon={faCirclePlus} />
+        </button>
+        {addModalOpen && <AddMovieModal closeModal={closeAddModal} />}
+      </div>
       <table>
         <thead>
           <tr>

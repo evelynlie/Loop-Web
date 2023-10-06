@@ -1,4 +1,3 @@
-// MovieModal.js
 import React, { useContext, useEffect, useState } from 'react';
 import '../componentCSS/MovieModal.css';
 import { MovieContext } from '../MovieContext';
@@ -79,7 +78,7 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
             return;
         }
 
-        // If new session time does not have leading zero in minute
+        // If new session time does not have leading zero in hour
         if (/^\d:[0-5][0-9] \b[ap]m$/i.test(e.target.newSessionTime.value)) {
             setErrorMessage("Please add a leading zero to the hour (e.g., 01:30 am)");
             return;
@@ -113,11 +112,6 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
 
         // Get sessionTimeID based on movie.title and selectedSessionTime
         const sessionTimeID = await getSessionTimeID({ movie_id: movie.movie_id, sessionTime: selectedSessionTime });
-        // console.log("Session Time: ", sessionTimeID);
-
-        // console.log("Session Time ID: ", sessionTimeID.session_id);
-        console.log("Selected movie title: ", movie.title);
-        console.log("New title: " + e.target.title.value)
 
         // If movie title is not changed
         if (movie.title === e.target.title.value) {
@@ -142,6 +136,7 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
             {state.buttonsVisible && (
             <>
                 <h2>Selected Movie: {movie.title}</h2>
+                <input type="button" value="Back" onClick={closeModal}/>
                 <input type="button" value="Edit" onClick={handleEditButtonClick}/>
                 <input type="button" value="Delete" onClick={handleDeleteButtonClick}/>
             </>

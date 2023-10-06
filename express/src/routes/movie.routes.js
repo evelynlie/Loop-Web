@@ -11,7 +11,7 @@ module.exports = (express, app) => {
   // Select movie from the database based on movie title.
   router.get("/selectByMovieTitle", controller.findByMovieTitle);
 
-  // Create a new mvoie.
+  // Create a new movie.
   router.post("/", controller.create);
 
   // Update a movie based on movie_id(id)
