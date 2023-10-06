@@ -45,6 +45,7 @@ function SignUp(props) {
     if (fields.username === "" || fields.email === "" || fields.password === "") {
       setErrorMessage("Please fill in all the required fields.");
       signUpError = true;
+      return;
     }
     else if (fields.username !== "" && fields.email !== "" && fields.password !== "" && errorMessage !== null) {
       setErrorMessage(null);
