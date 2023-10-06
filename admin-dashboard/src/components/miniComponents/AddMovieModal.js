@@ -1,6 +1,6 @@
 import { React, useState, useContext } from 'react';
 import { MovieContext } from '../MovieContext';
-import { getMovies, createMovie, createSessionTime } from '../../data/repository';
+import { gqlGetMovies, createMovie, createSessionTime } from '../../data/repository';
 
 const AddMovieModal = ({ closeModal }) => {
     const [errorMessage, setErrorMessage] = useState(null);
@@ -76,7 +76,7 @@ const AddMovieModal = ({ closeModal }) => {
         setErrorMessage(null); // Reset error message since all constraints are met
 
         // Get all movies to get the last movieID
-        const movies = await getMovies();
+        const movies = await gqlGetMovies();
         const lastMovieID = movies[movies.length - 1].movie_id;
 
         // Create a new movie object with the last movieID + 1

@@ -59,6 +59,7 @@ graphql.schema = buildSchema(`
     post(post_id: Int): Post,
     post_exists(post_id: Int): Boolean,
     all_movies: [Movie],
+    get_movies: [Movie]
   }
 
   # Mutations (modify data in the underlying data-source, i.e., the database).
@@ -84,6 +85,9 @@ graphql.root = {
   },
   all_movies: async () => {
     return await db.movie.findAll({ include: { model: db.post, as: "posts" } });
+  },
+  get_movies: async() =>{
+    return await db.movie.findAll();
   },
 
   // Mutations.

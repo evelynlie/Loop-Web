@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { MovieContext } from './MovieContext';
-import { getMovies, getSessionTime } from '../data/repository';
+import { getSessionTime, gqlGetMovies } from '../data/repository';
 import './componentCSS/Movies.css'
 import MovieModal from './miniComponents/MovieModal';  // Import the MovieModal component
 import AddMovieModal from './miniComponents/AddMovieModal';  // Import the AddMovieModal component
@@ -15,7 +15,7 @@ function Movies() {
   useEffect(() => {
     const fetchMovieData = async () => {
       try {
-        const moviesData = await getMovies();
+        const moviesData = await gqlGetMovies();
 
         // Fetch session times for each movie
         const movieSessionTimesPromises = moviesData.map(async (movie) => {

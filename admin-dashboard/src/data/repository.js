@@ -39,15 +39,26 @@ async function gqlDeletePost(post_id) {
   return data.delete_post;
 }
 
+async function gqlGetMovies() {
+  const query = gql`
+    {
+      get_movies {
+        movie_id,
+        title,
+        averageRating,
+        viewCount
+      }
+    }
+  `;
+
+  const data = await request(GRAPH_QL_URL, query);
+  return data.get_movies;
+}
+
+// --- REST API ----------------------------------------------------------------------------------
 // Get the movie object from database based on movie title
 async function findByMovieTitle(title) {
   const response = await axios.get(API_HOST + "/api/movies/selectByMovieTitle", {params: {title}});
-  return response.data;
-}
-
-// Get the movies
-async function getMovies() {
-  const response = await axios.get(API_HOST + "/api/movies");
   return response.data;
 }
 
@@ -100,7 +111,6 @@ async function updateSessionTime(id, sessionTime) {
 
 export {
   updateMovieAverageRating,
-  getMovies,
   findByMovieTitle,
   createMovie,
   updateMovie,
@@ -111,4 +121,5 @@ export {
   updateSessionTime,
   gqlGetPosts,
   gqlDeletePost,
+  gqlGetMovies
 }
