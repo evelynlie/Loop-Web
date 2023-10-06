@@ -32,7 +32,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
         </ul>
         <li><strong>Review Page</strong></li>
         <ul>
-            <li>allow users to leave reviews (number of stars and written review) for a particular movie</li>
+            <li>allow users to leave reviews (number of stars and formatted written review) for a particular movie</li>
             <li>allow users to delete reviews</li>
             <li>allow users to edit reviews</li>
         </ul>
