@@ -80,7 +80,7 @@ const AddMovieModal = ({ closeModal }) => {
         const lastMovieID = movies[movies.length - 1].movie_id;
 
         // Create a new movie object with the last movieID + 1
-        await createMovie({ movie_id: lastMovieID + 1, title: title, imageURL: "undefined", averageRating: 0, viewCount: 0 });
+        await createMovie({ movie_id: lastMovieID + 1, title: title, imageURL: "http://localhost:3005/coming-soon.jpeg", averageRating: 0, viewCount: 0 });
 
         // Create the session time for the movie
         await createSessionTime({ sessionTime: sessionTime, movie_id: lastMovieID + 1 });
