@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const db = require("./src/database");
+const { graphqlHTTP } = require("express-graphql");
+const graphql = require("./src/graphql");
 
 // Database will be sync'ed in the background.
 db.sync();
@@ -32,6 +34,18 @@ app.use(express.json());  /* bodyParser.json() is deprecated */
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
+
+// Add GraphQL to express server.
+// NOTE: You can use the GraphQL web-interface to test the GraphQL schema thanks to the graphiql parameter being true.
+// Access the web-interface when the server is running here: http://localhost:4000/graphql
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: graphql.schema,
+    rootValue: graphql.root,
+    graphiql: true
+  })
+);
 
 // Set port, listen for requests for backend.
 const PORT = 4000;

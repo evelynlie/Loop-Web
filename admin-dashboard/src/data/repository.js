@@ -1,8 +1,43 @@
 // const axios = require("axios");
 import axios from "axios"; // comment this out if cannot load
+import { request, gql } from "graphql-request";
 
 // --- Constants ----------------------------------------------------------------------------------
 const API_HOST = "http://localhost:4000";
+const GRAPH_QL_URL = "http://localhost:4000/graphql";
+
+// --- GraphQL ----------------------------------------------------------------------------------
+async function gqlGetPosts() {
+  const query = gql`
+    {
+      all_posts {
+        post_id,
+        title,
+        rating,
+        comment,
+        username
+      }
+    }
+  `;
+
+  const data = await request(GRAPH_QL_URL, query);
+
+  return data.all_posts;
+}
+
+async function gqlDeletePost(post_id) {
+  const query = gql`
+  mutation ($post_id: Int){
+    delete_post(post_id: $post_id)
+  }
+  `;
+
+  const variables = { post_id };
+
+  const data = await request(GRAPH_QL_URL, query, variables);
+
+  return data.delete_post;
+}
 
 // Get the movie object from database based on movie title
 async function findByMovieTitle(title) {
@@ -74,4 +109,6 @@ export {
   getSessionTimeID,
   createSessionTime,
   updateSessionTime,
+  gqlGetPosts,
+  gqlDeletePost,
 }

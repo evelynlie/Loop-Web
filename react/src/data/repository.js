@@ -125,5 +125,5 @@ export {
   getSessionTime, 
   getUserReservation,
   addReservation,
-  updateSessionTicketAvailable
+  updateSessionTicketAvailable,
 }
