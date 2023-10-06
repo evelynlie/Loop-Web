@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import SignIn from "./SignIn";
 import { Route, BrowserRouter as Router, Routes  } from "react-router-dom";
 // import { loginUser } from "../data/repository";
@@ -22,6 +22,26 @@ beforeEach(() => {
 
 test("Render Sign In", () => {
   expect(container).toBeInTheDocument();
+});
+
+test("Failed Sign In Scenario - Invalid email and / or password",async () => {
+  expect(container).toBeInTheDocument();
+
+  const emailInput = screen.getByLabelText("Email");
+  const passwordInput = screen.getByLabelText('Password');
+  const button = screen.getByDisplayValue("SIGN IN");
+
+  // Simulate input.
+  fireEvent.change(emailInput, { target: { value: "invalidemail@test.com" } });
+  fireEvent.change(passwordInput, { target: { value: "abc123" } });
+
+  // Simulate click.
+  fireEvent.click(button);
+
+  await waitFor(() => {
+    expect(screen.getByText("Email and / or password invalid, please try again.", { exact: false })).toBeInTheDocument();
+  });
+
 });
 
 // TEST NOT WORKING YET
