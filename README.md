@@ -1,4 +1,4 @@
-<h1>Full Stack Development - Assignment 1 - Loop Web for Loop Cinemas</h1>
+<h1>Full Stack Development - Loop Web for Loop Cinemas</h1>
 
 <h2>Table of Contents</h2>
     <li><a href="#overview">Overview</a></li>
