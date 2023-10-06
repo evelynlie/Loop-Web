@@ -2,21 +2,19 @@ const db = require("../database");
 const Movie = db.movie;
 const Session = db.session;
 
-// Select all users from the database.
-// exports.all = async (req, res) => {
-//   const movies = await db.movie.findAll();
-
-//   res.json(movies);
-// };
-
 // Select one movie from the database based on id.
-// exports.findByMovieId = async (req, res) => {
-//   const movies = await db.movie.findByPk(req.params.id);
+exports.findIDbyTitleAndTime = async (req, res) => {
+  const session = await db.session.findOne({
+    where: {
+      movie_id: req.query.movie_id,
+      sessionTime: req.query.sessionTime
+    }
+  });
 
-//   res.json(movies);
-// };
+  res.json(session);
+};
 
-// Select all users from the database.
+// Select all sessions from the database.
 exports.all = async (req, res) => {
   const sessions = await db.session.findAll();
 
@@ -62,6 +60,33 @@ exports.updateTicketAvailable = async (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error updating Session ticketAvailable with movie_id=" + movie.movie_id
+      });
+    });
+};
+
+// Update session time in the database.
+exports.updateSessionTime = async (req, res) => {
+  const id = req.params.id;
+  const { sessionTime } = req.body; // Access data from req.body
+
+  Session.update(
+    { sessionTime: sessionTime }, 
+    { where: { session_id: id } }
+  )
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Session time was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Session time with session_id=${id}. Maybe Session was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Session time with session_id=" + id
       });
     });
 };

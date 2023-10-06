@@ -1,12 +1,13 @@
 // MovieModal.js
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../componentCSS/MovieModal.css';
 import { MovieContext } from '../MovieContext';
-import { deleteMovie } from '../../data/repository';
+import { deleteMovie, getSessionTimeID, updateMovie, updateSessionTime } from '../../data/repository';
 
 const MovieModal = ({isOpen, closeModal, movie }) => {
     const { state, dispatch } = useContext(MovieContext);
-
+    const [title, setTitle] = useState(movie.title);
+    const [errorMessage, setErrorMessage] = useState(null);
     const sessionTimes = movie.sessionTimes;
 
     useEffect(() => {
@@ -15,12 +16,17 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
         }
     }, [isOpen, dispatch]);
 
+    const handleTitleChange = (e) => {
+        setTitle(e.target.value);
+    };
+
     const handleEditButtonClick = () => {
         dispatch({ type: 'EDIT' });
     };
 
-    const handleBackButtonClick = () => {
-        dispatch({ type: 'BACK' });
+    const handleBackButtonClick = async () => {
+        await dispatch({ type: 'BACK' });
+        setErrorMessage(null) // Reset error message
     };
 
     const handleDeleteButtonClick = () => {
@@ -46,9 +52,88 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
         window.location.reload();
     };
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async(e) => {
         e.preventDefault();
-        console.log('Form submitted for movie:', movie.title);
+
+        // If new session time is not given
+        if (e.target.newSessionTime.value === "") {
+            setErrorMessage("Please enter a new session time.");
+            return;
+        }
+
+        // If session time does not change
+        if ((e.target.newSessionTime.value === e.target.oldSessionTime.value)) {
+            setErrorMessage("Session time invalid. Please enter a new session time.");
+            return;
+        }
+
+        // If new session time does not have ":"
+        if (!/:/.test(e.target.newSessionTime.value)) {
+            setErrorMessage("Please enter a new session time with ':'");
+            return;
+        }
+
+        // If new session time does not have " am" or " pm"
+        if (!/(\bam\b|\bpm)/i.test(e.target.newSessionTime.value)) {
+            setErrorMessage("Please enter a new session time with ' am' or ' pm'");
+            return;
+        }
+
+        // If new session time does not have leading zero in minute
+        if (/^\d:[0-5][0-9] \b[ap]m$/i.test(e.target.newSessionTime.value)) {
+            setErrorMessage("Please add a leading zero to the hour (e.g., 01:30 am)");
+            return;
+        }
+
+        // If new session time does not have leading zero in minute
+        if (e.target.newSessionTime.value.split(":")[1].substring(0, 2).includes(" ")) {
+            setErrorMessage("Please add a leading zero to the minute (e.g., 01:00 am)");
+            return;
+        }            
+
+        // If new session hour time is invalid time
+        if (e.target.newSessionTime.value.split(":")[0] > 12) {
+            setErrorMessage("Please enter a valid time in a 12-hour clock format (e.g., 01:30 am).");
+            return;
+        }      
+        
+        // If new session minute time is invalid
+        if (e.target.newSessionTime.value.split(":")[1].substring(0, 2) >= 60 || e.target.newSessionTime.value.split(":")[1].substring(0, 2) < 0) {
+            setErrorMessage("Please enter a valid minute.");
+            return;
+        }  
+        
+        setErrorMessage(null); // Reset error message since all constraints are met
+
+        // Access the new sessionTime
+        const newSessionTime = e.target.newSessionTime.value;
+
+        // Access the selected sessionTime
+        const selectedSessionTime = e.target.oldSessionTime.value;
+
+        // Get sessionTimeID based on movie.title and selectedSessionTime
+        const sessionTimeID = await getSessionTimeID({ movie_id: movie.movie_id, sessionTime: selectedSessionTime });
+        // console.log("Session Time: ", sessionTimeID);
+
+        // console.log("Session Time ID: ", sessionTimeID.session_id);
+        console.log("Selected movie title: ", movie.title);
+        console.log("New title: " + e.target.title.value)
+
+        // If movie title is not changed
+        if (movie.title === e.target.title.value) {
+            // Change session time only in database
+            await updateSessionTime(sessionTimeID.session_id, newSessionTime);
+            alert("The session time is has been updated!");
+        }
+        else{
+            // Change movie title and session time in database
+            await updateMovie(movie.movie_id, e.target.title.value);
+            await updateSessionTime(sessionTimeID.session_id, newSessionTime);
+            alert("The movie title and session time has been updated!");
+        }
+
+        closeModal(); // Close the modal
+        window.location.reload(); // Refresh the page
     };
 
     return (
@@ -64,17 +149,18 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
             {state.isEditing && (
             <form onSubmit={handleFormSubmit}>
                 <label htmlFor="title">Movie Title:</label>
-                <input type="text" id="title" name="title" value={movie.title}/><br/>
+                <input type="text" id="title" name="title" value={title} onChange={handleTitleChange}/><br/>
                 <label htmlFor="sessionTime">Change Session Time from:</label>
                 <select id="oldSessionTime" name="oldSessionTime">
                 {sessionTimes.map((session, index) => (
-                    <option key={index} value={session.sessionTimeId}>
+                    <option key={index} value={`${session.sessionTime}`}>
                         {session.sessionTime}
                     </option>
                 ))}
                 </select>
                 to: <input type="text" id="newSessionTime" name="newSessionTime"/><br/>
                 <br/>
+                {errorMessage && <div style={{ color: 'red', marginBottom: '10px' }}>{errorMessage}</div>}
                 <input type="button" value="Back" onClick={handleBackButtonClick}/>
                 <input type="submit" value="Submit"/>
             </form>

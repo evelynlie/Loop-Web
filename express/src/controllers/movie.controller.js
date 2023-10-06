@@ -41,28 +41,27 @@ exports.create = async (req, res) => {
 // Update movie detail in the database.
 exports.update = async (req, res) => {
   const id = req.params.id;
-
-  // Update movie title and imageURL.
-  Movie.update({title: req.body.title, imageURL: req.body.imageURL}, {
-    where: { movie_id: id }
+  
+  Movie.update({ title: req.body.title }, 
+    { where: { movie_id: id }
   })
   .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Movie was updated successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update Movie with movie_id=${id}. Maybe Movie was not found or req.body is empty!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating Movie with movie_id=" + id
+    if (num == 1) {
+      res.send({
+        message: "Movie was updated successfully."
       });
+    } else {
+      res.send({
+        message: `Cannot update Movie with movie_id=${id}. Maybe Movie was not found or req.body is empty!`
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error updating Movie with movie_id=" + id
     });
-};
+  });
+}
 
 // Update movie average rating with the given movie id
 exports.updateAverageRating = async (req, res) => {

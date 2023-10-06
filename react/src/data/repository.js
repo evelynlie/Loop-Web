@@ -39,33 +39,6 @@ async function updateUser(oldUsername, updatedUsername, updatedEmail) {
 async function deleteUser(currUsername) {
   const response = await axios.delete(API_HOST + `/api/users/delete/${currUsername}`);  
   return response.data;
-  // // Delete all user's reviews
-  // for (var reviewIndex = reviews.length - 1; reviewIndex >= 0; --reviewIndex) {
-  //   if (reviews[reviewIndex].username === currUsername) {
-
-  //     // Recalculate average rating
-  //     for(const movie of movies) {
-  //       if (movie.title === reviews[reviewIndex].movie) {
-  //         // Set the total rating = (average rating * rating count) - rating
-  //         movie.averageRating = (movie.averageRating * movie.ratingCount) - reviews[reviewIndex].rating;
-  //         // Decrement rating count
-  //         movie.ratingCount--;
-  //         // Calculate average rating
-  //         if (movie.ratingCount === 0) {
-  //           movie.averageRating = 0;
-  //         }
-  //         else {
-  //           movie.averageRating =  movie.averageRating / movie.ratingCount;
-  //         }
-  //         break;
-  //       }
-  //     }  
-      
-  //     // Remove user's review
-  //     reviews.splice(reviewIndex,1);
-  //   }
-  // }
-
 }
 
 // Get the reviews array from database
