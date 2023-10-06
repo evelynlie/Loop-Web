@@ -1,4 +1,3 @@
-// MovieContext.js
 import React, { createContext, useReducer } from 'react';
 
 const MovieContext = createContext();

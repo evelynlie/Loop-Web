@@ -5,7 +5,6 @@ import TopBar from './miniComponents/TopBar'
 import './componentCSS/TopBar.css'
 
 function Dashboard() {
-    const { dashboardData } = useContext(MovieContext);
 
   return (
     <div>

@@ -16,6 +16,11 @@ async function getMovies() {
   return response.data;
 }
 
+async function deleteMovie(id) {
+  const response = await axios.delete(API_HOST + `/api/movies/delete/${id}`); 
+  return response.data;
+}
+
 // Update movie average rating
 async function updateMovieAverageRating(id) {
   const response = await axios.put(API_HOST + `/api/movies/updateAverageRating/${id}`); 
@@ -28,8 +33,15 @@ async function getSessionTime(id) {
   return response.data;
 }
 
-async function deleteMovie(id) {
-  const response = await axios.delete(API_HOST + `/api/movies/delete/${id}`); 
+// Get Session Time based on movie id
+async function getSessionTimeID(data) {
+  const response = await axios.get(API_HOST + `/api/sessions/selectID`, { params: data }); 
+  return response.data;
+}
+
+// Update sessionTime based on session_id
+async function updateSessionTime(id, sessionTime) {
+  const response = await axios.put(API_HOST + `/api/sessions/updateSessionTime/${id}`, { sessionTime });
   return response.data;
 }
 
@@ -37,6 +49,8 @@ export {
   updateMovieAverageRating,
   getMovies,
   findByMovieTitle,
-  getSessionTime, 
   deleteMovie,
+  getSessionTime, 
+  getSessionTimeID,
+  updateSessionTime,
 }
