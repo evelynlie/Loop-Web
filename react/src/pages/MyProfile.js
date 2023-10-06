@@ -83,6 +83,7 @@ function MyProfile(props) {
     if (fields.username === "" || fields.email === "") {
       setErrorMessage("Please fill in all the required fields.");
       editProfileError = true;
+      return;
     }
     else if (fields.username !== "" && fields.email !== "" && errorMessage !== null) {
       setErrorMessage(null);
@@ -122,6 +123,8 @@ function MyProfile(props) {
     localStorage.setItem("username", user.username);
     localStorage.setItem("email", user.email);
 
+    // Provide edit profile success visual cue
+    alert('Edit Profile Successfull!');
     // Navigate to the profile page.
     navigate("/profile");
     // Refresh page
@@ -136,7 +139,7 @@ function MyProfile(props) {
           <div className="profile-header">
             <h1>My Profile</h1>
             <div className="edit-icons">
-              <MDBBtn outline color="light" floating role="button" className="edit-icon" onClick={toggleShow}>
+              <MDBBtn outline color="light" floating role="button" className="edit-icon" aria-label='edit' onClick={toggleShow}>
                 <MDBIcon far icon="edit" style={{ fontSize: "1rem" }} />
               </MDBBtn>
               <MDBBtn outline color="light" floating role="button" className="edit-icon" onClick={handleRemoveUser}>
