@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) =>
     signUpDate: {
       type: DataTypes.STRING(50),
       allowNull: false
+    },
+    blocked :{
+      type: DataTypes.TINYINT(1),
+      allowNUll: false,
+      defaultValue: 0
     }
   }, {
     // Don't add the timestamp attributes (updatedAt, createdAt).

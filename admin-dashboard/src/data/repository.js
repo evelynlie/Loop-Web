@@ -7,6 +7,52 @@ const API_HOST = "http://localhost:4000";
 const GRAPH_QL_URL = "http://localhost:4000/graphql";
 
 // --- GraphQL ----------------------------------------------------------------------------------
+async function gqlGetUsers() {
+  const query = gql`
+    {
+      all_users {
+        username,
+        email,
+        password_hash,
+        signUpDate,
+        blocked
+      }
+    }
+  `;
+
+  const data = await request(GRAPH_QL_URL, query);
+
+  return data.all_users;
+}
+
+async function gqlBlockUser(username) {
+  const query = gql`
+  mutation ($username: String){
+    block_user(username: $username)
+  }
+  `;
+
+  const variables = { username };
+
+  const data = await request(GRAPH_QL_URL, query, variables);
+
+  return data.block_user;
+}
+
+async function gqlUnblockUser(username) {
+  const query = gql`
+  mutation ($username: String){
+    unblock_user(username: $username)
+  }
+  `;
+
+  const variables = { username };
+
+  const data = await request(GRAPH_QL_URL, query, variables);
+
+  return data.unblock_user;
+}
+
 async function gqlGetPosts() {
   const query = gql`
     {
@@ -121,5 +167,8 @@ export {
   updateSessionTime,
   gqlGetPosts,
   gqlDeletePost,
-  gqlGetMovies
+  gqlGetMovies,
+  gqlGetUsers,
+  gqlBlockUser,
+  gqlUnblockUser
 }

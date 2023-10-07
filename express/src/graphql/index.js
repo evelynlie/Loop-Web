@@ -18,6 +18,7 @@ graphql.schema = buildSchema(`
     email: String,
     password_hash: String,
     signUpDate: String,
+    blocked: Int,
     posts: [Post]
   }
 
@@ -55,6 +56,7 @@ graphql.schema = buildSchema(`
 
   # Queries (read-only operations).
   type Query {
+    all_users: [User],
     all_posts: [Post],
     post(post_id: Int): Post,
     post_exists(post_id: Int): Boolean,
@@ -64,7 +66,8 @@ graphql.schema = buildSchema(`
 
   # Mutations (modify data in the underlying data-source, i.e., the database).
   type Mutation {
-    block_user(input: UserInput): User,
+    block_user(username: String): Boolean,
+    unblock_user(username: String): Boolean,
     delete_post(post_id: Int): Boolean
   }
 `);
@@ -72,6 +75,9 @@ graphql.schema = buildSchema(`
 // The root provides a resolver function for each API endpoint.
 graphql.root = {
   // Queries.
+  all_users: async () => {
+    return await db.user.findAll();
+  },
   all_posts: async () => {
     return await db.post.findAll();
   },
@@ -107,13 +113,37 @@ graphql.root = {
 
   //   return owner;
   // },
+  block_user: async  (args) => {
+    const user = await db.user.findByPk(args.username);
+    
+    if(user === null)
+      return false;
+
+    await db.user.update({ blocked: 1 }, 
+      { where: { username: args.username }
+    })
+
+    return true;
+  },
+  unblock_user: async  (args) => {
+    const user = await db.user.findByPk(args.username);
+    
+    if(user === null)
+      return false;
+
+    await db.user.update({ blocked: 0 }, 
+      { where: { username: args.username }
+    })
+
+    return true;
+  },
   delete_post: async (args) => {
     const post = await db.post.findByPk(args.post_id);
   
     if(post === null)
       return false;
 
-    // First remove all pets owned by the owner.
+    // Delete the post
     await db.post.update({ comment: '[**** This review has been deleted by the admin ***]', rating: 0 }, 
       { where: { post_id: args.post_id }
     })
