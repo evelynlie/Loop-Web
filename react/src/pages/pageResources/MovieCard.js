@@ -21,6 +21,7 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
   const [time, setTime] = useState('');
   const [sessionTicketAvailable, setSessionTicketAvailable] = useState(null);
   const [ticketAvailable, setTicketAvailable] = useState(null);
+  const [blocked, setBlocked] = useState(localStorage.getItem("blocked") || null);
 
   const [hover, setHover] = useState(null);
   const [MovieModal, setMovieModal] = useState(false);
@@ -194,11 +195,11 @@ function MovieCard({ imageUrl, title, averageRating, text, type, sessionTimeArra
       </>
     );
   } 
-  // MovieCard for displaying movie for review
+  // MovieCard for displaying movie for review canClick ? this.handler : undefined
   else {
     return (
       <>
-      <MDBCard className="hover-overlay" onClick={toggleShowReview} style = {{cursor: "pointer"}}>
+      <MDBCard className="hover-overlay" onClick={blocked === '0' ? toggleShowReview : undefined} style = {{cursor: "pointer"}}>
         <img src={imageUrl} position="top" style={{aspectRatio:"2/3", width: "250px", objectFit: "cover"}}/>
         <div className='mask' style={{backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <div>

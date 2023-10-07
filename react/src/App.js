@@ -26,6 +26,7 @@ function App() {
     localStorage.setItem("username", user.username);
     localStorage.setItem("email", user.email);
     localStorage.setItem("signupDate", user.signUpDate);
+    localStorage.setItem("blocked", user.blocked);
   }
 
   // logout user function
@@ -38,6 +39,8 @@ function App() {
     localStorage.removeItem("username");
     localStorage.removeItem("email");
     localStorage.removeItem("signupDate");
+    localStorage.removeItem("blocked");
+
   }
 
   return (
@@ -51,7 +54,7 @@ function App() {
               <Route path="/sign-in" element={<SignIn loginUser={loginUser} />} />
               <Route path="/sign-up" element={<SignUp loginUser={loginUser} />} />
               <Route path="/profile" element={<MyProfile logoutUser={logoutUser} username={username} email={email} signupDate={signupDate}/>} />
-              <Route path="/review" element={<Review username={username} />} />
+              <Route path="/review" element={<Review username={username}/>} />
             </Routes>
           </div>
         </main>
