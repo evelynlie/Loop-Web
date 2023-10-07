@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { MovieContext } from './MovieContext';
-import { getSessionTime, gqlGetMovies } from '../data/repository';
+import { gqlGetMovies, gqlGetSessionTime } from '../data/repository';
 import './componentCSS/Movies.css'
 import MovieModal from './miniComponents/MovieModal';  // Import the MovieModal component
 import AddMovieModal from './miniComponents/AddMovieModal';  // Import the AddMovieModal component
@@ -20,7 +20,7 @@ function Movies() {
         // Fetch session times for each movie
         const movieSessionTimesPromises = moviesData.map(async (movie) => {
           try {
-            const sessionTimes = await getSessionTime(movie.movie_id);
+            const sessionTimes = await gqlGetSessionTime(movie.movie_id);
             return { ...movie, sessionTimes }; // Combine movie data with session times
           } catch (error) {
             console.error(`Error fetching session times for movie ${movie.movie_id}:`, error);

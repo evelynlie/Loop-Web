@@ -101,6 +101,34 @@ async function gqlGetMovies() {
   return data.get_movies;
 }
 
+async function gqlGetSessionTime(movie_id) {
+  const query = gql`
+    {
+      get_sessionTime (movie_id: ${movie_id}) {
+        sessionTime
+      }
+    }
+  `;
+
+  const variables = { movie_id };
+  const data = await request(GRAPH_QL_URL, query, variables);
+  return data.get_sessionTime;
+}
+
+async function gqlGetSessionID(movie_id, sessionTime) {
+  const query = gql`
+    {
+      get_sessionID (movie_id: ${movie_id}, sessionTime: "${sessionTime}") {
+        session_id
+      }
+    }
+  `;
+
+  const variables = { movie_id, sessionTime };
+  const data = await request(GRAPH_QL_URL, query, variables);
+  return data.get_sessionID;
+}
+
 // --- REST API ----------------------------------------------------------------------------------
 // Get the movie object from database based on movie title
 async function findByMovieTitle(title) {
@@ -131,18 +159,6 @@ async function updateMovieAverageRating(id) {
   return response.data;
 }
 
-// Get Session Time based on movie id
-async function getSessionTime(id) {
-  const response = await axios.get(API_HOST + `/api/sessions/select/${id}`); 
-  return response.data;
-}
-
-// Get Session Time based on movie id
-async function getSessionTimeID(data) {
-  const response = await axios.get(API_HOST + `/api/sessions/selectID`, { params: data }); 
-  return response.data;
-}
-
 // Create sessionTime with movie_id
 async function createSessionTime(data) {
   const response = await axios.post(API_HOST + "/api/sessions", data );
@@ -161,8 +177,6 @@ export {
   createMovie,
   updateMovie,
   deleteMovie,
-  getSessionTime, 
-  getSessionTimeID,
   createSessionTime,
   updateSessionTime,
   gqlGetPosts,
@@ -170,5 +184,7 @@ export {
   gqlGetMovies,
   gqlGetUsers,
   gqlBlockUser,
-  gqlUnblockUser
+  gqlUnblockUser,
+  gqlGetSessionTime,
+  gqlGetSessionID
 }

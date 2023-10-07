@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import '../componentCSS/MovieModal.css';
 import { MovieContext } from '../MovieContext';
-import { deleteMovie, getSessionTimeID, updateMovie, updateSessionTime } from '../../data/repository';
+import { deleteMovie, gqlGetSessionID, updateMovie, updateSessionTime } from '../../data/repository';
 
 const MovieModal = ({isOpen, closeModal, movie }) => {
     const { state, dispatch } = useContext(MovieContext);
@@ -111,7 +111,7 @@ const MovieModal = ({isOpen, closeModal, movie }) => {
         const selectedSessionTime = e.target.oldSessionTime.value;
 
         // Get sessionTimeID based on movie.title and selectedSessionTime
-        const sessionTimeID = await getSessionTimeID({ movie_id: movie.movie_id, sessionTime: selectedSessionTime });
+        const sessionTimeID = await gqlGetSessionID(movie.movie_id, selectedSessionTime );
 
         // If movie title is not changed
         if (movie.title === e.target.title.value) {

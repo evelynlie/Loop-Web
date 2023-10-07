@@ -39,6 +39,12 @@ graphql.schema = buildSchema(`
     username: String
   }
 
+  type Session {
+    session_id: Int,
+    sessionTime: String,
+    ticketAvailable: Int,
+  }
+
   # The input type can be used for incoming data.
   input PostInput {
     post_id: Int,
@@ -61,7 +67,9 @@ graphql.schema = buildSchema(`
     post(post_id: Int): Post,
     post_exists(post_id: Int): Boolean,
     all_movies: [Movie],
-    get_movies: [Movie]
+    get_movies: [Movie],
+    get_sessionTime(movie_id: Int): [Session],
+    get_sessionID(movie_id: Int, sessionTime: String): Session
   }
 
   # Mutations (modify data in the underlying data-source, i.e., the database).
@@ -94,6 +102,12 @@ graphql.root = {
   },
   get_movies: async() =>{
     return await db.movie.findAll();
+  },
+  get_sessionTime: async(args) =>{
+    return await db.session.findAll({ where: { movie_id: args.movie_id } });
+  },
+  get_sessionID: async(args) =>{
+    return await db.session.findOne({ where: { movie_id: args.movie_id, sessionTime: args.sessionTime } });
   },
 
   // Mutations.
