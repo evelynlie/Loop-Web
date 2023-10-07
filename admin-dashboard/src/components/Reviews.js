@@ -35,9 +35,8 @@ function Reviews() {
     if(reviews === null)
         return null;
 
-
     return (
-        <div>
+        <div className='dashboard-content'>
           <div className="header">
             <h1>All Reviews</h1>
           </div>
@@ -72,6 +71,5 @@ function Reviews() {
         </div>
       );
 }
-
 
 export default Reviews;

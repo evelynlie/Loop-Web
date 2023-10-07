@@ -50,9 +50,8 @@ function Users() {
     if(users === null)
         return null;
 
-
     return (
-        <div>
+        <div className='dashboard-content'>
           <div className="header">
             <h1>All Users</h1>
           </div>

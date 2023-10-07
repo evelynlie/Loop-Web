@@ -16,14 +16,6 @@ function Dashboard() {
       <div className="dashboard-content">
         <Movies/>
       </div>
-
-      <div className="dashboard-content">
-        <Reviews/>
-      </div>
-
-      <div className="dashboard-content">
-        <Users/>
-      </div>
     </div>
   );
 };

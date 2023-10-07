@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from './components/Dashboard';
 import TopBar from './components/miniComponents/TopBar'; // Import the TopBar component
 import MessageContext from "./context/MessageContext";
-
+import Users from './components/Users';
+import Reviews from './components/Reviews';
 
 function App() {
   const [message, setMessage] = useState(null);
@@ -26,7 +27,9 @@ function App() {
         <Router>
           <TopBar/>
           <Routes>
+            <Route path="/users" element={<Users/>} />
             <Route path="/" element={<Dashboard/>}/>
+            <Route path="/reviews" element={<Reviews/>}/>
           </Routes>
         </Router>
       </MovieProvider>
