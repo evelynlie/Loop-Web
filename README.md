@@ -3,8 +3,9 @@
 <h2>Table of Contents</h2>
     <li><a href="#overview">Overview</a></li>
     <li><a href="#features">Features</a></li>
+    <li><a href="#tech-stack">Tech Stack</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
-    <li><a href="#running-the-application">Running the Application</a></li>
+    <li><a href="#running-the-application">Running the Application Locally</a></li>
     <li><a href="#contributions">Contributions</a></li>
     <li><a href="#references">References</a></li>
 
@@ -39,38 +40,64 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     </ol>
 ### Loop Web Admin Dashboard
 1. **Movie Display**: displays "Now Showing" movie informations, such as title, session time, the average rating rated by users, and the view count.
-2. **Configure Movie**:
+2. **Configure Movies**:
    <ul>
         <li>add new movie and its information, such as title and session time.</li>
         <li>edit movie information.</li>
         <li>delete movie</li>
     </ul>
-    
+3. **Block Users**: allow admin block/unblock users from accessing writing reviews in Loop Web.
+4. **Delete Reviews**: allow admin to delete reviews, which will change it to "[**** This review has been deleted by the admin ***]"".
+
+## Tech Stack
+**Frontend:** HTML, CSS, JavaScript, React, Bootstrap
+
+**HTTP Request Libraries:** Axios
+
+**Backend:** Node.js, Express
+
+**Database:** MySQL
+
+**Database Interaction (ORM):** Sequelize
+
+**API Development:** REST API, GraphQL
+
 ## Getting Started
-<h3>Backend Server (Express) Set Up</h3>
-Navigate to the <code>express</code> folder by running <code>cd express</code> and run <code>npm install</code>.
+Clone the project
 
-<h3>Loop Web (React) Set Up</h3>
-Navigate to the react folder by running <code>cd react</code> and install the packages and dependencies required for the application by running <code>npm install</code>.
+```bash
+  git clone https://github.com/rmit-fwp-s2-23/s3951140-s3955624-Assignment-1
+```
 
-Run <code>npm axios</code> and <code>npm mdb-react-ui-kit</code>
+Go to each project's folder directory one at a time
+```bash
+  cd express
+  cd react
+  cd admin-dashboard
+```
+Install dependencies for each folder directory
 
-## Running the Application
-<h3>Starting the Backend Server (Express)</h3>
-Before starting the frontend, the backend need to start first by navigating to the <code>express</code> folder and run <code>npm start</code>
+```bash
+  npm install
+```
 
-<h3>Starting Loop Web (React)</h3>
-Start the web application by navigating to the <code>react</code> folder and run <code>npm start</code>. Open your web browser and navigate to http://localhost:3000 to access the application.
+## Running and Accessing the Application Locally
+To run each application, navigate to each of their folder directory (<strong>express</strong>, <strong>react</strong>, and <strong>admin-dashboard</strong>) and run
+```bash
+  npm start
+```
 
-<h3>Starting the Admin Dashboard (React)</h3>
-Start the web application by navigating to the <code>admin-dashboard</code> folder and run <code>npm start</code>. Open your web browser and navigate to http://localhost:3005 to access the application.
-<br></br>
+### Loop Web
+Loop Web can be accessed on browsers through <a href="http://localhost:3000">http://localhost:3000</a>.
 
-**Note:**
-<ul>
-    <li>The page will reload when you make changes.</li>
-    <li>You may also see any lint errors in the console.</li>
-</ul>
+### Loop Cinema Admin Dashboard
+Loop Cinema Admin Dashboard can be accessed on browsers through <a href="http://localhost:3005">http://localhost:3005</a>.
+
+### REST APIs
+REST APIs can be accessed on browsers through <a href="http://localhost:4000">http://localhost:4000</a>.
+
+### GraphQL
+REST APIs can be accessed on browsers through <a href="http://localhost:4000/graphql">http://localhost:4000/graphql</a>.
 
 ## Contributions
 - Evelyn Lie (s3951140)
@@ -81,7 +108,8 @@ All movie posters displayed in the web application are obtained from the followi
 - TGV Cinema: https://www.tgv.com.my/
 - GSC Cinema: https://www.gsc.com.my/movies/
 
-Coming Soon movie poster template was obtained from https://courtsoptical.com/guyana/wp-content/uploads/2016/06/coming-soon.gif
+Coming Soon movie poster template was obtained from: 
+- Courts Optical: https://courtsoptical.com/guyana/wp-content/uploads/2016/06/coming-soon.gif
 
 Interior cinema image displayed in About Us section of Home page is obtained from the following external source (cinema website):
 - Event Cinemas: https://www.eventcinemas.com.au/experiences/Vmax
