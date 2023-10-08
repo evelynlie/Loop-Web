@@ -12,9 +12,9 @@
 ## Overview
 Loop Cinemas is a long running cinema operator with several cinema locations around Australia. They focus on a premium, unique experience and bringing community into their cinema experiences. In addition to displaying the latest and greatest films, Loop also holds a few community events, art shows and the like at their locations.
 
-Loop Web will help potential customers discover upcoming films, session times and see ratings and reviews from other moviegoers.
+Loop Web will help customers discover currently playing films as well as its session times, and see ratings and reviews from other moviegoers.
 
-An Admin Dashboard is also created to allow Loop Cinemas admin to create, edit, and delete movie information that is displayed on Loop Web.
+An admin dashboard is also created to allow Loop Cinemas admin to create, edit, and delete movie information that is displayed on Loop Web. Moreover, admin will have the feature to block and unblock users from writing a review on Loop Web, as well as delete reviews that are deemed inappropriate.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
