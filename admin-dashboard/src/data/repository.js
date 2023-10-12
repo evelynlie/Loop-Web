@@ -21,7 +21,6 @@ async function gqlGetUsers() {
   `;
 
   const data = await request(GRAPH_QL_URL, query);
-
   return data.all_users;
 }
 
@@ -33,9 +32,7 @@ async function gqlBlockUser(username) {
   `;
 
   const variables = { username };
-
   const data = await request(GRAPH_QL_URL, query, variables);
-
   return data.block_user;
 }
 
@@ -47,9 +44,7 @@ async function gqlUnblockUser(username) {
   `;
 
   const variables = { username };
-
   const data = await request(GRAPH_QL_URL, query, variables);
-
   return data.unblock_user;
 }
 
@@ -67,7 +62,6 @@ async function gqlGetPosts() {
   `;
 
   const data = await request(GRAPH_QL_URL, query);
-
   return data.all_posts;
 }
 
@@ -79,9 +73,7 @@ async function gqlDeletePost(post_id) {
   `;
 
   const variables = { post_id };
-
   const data = await request(GRAPH_QL_URL, query, variables);
-
   return data.delete_post;
 }
 
@@ -99,6 +91,28 @@ async function gqlGetMovies() {
 
   const data = await request(GRAPH_QL_URL, query);
   return data.get_movies;
+}
+
+async function gqlAllMovies() {
+  const query = gql`
+    {
+      all_movies {
+        movie_id,
+        title,
+        averageRating,
+        viewCount,
+        posts {
+          post_id,
+          title,
+          rating,
+          comment
+        }
+      }
+    }
+  `;
+
+  const data = await request(GRAPH_QL_URL, query);
+  return data.all_movies;
 }
 
 async function gqlGetSessionTime(movie_id) {
@@ -129,6 +143,23 @@ async function gqlGetSessionID(movie_id, sessionTime) {
   return data.get_sessionID;
 }
 
+async function gqlAllReservations() {
+  const query = gql`
+  {
+    all_reservations {
+      reservation_id,
+      reservation_date,
+      number_tickets,
+      session_time, 
+      title
+    }
+  }
+  `;
+
+  const data = await request(GRAPH_QL_URL, query);
+  return data.all_reservations;
+}
+
 // --- REST API ----------------------------------------------------------------------------------
 // Get the movie object from database based on movie title
 async function findByMovieTitle(title) {
@@ -148,6 +179,7 @@ async function updateMovie(id, title) {
   return response.data;
 }
 
+// Delete movie
 async function deleteMovie(id) {
   const response = await axios.delete(API_HOST + `/api/movies/delete/${id}`); 
   return response.data;
@@ -186,5 +218,7 @@ export {
   gqlBlockUser,
   gqlUnblockUser,
   gqlGetSessionTime,
-  gqlGetSessionID
+  gqlGetSessionID,
+  gqlAllMovies,
+  gqlAllReservations
 }

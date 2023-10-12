@@ -2,8 +2,8 @@ import React, { useState, useEffect }from 'react';
 import { MovieProvider } from './components/MovieContext';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from './components/Dashboard';
-import TopBar from './components/miniComponents/TopBar'; // Import the TopBar component
-import MessageContext from "./context/MessageContext";
+import TopBar from './components/miniComponents/TopBar';
+import MessageContext from "./components/MessageContext";
 import Users from './components/Users';
 import Reviews from './components/Reviews';
 
