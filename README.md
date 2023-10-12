@@ -12,15 +12,15 @@
 ## Overview
 Loop Cinemas is a long running cinema operator with several cinema locations around Australia. They focus on a premium, unique experience and bringing community into their cinema experiences. In addition to displaying the latest and greatest films, Loop also holds a few community events, art shows and the like at their locations.
 
-Loop Web will help customers discover currently playing films as well as its session times, and see ratings and reviews from other moviegoers.
+Loop Web will help potential customers discover upcoming films, session times and see ratings and reviews from other moviegoers.
 
-An admin dashboard is also created to allow Loop Cinemas admin to create, edit, and delete movie information that is displayed on Loop Web. Moreover, admin will have the feature to block and unblock users from writing a review on Loop Web, as well as delete reviews that are deemed inappropriate.
+An Admin Dashboard is also created to allow Loop Cinemas admin to create, edit, and delete movie information that is displayed on Loop Web.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Features
 ### Loop Web
-1. **Landing Home Page:** display movies and their session times.
+1. **Landing Home Page:** display movies and their session times and average ratings.
 2. **Sign Up Page:** allow users to sign up for an account.
 3. **Sign In Page:** allow users to sign in to their account.
 4. **For logged in users:**
@@ -30,6 +30,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
             <li>display user profile: username, email, sign up date, and reserved tickets.</li>
             <li>edit user profile: change username and/or email.</li>
             <li>delete user profile</li>
+            <li>view all movie ticket reservations</li>
         </ul>
         <li><strong>Review Page</strong></li>
         <ul>
@@ -37,17 +38,25 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
             <li>allow users to delete reviews</li>
             <li>allow users to edit reviews</li>
         </ul>
+        <li><strong>Landing Home Page</strong></li>
+        <ul>
+            <li>allow users to reserve movie tickets for a particular session</li>
+        </ul>
     </ol>
 ### Loop Web Admin Dashboard
-1. **Movie Display**: displays "Now Showing" movie informations, such as title, session time, the average rating rated by users, and the view count.
-2. **Configure Movies**:
+1. **View Movies**: allow admin to view "Now Showing" movie informations, such as title, session time, the average rating rated by users, and the view count.
+2. **Movie and Ticket Overview**: allow admin to view the number of view a movie has in the form of a bar chart, and the number of ticket reservation per day in the form of a line chart.
+3. **Movie Management**:
    <ul>
         <li>add new movie and its information, such as title and session time.</li>
         <li>edit movie information.</li>
         <li>delete movie</li>
     </ul>
-3. **Block Users**: allow admin block/unblock users from accessing writing reviews in Loop Web.
-4. **Delete Reviews**: allow admin to delete reviews, which will change it to "[**** This review has been deleted by the admin ***]"".
+4. **View Users**: allow admin to view all users and their information, such as username, email, hashed password, and sign up date.
+5. **Block Users**: allow admin block/unblock users from accessing writing reviews in Loop Web.
+6. **Review Overview**: allow admin to view the number of reviews per movie in the form of a bar chart, as well as the average number of review per movie.
+7. **View Reviews**: allow admin to view all reviews and their information, such as the post id, the username of the review poster, the movie title being reviewed, the number of stars, and the written review.
+8. **Delete Reviews**: allow admin to delete reviews, which will change it to "[**** This review has been deleted by the admin ***]".
 
 ## Tech Stack
 **Frontend:** HTML, CSS, JavaScript, React, Bootstrap
@@ -81,6 +90,35 @@ Install dependencies for each folder directory
   npm install
 ```
 
+<strong>Note:</strong> if you encounter an error when installing dependencies for <strong>express</strong> folder directory like the one below:
+```bash
+  npm ERR! code ERESOLVE
+  npm ERR! ERESOLVE could not resolve
+  npm ERR! 
+  npm ERR! While resolving: express-graphql@0.12.0
+  npm ERR! Found: graphql@16.8.1
+  npm ERR! node_modules/graphql
+  npm ERR!   graphql@"^16.8.1" from the root project
+  npm ERR! 
+  npm ERR! Could not resolve dependency:
+  npm ERR! peer graphql@"^14.7.0 || ^15.3.0" from express-graphql@0.12.0
+  npm ERR! node_modules/express-graphql
+  npm ERR!   express-graphql@"^0.12.0" from the root project
+  npm ERR! 
+  npm ERR! Conflicting peer dependency: graphql@15.8.0
+  npm ERR! node_modules/graphql
+  npm ERR!   peer graphql@"^14.7.0 || ^15.3.0" from express-graphql@0.12.0
+  npm ERR!   node_modules/express-graphql
+  npm ERR!     express-graphql@"^0.12.0" from the root project
+  npm ERR! 
+  npm ERR! Fix the upstream dependency conflict, or retry
+  npm ERR! this command with --force or --legacy-peer-deps
+  npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+```
+Please run the following command instead:
+```bash
+  npm install --force
+```
 ## Running and Accessing the Application Locally
 To run each application, navigate to each of their folder directory (<strong>express</strong>, <strong>react</strong>, and <strong>admin-dashboard</strong>) and run
 ```bash
