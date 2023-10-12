@@ -1,6 +1,5 @@
 const { buildSchema } = require("graphql");
 const db = require("../database");
-
 const graphql = { };
 
 // GraphQL.
@@ -45,6 +44,14 @@ graphql.schema = buildSchema(`
     ticketAvailable: Int,
   }
 
+  type Reservation {
+    reservation_id: Int,
+    session_time: String,
+    number_tickets: Int,
+    title: String,
+    reservation_date: String
+  }
+
   # The input type can be used for incoming data.
   input PostInput {
     post_id: Int,
@@ -69,7 +76,8 @@ graphql.schema = buildSchema(`
     all_movies: [Movie],
     get_movies: [Movie],
     get_sessionTime(movie_id: Int): [Session],
-    get_sessionID(movie_id: Int, sessionTime: String): Session
+    get_sessionID(movie_id: Int, sessionTime: String): Session,
+    all_reservations: [Reservation]
   }
 
   # Mutations (modify data in the underlying data-source, i.e., the database).
@@ -94,7 +102,6 @@ graphql.root = {
   },
   post_exists: async (args) => {
     const count = await db.post.count({ where: { post_id: args.post_id } });
-
     return count === 1;
   },
   all_movies: async () => {
@@ -109,24 +116,11 @@ graphql.root = {
   get_sessionID: async(args) =>{
     return await db.session.findOne({ where: { movie_id: args.movie_id, sessionTime: args.sessionTime } });
   },
+  all_reservations: async () => {
+    return await db.reservation.findAll();
+  },
 
   // Mutations.
-  // create_owner: async (args) => {
-  //   const owner = await db.owner.create(args.input);
-
-  //   return owner;
-  // },
-  // update_owner: async (args) => {
-  //   const owner = await db.owner.findByPk(args.input.email);
-  
-  //   // Update owner fields.
-  //   owner.first_name = args.input.first_name;
-  //   owner.last_name = args.input.last_name;
-
-  //   await owner.save();
-
-  //   return owner;
-  // },
   block_user: async  (args) => {
     const user = await db.user.findByPk(args.username);
     
@@ -167,76 +161,3 @@ graphql.root = {
 };
 
 module.exports = graphql;
-
-// Below are some sample queries that can be used to test GraphQL in GraphiQL.
-// Access the GraphiQL web-interface when the server is running here: http://localhost:4000/graphql
-/*
-
-{
-  all_posts {
-    post_id,
-    title,
-    rating,
-    comment,
-    username
-  }
-}
-
-{
-  all_movies {
-    movie_id,
-    title,
-    imageURL,
-    averageRating,
-    viewCount,
-    posts {
-      post_id,
-      title,
-      rating,
-      comment
-    }
-  }
-}
-
-{
-  post(post_id: 1) {
-    post_id,
-    title,
-    rating,
-    comment
-  }
-}
-
-{
-  post_exists(post_id: 1)
-}
-
-mutation {
-  create_owner(input: {
-    email: "newuser@rmit.edu.au",
-    first_name: "New",
-    last_name: "User"
-  }) {
-    email,
-    first_name,
-    last_name
-  }
-}
-
-mutation {
-  update_owner(input: {
-    email: "matthew@rmit.edu.au",
-    first_name: "Matthew",
-    last_name: "Bolger"
-  }) {
-    email,
-    first_name,
-    last_name
-  }
-}
-
-mutation {
-  delete_post(post_id: 1)
-}
-
-*/
